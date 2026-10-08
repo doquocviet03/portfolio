@@ -8,15 +8,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('experiences', function (Blueprint $table) {
-            $table->string('title')->nullable();
+        Schema::create('experiences', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('company');
+            $table->text('description')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::table('experiences', function (Blueprint $table) {
-            $table->dropColumn('title');
-        });
+        Schema::dropIfExists('experiences');
     }
 };
