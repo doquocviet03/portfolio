@@ -1,143 +1,277 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
 
-// ==========================================
-// CONTROLLER TRANG PORTFOLIO
-// ==========================================
-
+// PUBLIC CONTROLLERS
 use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CvDownloadController;
 
-// ==========================================
-// CONTROLLER ADMIN
-// ==========================================
-
+// ADMIN CONTROLLERS
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\ExperienceController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\AccountController;
+use App\Http\Controllers\Admin\BackupController;
+use App\Http\Controllers\Admin\CvController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\SitemapController;
 
 
-// ==========================================
-// 1. TRANG PORTFOLIO
-// ==========================================
+/*
+|--------------------------------------------------------------------------
+| PUBLIC WEBSITE
+|--------------------------------------------------------------------------
+*/
 
 // Trang chủ
-Route::get('/', [PortfolioController::class, 'home'])
-    ->name('home');
+Route::get('/', [
+    PortfolioController::class,
+    'home'
+])->name('home');
+
+// SITEMAP XML
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])
+    ->name('sitemap');
 
 // Giới thiệu
-Route::get('/about', [PortfolioController::class, 'about'])
-    ->name('about');
+Route::get('/about', [
+    PortfolioController::class,
+    'about'
+])->name('about');
 
 // Kỹ năng
-Route::get('/skills', [PortfolioController::class, 'skills'])
-    ->name('skills');
+Route::get('/skills', [
+    PortfolioController::class,
+    'skills'
+])->name('skills');
 
-// Dự án
-Route::get('/projects', [PortfolioController::class, 'projects'])
-    ->name('projects');
+// Danh sách dự án
+Route::get('/projects', [
+    PortfolioController::class,
+    'projects'
+])->name('projects');
+
+// Chi tiết dự án
+Route::get('/projects/{project}', [
+    PortfolioController::class,
+    'projectDetail'
+])->name('projects.show');
 
 // Kinh nghiệm
-Route::get('/experience', [PortfolioController::class, 'experience'])
-    ->name('experience');
+Route::get('/experience', [
+    PortfolioController::class,
+    'experience'
+])->name('experience');
 
-// Liên hệ
-Route::get('/contact', [PortfolioController::class, 'contact'])
-    ->name('contact');
+// Trang liên hệ
+Route::get('/contact', [
+    PortfolioController::class,
+    'contact'
+])->name('contact');
 
 // Gửi tin nhắn liên hệ
-Route::post('/contact', [ContactController::class, 'store'])
-    ->middleware('throttle:5,1')
-    ->name('contact.store');
+Route::post('/contact', [
+    ContactController::class,
+    'store'
+])
+->middleware('throttle:5,1')
+->name('contact.store');
 
 
-// ==========================================
-// 2. CHUYỂN HƯỚNG ĐĂNG NHẬP
-// ==========================================
+/*
+|--------------------------------------------------------------------------
+| CV PDF - PUBLIC WEBSITE - BƯỚC 10.7
+|--------------------------------------------------------------------------
+*/
 
-// Sửa lỗi Route [login] not defined
-// Laravel sẽ chuyển người chưa đăng nhập
-// đến trang đăng nhập Admin.
+// Tải CV PDF
+Route::get('/cv/download', [
+    CvDownloadController::class,
+    'download'
+])->name('cv.download');
 
+// Xem trước CV PDF
+Route::get('/cv/preview', [
+    CvDownloadController::class,
+    'preview'
+])->name('cv.preview');
+
+
+/*
+|--------------------------------------------------------------------------
+| AUTHENTICATION
+|--------------------------------------------------------------------------
+*/
+
+// Chuyển /login sang trang đăng nhập Admin
 Route::get('/login', function () {
     return redirect()->route('admin.login');
 })->name('login');
 
-
-// ==========================================
-// 3. ĐĂNG NHẬP ADMIN
-// ==========================================
-
+// Chỉ khách chưa đăng nhập
 Route::middleware('guest')->group(function () {
 
-    // Hiển thị form đăng nhập
-    Route::get('/admin/login', [AuthController::class, 'showLogin'])
-        ->name('admin.login');
+    // Form đăng nhập
+    Route::get('/admin/login', [
+        AuthController::class,
+        'showLogin'
+    ])->name('admin.login');
 
     // Xử lý đăng nhập
-    Route::post('/admin/login', [AuthController::class, 'login'])
-        ->name('admin.login.submit');
+   Route::post('/admin/login', [
+    AuthController::class,
+    'login'
+])
+->middleware('throttle:5,1')
+->name('admin.login.submit');
 
 });
 
 
-// ==========================================
-// 4. ADMIN DASHBOARD
-// ==========================================
+/*
+|--------------------------------------------------------------------------
+| ADMIN ROUTES
+|--------------------------------------------------------------------------
+*/
 
 Route::prefix('admin')
     ->name('admin.')
     ->middleware('auth')
     ->group(function () {
 
-        // ==================================
-        // DASHBOARD
-        // ==================================
+        /*
+        |--------------------------------------------------------------------------
+        | DASHBOARD
+        |--------------------------------------------------------------------------
+        */
 
-        Route::get('/', [DashboardController::class, 'index'])
-            ->name('dashboard');
-
-
-        // ==================================
-        // ĐĂNG XUẤT
-        // ==================================
-
-        Route::post('/logout', [AuthController::class, 'logout'])
-            ->name('logout');
+        Route::get('/', [
+            DashboardController::class,
+            'index'
+        ])->name('dashboard');
 
 
-        // ==================================
-        // QUẢN LÝ DỰ ÁN
-        // ==================================
+        /*
+        |--------------------------------------------------------------------------
+        | LOGOUT
+        |--------------------------------------------------------------------------
+        */
 
-        Route::resource('projects', ProjectController::class)
-            ->except(['show']);
-
-
-        // ==================================
-        // QUẢN LÝ KỸ NĂNG
-        // ==================================
-
-        Route::resource('skills', SkillController::class)
-            ->except(['show']);
+        Route::post('/logout', [
+            AuthController::class,
+            'logout'
+        ])->name('logout');
 
 
-        // ==================================
-        // QUẢN LÝ KINH NGHIỆM
-        // ==================================
+        /*
+        |--------------------------------------------------------------------------
+        | QUẢN LÝ HỒ SƠ CÁ NHÂN
+        |--------------------------------------------------------------------------
+        */
 
-        Route::resource('experiences', ExperienceController::class)
-            ->except(['show']);
+        Route::get('/profile', [
+            ProfileController::class,
+            'edit'
+        ])->name('profile.edit');
+
+        Route::put('/profile', [
+            ProfileController::class,
+            'update'
+        ])->name('profile.update');
 
 
-        // ==================================
-        // QUẢN LÝ TIN NHẮN LIÊN HỆ
-        // ==================================
+        /*
+        |--------------------------------------------------------------------------
+        | QUẢN LÝ CV PDF - BƯỚC 10.7
+        |--------------------------------------------------------------------------
+        */
+
+        // Trang quản lý CV
+        Route::get('/cv', [
+            CvController::class,
+            'index'
+        ])->name('cv.index');
+
+        // Tải CV mới lên
+        Route::post('/cv', [
+            CvController::class,
+            'store'
+        ])->name('cv.store');
+
+        // Xóa CV hiện tại
+        Route::delete('/cv', [
+            CvController::class,
+            'destroy'
+        ])->name('cv.destroy');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CÀI ĐẶT TÀI KHOẢN ADMIN
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/account', [
+            AccountController::class,
+            'edit'
+        ])->name('account.edit');
+
+        Route::put('/account/info', [
+            AccountController::class,
+            'updateInfo'
+        ])->name('account.updateInfo');
+
+        Route::put('/account/password', [
+            AccountController::class,
+            'updatePassword'
+        ])->name('account.updatePassword');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | QUẢN LÝ DỰ ÁN
+        |--------------------------------------------------------------------------
+        */
+
+        Route::resource(
+            'projects',
+            ProjectController::class
+        )->except(['show']);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | QUẢN LÝ KỸ NĂNG
+        |--------------------------------------------------------------------------
+        */
+
+        Route::resource(
+            'skills',
+            SkillController::class
+        )->except(['show']);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | QUẢN LÝ KINH NGHIỆM
+        |--------------------------------------------------------------------------
+        */
+
+        Route::resource(
+            'experiences',
+            ExperienceController::class
+        )->except(['show']);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | QUẢN LÝ TIN NHẮN LIÊN HỆ
+        |--------------------------------------------------------------------------
+        */
 
         // Danh sách tin nhắn
         Route::get('/contacts', [
@@ -151,10 +285,52 @@ Route::prefix('admin')
             'show'
         ])->name('contacts.show');
 
+        // Đánh dấu tin nhắn chưa đọc
+        Route::patch('/contacts/{contact}/unread', [
+            AdminContactController::class,
+            'markUnread'
+        ])->name('contacts.unread');
+
         // Xóa tin nhắn
         Route::delete('/contacts/{contact}', [
             AdminContactController::class,
             'destroy'
         ])->name('contacts.destroy');
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | QUẢN LÝ SAO LƯU DỮ LIỆU - BƯỚC 10.6
+        |--------------------------------------------------------------------------
+        */
+
+        // Xem danh sách bản sao lưu
+        Route::get('/backups', [
+            BackupController::class,
+            'index'
+        ])->name('backups.index');
+
+        // Tạo bản sao lưu mới
+        Route::post('/backups', [
+            BackupController::class,
+            'store'
+        ])->name('backups.store');
+
+        // Tải bản sao lưu về máy
+        Route::get('/backups/{filename}/download', [
+            BackupController::class,
+            'download'
+        ])->name('backups.download');
+
+        // Xóa bản sao lưu
+        Route::delete('/backups/{filename}', [
+            BackupController::class,
+            'destroy'
+        ])->name('backups.destroy');
+
     });
+    if (app()->environment('local')) {
+    Route::get('/preview-error-500', function () {
+        return response()->view('errors.500', [], 500);
+    });
+}

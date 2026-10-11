@@ -9,16 +9,17 @@ class ContactController extends Controller
 {
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'subject' => 'nullable|string|max:255',
+            'subject' => 'required|string|max:255',
             'message' => 'required|string|max:5000',
         ]);
 
-        Contact::create($data);
+        Contact::create($validated);
 
-        return redirect('/contact')
-            ->with('success', 'Tin nhắn của bạn đã được gửi thành công!');
+        return redirect()
+            ->route('contact')
+            ->with('success', 'Gửi tin nhắn thành công! Cảm ơn bạn đã liên hệ.');
     }
 }

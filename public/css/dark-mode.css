@@ -1,0 +1,190 @@
+
+/* =========================================
+   PORTFOLIO DARK MODE - STEP 10.8
+========================================= */
+
+:root {
+    --portfolio-bg: #f8fafc;
+    --portfolio-surface: #ffffff;
+    --portfolio-text: #0f172a;
+    --portfolio-muted: #64748b;
+    --portfolio-border: #e2e8f0;
+    --portfolio-primary: #2563eb;
+}
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+
+    --portfolio-bg: #0b1220;
+    --portfolio-surface: #172235;
+    --portfolio-text: #f1f5f9;
+    --portfolio-muted: #cbd5e1;
+    --portfolio-border: #334155;
+    --portfolio-primary: #60a5fa;
+}
+
+body {
+    transition: background-color .25s ease,
+                color .25s ease;
+}
+
+html[data-theme="dark"] body {
+    background: var(--portfolio-bg) !important;
+    color: var(--portfolio-text) !important;
+}
+
+/* Header and hero sections */
+html[data-theme="dark"] .hero-section,
+html[data-theme="dark"] .contact-header,
+html[data-theme="dark"] .projects-header,
+html[data-theme="dark"] .page-header {
+    background: linear-gradient(
+        135deg, #101e34, #0b1220
+    ) !important;
+}
+
+html[data-theme="dark"] .contact-section,
+html[data-theme="dark"] .section-padding,
+html[data-theme="dark"] section.bg-light,
+html[data-theme="dark"] .bg-light {
+    background-color: var(--portfolio-bg) !important;
+}
+
+/* Cards */
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .contact-card,
+html[data-theme="dark"] .custom-card,
+html[data-theme="dark"] .skill-card,
+html[data-theme="dark"] .experience-card,
+html[data-theme="dark"] .project-card {
+    background: var(--portfolio-surface) !important;
+    border-color: var(--portfolio-border) !important;
+    color: var(--portfolio-text) !important;
+}
+
+/* Headings */
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6,
+html[data-theme="dark"] .hero-name,
+html[data-theme="dark"] .contact-title,
+html[data-theme="dark"] .section-title {
+    color: var(--portfolio-text) !important;
+}
+
+/* Paragraphs and secondary text */
+html[data-theme="dark"] p,
+html[data-theme="dark"] .text-muted,
+html[data-theme="dark"] .text-secondary,
+html[data-theme="dark"] .hero-description,
+html[data-theme="dark"] .contact-info-item p {
+    color: var(--portfolio-muted) !important;
+}
+
+/* Forms */
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select,
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+    background-color: #101b2e !important;
+    color: #f8fafc !important;
+    border-color: #475569 !important;
+}
+
+html[data-theme="dark"] .form-control::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .form-label {
+    color: #e2e8f0 !important;
+}
+
+/* Borders */
+html[data-theme="dark"] hr,
+html[data-theme="dark"] .border,
+html[data-theme="dark"] .border-bottom {
+    border-color: var(--portfolio-border) !important;
+}
+
+/* Placeholder areas */
+html[data-theme="dark"] .project-placeholder,
+html[data-theme="dark"] .avatar-placeholder {
+    background: #20385a !important;
+    color: #93c5fd !important;
+}
+
+/* Links */
+html[data-theme="dark"] main a:not(.btn):not(.contact-cv-btn) {
+    color: #93c5fd;
+}
+
+/* Theme toggle */
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(148, 163, 184, .35);
+    border-radius: 12px;
+    background: rgba(148, 163, 184, .12);
+    color: inherit;
+    cursor: pointer;
+    transition: transform .2s ease, background .2s ease;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+    background: rgba(148, 163, 184, .22);
+}
+
+/* Reveal animation */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .55s ease,
+                transform .55s ease;
+}
+
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Hover effects */
+@media (hover: hover) {
+    .custom-card,
+    .skill-card,
+    .project-card {
+        transition: transform .25s ease,
+                    box-shadow .25s ease;
+    }
+
+    .custom-card:hover,
+    .skill-card:hover,
+    .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 14px 30px rgba(15, 23, 42, .15);
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+
+    .reveal-on-scroll {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+}

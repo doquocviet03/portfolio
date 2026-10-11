@@ -1,339 +1,123 @@
-
 @extends('layouts.app')
 
 @section('title', 'Dự án | Portfolio')
+@section('meta_description', 'Khám phá các dự án lập trình, công nghệ và sản phẩm tôi đã thực hiện.')
+
+@push('styles')
+<style>
+.projects-page{--pj-bg:#f8fafc;--pj-card:#fff;--pj-text:#0f172a;--pj-muted:#475569;--pj-border:#dbe3ee;--pj-field:#fff;--pj-chip:#eff6ff;--pj-chip-text:#1d4ed8;--pj-link:#1d4ed8;background:var(--pj-bg);color:var(--pj-text);padding:52px 0 80px;min-height:65vh}
+html[data-theme="dark"] .projects-page,html[data-bs-theme="dark"] .projects-page{--pj-bg:#0b1220;--pj-card:#172238;--pj-text:#f1f5f9;--pj-muted:#cbd5e1;--pj-border:#334155;--pj-field:#111c30;--pj-chip:#223a60;--pj-chip-text:#bfdbfe;--pj-link:#93c5fd}
+.projects-page .pj-eyebrow{color:var(--pj-link);font-weight:750;letter-spacing:.13em;text-transform:uppercase;font-size:12px}
+.projects-page .pj-heading{font-weight:850;letter-spacing:-.035em;color:var(--pj-text);font-size:clamp(32px,5vw,48px)}
+.projects-page .pj-intro{color:var(--pj-muted);max-width:680px;margin:12px auto 0;line-height:1.8}
+.projects-page .pj-panel,.projects-page .pj-card{background:var(--pj-card);border:1px solid var(--pj-border);border-radius:20px;box-shadow:0 12px 32px rgba(0,0,0,.045)}
+.projects-page .pj-panel{padding:22px;margin:38px 0 28px}
+.projects-page .form-label{color:var(--pj-text);font-weight:650}
+.projects-page .form-control,.projects-page .form-select{background-color:var(--pj-field);color:var(--pj-text);border:1px solid var(--pj-border);border-radius:11px;min-height:46px}
+.projects-page .form-control::placeholder{color:var(--pj-muted);opacity:.85}
+.projects-page .form-control:focus,.projects-page .form-select:focus{background-color:var(--pj-field);color:var(--pj-text);border-color:#60a5fa;box-shadow:0 0 0 .2rem rgba(59,130,246,.15)}
+.projects-page .form-select option{background:var(--pj-field);color:var(--pj-text)}
+.projects-page .pj-card{overflow:hidden;height:100%;transition:transform .2s,border-color .2s}
+.projects-page .pj-card:hover{transform:translateY(-4px);border-color:#60a5fa}
+.projects-page .pj-image{width:100%;height:210px;object-fit:cover;display:block;background:var(--pj-chip)}
+.projects-page .pj-image-fallback{height:210px;display:grid;place-items:center;background:linear-gradient(135deg,#1e3a8a,#4338ca);color:white;font-size:48px}
+.projects-page .pj-content{padding:24px;display:flex;flex-direction:column;min-height:230px}
+.projects-page .pj-title{color:var(--pj-text)!important;font-size:20px;font-weight:800;margin-bottom:10px}
+.projects-page .pj-desc{color:var(--pj-muted)!important;line-height:1.75;font-size:14px;flex-grow:1}
+.projects-page .pj-chip{display:inline-block;background:var(--pj-chip);color:var(--pj-chip-text)!important;border:1px solid var(--pj-border);border-radius:30px;padding:5px 11px;font-size:12px;font-weight:650;margin:0 5px 7px 0}
+.projects-page .pj-view{color:var(--pj-link)!important;font-weight:750;text-decoration:none}
+.projects-page .pj-view:hover{text-decoration:underline}
+.projects-page .pj-meta{color:var(--pj-muted)}
+.projects-page .pj-empty{background:var(--pj-card);border:1px dashed var(--pj-border);border-radius:20px;padding:65px 20px;text-align:center;color:var(--pj-muted)}
+.projects-page .pagination .page-link{background:var(--pj-card);color:var(--pj-text);border-color:var(--pj-border)}
+.projects-page .pagination .page-link:hover{background:var(--pj-chip);color:var(--pj-chip-text)}
+.projects-page .pagination .page-item.active .page-link{background:#2563eb;color:#fff;border-color:#2563eb}
+.projects-page .pagination .page-item.disabled .page-link{background:var(--pj-card);color:var(--pj-muted);opacity:.6}
+@media(max-width:767.98px){.projects-page{padding:36px 0 55px}.projects-page .pj-panel{padding:16px}.projects-page .pj-image,.projects-page .pj-image-fallback{height:190px}}
+@media(prefers-reduced-motion:reduce){.projects-page .pj-card{transition:none}.projects-page .pj-card:hover{transform:none}}
+</style>
+@endpush
 
 @section('content')
-
-<style>
-    .projects-page {
-        --project-primary: #2563eb;
-        --project-dark: #0b1220;
-    }
-
-    .projects-page .projects-hero {
-        background: linear-gradient(135deg, #0b1220, #172554, #312e81);
-        color: white;
-        border-radius: 24px;
-        padding: 65px 35px;
-        margin: 30px 0 45px;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .projects-page .projects-hero::after {
-        content: "";
-        position: absolute;
-        width: 250px;
-        height: 250px;
-        border-radius: 50%;
-        background: rgba(96,165,250,.15);
-        filter: blur(40px);
-        right: -60px;
-        top: -100px;
-    }
-
-    .projects-page .hero-label {
-        display: inline-block;
-        color: #93c5fd;
-        background: rgba(59,130,246,.15);
-        border: 1px solid rgba(147,197,253,.3);
-        padding: 8px 17px;
-        border-radius: 30px;
-        font-size: 13px;
-        letter-spacing: 1px;
-        margin-bottom: 20px;
-    }
-
-    .projects-page .projects-title {
-        font-size: clamp(32px, 5vw, 48px);
-        font-weight: 800;
-        margin-bottom: 18px;
-    }
-
-    .projects-page .projects-subtitle {
-        color: #cbd5e1;
-        max-width: 650px;
-        margin: auto;
-        line-height: 1.8;
-    }
-
-    .projects-page .project-card {
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-radius: 20px;
-        overflow: hidden;
-        height: 100%;
-        transition: all .3s ease;
-    }
-
-    .projects-page .project-card:hover {
-        transform: translateY(-7px);
-        box-shadow: 0 18px 40px rgba(15,23,42,.12);
-        border-color: #93c5fd;
-    }
-
-    .projects-page .project-image {
-        height: 210px;
-        background: linear-gradient(135deg, #1d4ed8, #7c3aed);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 65px;
-        overflow: hidden;
-    }
-
-    .projects-page .project-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform .4s;
-    }
-
-    .projects-page .project-card:hover .project-image img {
-        transform: scale(1.05);
-    }
-
-    .projects-page .project-content {
-        padding: 26px;
-    }
-
-    .projects-page .project-name {
-        font-size: 21px;
-        font-weight: 700;
-        color: #0f172a;
-        margin-bottom: 14px;
-    }
-
-    .projects-page .project-description {
-        color: #64748b;
-        line-height: 1.8;
-        min-height: 75px;
-    }
-
-    .projects-page .tech-label {
-        display: inline-block;
-        background: #eff6ff;
-        color: #2563eb;
-        border-radius: 30px;
-        padding: 7px 13px;
-        font-size: 13px;
-        font-weight: 600;
-        margin-bottom: 15px;
-        overflow-wrap: anywhere;
-    }
-
-    .projects-page .project-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 15px;
-    }
-
-    .projects-page .project-actions .btn {
-        padding: 9px 18px;
-        font-size: 14px;
-    }
-
-    .projects-page .empty-state {
-        background: white;
-        border: 1px dashed #cbd5e1;
-        border-radius: 20px;
-        padding: 70px 25px;
-        text-align: center;
-    }
-
-    .projects-page .bottom-cta {
-        background: #eff6ff;
-        border-radius: 20px;
-        padding: 40px 25px;
-        text-align: center;
-        margin-top: 65px;
-    }
-
-    @media(max-width: 768px) {
-        .projects-page .projects-hero {
-            padding: 45px 22px;
-            border-radius: 16px;
-        }
-
-        .projects-page .project-image {
-            height: 190px;
-        }
-    }
-</style>
-
-<div class="container projects-page pb-5">
-
-    <!-- HEADER -->
-    <section class="projects-hero">
-
-        <div class="position-relative" style="z-index:1">
-
-            <span class="hero-label">
-                MY PORTFOLIO PROJECTS
-            </span>
-
-            <h1 class="projects-title">
-                🚀 Dự án của tôi
-            </h1>
-
-            <p class="projects-subtitle">
-                Khám phá những dự án tôi đã thực hiện
-                trong quá trình học tập và phát triển
-                kỹ năng lập trình. Mỗi dự án là một
-                cơ hội để tôi vận dụng kiến thức,
-                giải quyết vấn đề và tạo ra
-                những sản phẩm hữu ích.
-            </p>
-
+<section class="projects-page">
+    <div class="container">
+        <div class="text-center">
+            <span class="pj-eyebrow">My Portfolio</span>
+            <h1 class="pj-heading mt-2">Dự án của tôi</h1>
+            <p class="pj-intro">Các sản phẩm và dự án tôi đã thực hiện trong quá trình học tập, phát triển kỹ năng và khám phá công nghệ.</p>
         </div>
 
-    </section>
+        <form action="{{ route('projects') }}" method="GET" class="pj-panel" role="search">
+            <div class="row g-3 align-items-end">
+                <div class="col-lg-5">
+                    <label for="project-search" class="form-label">Tìm kiếm dự án</label>
+                    <input id="project-search" class="form-control" type="search" name="search" value="{{ $search ?? request('search') }}" placeholder="Nhập tên dự án...">
+                </div>
+                <div class="col-lg-4">
+                    <label for="project-technology" class="form-label">Công nghệ</label>
+                    <select id="project-technology" name="technology" class="form-select">
+                        <option value="">Tất cả công nghệ</option>
+                        @foreach(($technologies ?? []) as $tech)
+                            <option value="{{ $tech }}" @selected((string)($technology ?? request('technology')) === (string)$tech)>{{ $tech }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-lg-3">
+                    <label for="project-sort" class="form-label">Sắp xếp</label>
+                    <select id="project-sort" name="sort" class="form-select">
+                        <option value="latest" @selected(($sort ?? request('sort','latest')) === 'latest')>Mới nhất</option>
+                        <option value="oldest" @selected(($sort ?? request('sort')) === 'oldest')>Cũ nhất</option>
+                        <option value="name_asc" @selected(($sort ?? request('sort')) === 'name_asc')>Tên A–Z</option>
+                        <option value="name_desc" @selected(($sort ?? request('sort')) === 'name_desc')>Tên Z–A</option>
+                    </select>
+                </div>
+                <div class="col-12 d-flex gap-2 flex-wrap">
+                    <button type="submit" class="btn btn-primary px-4"><i class="bi bi-search me-2"></i>Tìm kiếm</button>
+                    <a href="{{ route('projects') }}" class="btn btn-outline-secondary">Xóa bộ lọc</a>
+                </div>
+            </div>
+        </form>
 
-    <!-- THỐNG KÊ -->
-    <div class="d-flex align-items-center justify-content-between
-                flex-wrap gap-3 mb-4">
-
-        <div>
-            <h3 class="fw-bold mb-1">
-                Danh sách dự án
-            </h3>
-
-            <p class="text-muted mb-0">
-                Các sản phẩm và bài thực hành nổi bật
-            </p>
-        </div>
-
-        <span class="badge bg-primary rounded-pill px-3 py-2">
-            {{ $projects->count() }} dự án
-        </span>
-
-    </div>
-
-    <!-- DANH SÁCH DỰ ÁN -->
-    <div class="row g-4">
-
-        @forelse($projects as $project)
-
-            <div class="col-md-6 col-lg-4">
-
-                <div class="project-card">
-
-                    <!-- ẢNH DỰ ÁN -->
-                    <div class="project-image">
-
-                        @if($project->image)
-                            <img src="{{ asset('storage/' . $project->image) }}"
-                                 alt="{{ $project->title }}"
-                                 loading="lazy">
-                        @else
-                            <i class="bi bi-code-square"></i>
-                        @endif
-
-                    </div>
-
-                    <!-- NỘI DUNG -->
-                    <div class="project-content">
-
-                        <h4 class="project-name">
-                            {{ $project->title }}
-                        </h4>
-
-                        <p class="project-description">
-                            {{ \Illuminate\Support\Str::limit($project->description, 145) }}
-                        </p>
-
-                        @if($project->technologies)
-                            <div>
-                                <span class="tech-label">
-                                    <i class="bi bi-cpu me-1"></i>
-                                    {{ $project->technologies }}
-                                </span>
+        @if($projects->count())
+            <p class="pj-meta mb-3">Hiển thị {{ $projects->count() }} dự án trên trang này</p>
+            <div class="row g-4">
+                @foreach($projects as $project)
+                    <div class="col-md-6 col-xl-4">
+                        <article class="pj-card">
+                            @if($project->image)
+                                <img class="pj-image" src="{{ asset('storage/' . $project->image) }}" alt="Ảnh dự án {{ $project->title }}" loading="lazy">
+                            @else
+                                <div class="pj-image-fallback" aria-hidden="true"><i class="bi bi-code-square"></i></div>
+                            @endif
+                            <div class="pj-content">
+                                <h2 class="pj-title">{{ $project->title }}</h2>
+                                <p class="pj-desc">{{ \Illuminate\Support\Str::limit(strip_tags($project->description ?? ''), 140) }}</p>
+                                @if($project->technologies)
+                                    <div class="mb-3">
+                                        @foreach(preg_split('/[,;\r\n]+/', $project->technologies) as $tech)
+                                            @if(trim($tech) !== '')
+                                                <span class="pj-chip">{{ trim($tech) }}</span>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                @endif
+                                <a class="pj-view mt-auto" href="{{ route('projects.show', $project) }}">Xem chi tiết <i class="bi bi-arrow-up-right ms-1"></i></a>
                             </div>
-                        @endif
-
-                        <div class="project-actions">
-
-                            @if($project->github_url)
-                                <a href="{{ $project->github_url }}"
-                                   target="_blank"
-                                   rel="noopener noreferrer"
-                                   class="btn btn-dark">
-
-                                    <i class="bi bi-github me-1"></i>
-                                    GitHub
-                                </a>
-                            @endif
-
-                            @if($project->demo_url)
-                                <a href="{{ $project->demo_url }}"
-                                   target="_blank"
-                                   rel="noopener noreferrer"
-                                   class="btn btn-primary">
-
-                                    <i class="bi bi-box-arrow-up-right me-1"></i>
-                                    Live Demo
-                                </a>
-                            @endif
-
-                        </div>
-
+                        </article>
                     </div>
-
-                </div>
-
+                @endforeach
             </div>
-
-        @empty
-
-            <div class="col-12">
-
-                <div class="empty-state">
-
-                    <div class="display-3 text-primary mb-3">
-                        <i class="bi bi-folder2-open"></i>
-                    </div>
-
-                    <h4 class="fw-bold">
-                        Chưa có dự án nào
-                    </h4>
-
-                    <p class="text-muted mb-0">
-                        Các dự án sẽ được hiển thị tại đây
-                        sau khi cập nhật từ hệ thống quản trị.
-                    </p>
-
-                </div>
-
+            @if(method_exists($projects, 'links'))
+                <div class="mt-5 d-flex justify-content-center">{{ $projects->appends(request()->query())->links('pagination::bootstrap-5') }}</div>
+            @endif
+        @else
+            <div class="pj-empty">
+                <i class="bi bi-folder-x fs-1 d-block mb-3"></i>
+                <h2 class="h5 fw-bold" style="color:var(--pj-text)">Chưa tìm thấy dự án</h2>
+                <p>Hãy thử từ khóa hoặc bộ lọc khác.</p>
+                <a href="{{ route('projects') }}" class="btn btn-primary">Xem tất cả dự án</a>
             </div>
-
-        @endforelse
-
+        @endif
     </div>
-
-    <!-- LIÊN HỆ -->
-    <section class="bottom-cta">
-
-        <h3 class="fw-bold mb-3">
-            Bạn quan tâm đến các dự án của tôi?
-        </h3>
-
-        <p class="text-muted mb-4">
-            Hãy liên hệ để cùng trao đổi về
-            công nghệ và những ý tưởng phát triển phần mềm.
-        </p>
-
-        <a href="{{ url('/contact') }}"
-           class="btn btn-primary px-4">
-            <i class="bi bi-envelope me-2"></i>
-            Liên hệ với tôi
-        </a>
-
-    </section>
-
-</div>
-
+</section>
 @endsection

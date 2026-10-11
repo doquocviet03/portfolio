@@ -1,519 +1,350 @@
-
 @extends('layouts.app')
 
 @section('title', 'Liên hệ | Portfolio')
+@section('meta_description', 'Liên hệ để trao đổi về công nghệ, các dự án lập trình, cơ hội hợp tác và công việc trong lĩnh vực Công nghệ thông tin.')
+
+@push('styles')
+<style>
+.contact-modern {
+    --ct-surface: #ffffff;
+    --ct-text: #0f172a;
+    --ct-muted: #64748b;
+    --ct-border: #e2e8f0;
+    --ct-soft: #eff6ff;
+    color: var(--ct-text);
+}
+html[data-theme="dark"] .contact-modern,
+html[data-bs-theme="dark"] .contact-modern {
+    --ct-surface: #111c30;
+    --ct-text: #f1f5f9;
+    --ct-muted: #a6b5cb;
+    --ct-border: #30415c;
+    --ct-soft: #1b2e4c;
+}
+.contact-modern .ct-hero {
+    margin: 30px 0 55px;
+    padding: clamp(50px, 8vw, 88px) 24px;
+    text-align: center;
+    border-radius: 26px;
+    color: #fff;
+    background: radial-gradient(circle at 85% 5%, rgba(96,165,250,.25), transparent 35%),
+                linear-gradient(125deg,#0b1220,#172554 60%,#312e81);
+}
+.contact-modern .ct-eyebrow {
+    display: inline-block;
+    padding: 8px 18px;
+    border: 1px solid rgba(191,219,254,.4);
+    background: rgba(255,255,255,.08);
+    color: #bfdbfe;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+}
+.contact-modern .ct-hero h1 {
+    font-size: clamp(34px,5vw,54px);
+    font-weight: 800;
+    letter-spacing: -.03em;
+    margin: 20px 0 15px;
+}
+.contact-modern .ct-hero p {
+    color: #cbd5e1;
+    line-height: 1.85;
+    max-width: 650px;
+    margin: 0 auto;
+}
+.contact-modern .ct-card {
+    background: var(--ct-surface);
+    border: 1px solid var(--ct-border);
+    border-radius: 22px;
+    padding: clamp(22px,3vw,34px);
+    height: 100%;
+    box-shadow: 0 8px 30px rgba(15,23,42,.04);
+}
+.contact-modern .ct-card h2 {
+    font-size: 23px;
+    font-weight: 800;
+    margin-bottom: 25px;
+    color: var(--ct-text);
+}
+.contact-modern .ct-muted { color: var(--ct-muted); }
+.contact-modern .ct-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 24px;
+}
+.contact-modern .ct-icon {
+    width: 50px;
+    height: 50px;
+    flex: 0 0 50px;
+    border-radius: 14px;
+    background: #dbeafe;
+    color: #1d4ed8;
+    display: grid;
+    place-items: center;
+    font-size: 21px;
+}
+.contact-modern .ct-info h3 {
+    font-size: 15px;
+    font-weight: 750;
+    margin: 2px 0 6px;
+    color: var(--ct-text);
+}
+.contact-modern .ct-info p {
+    margin: 0;
+    color: var(--ct-muted);
+    overflow-wrap: anywhere;
+}
+.contact-modern .ct-info a { overflow-wrap: anywhere; }
+.contact-modern .ct-social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.contact-modern .ct-social a {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: var(--ct-soft);
+    border: 1px solid var(--ct-border);
+    color: #2563eb;
+    font-size: 20px;
+    text-decoration: none;
+    transition: transform .2s ease, background .2s ease;
+}
+html[data-theme="dark"] .contact-modern .ct-social a,
+html[data-bs-theme="dark"] .contact-modern .ct-social a { color: #93c5fd; }
+.contact-modern .ct-social a:hover {
+    background: #2563eb;
+    color: white !important;
+    transform: translateY(-3px);
+}
+.contact-modern .ct-form label {
+    color: var(--ct-text);
+    font-weight: 650;
+    margin-bottom: 8px;
+}
+.contact-modern .ct-form .form-control {
+    background: var(--ct-surface);
+    color: var(--ct-text);
+    border: 1px solid var(--ct-border);
+    border-radius: 12px;
+    padding: 12px 14px;
+}
+.contact-modern .ct-form .form-control::placeholder { color: var(--ct-muted); opacity: .85; }
+.contact-modern .ct-form .form-control:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 .2rem rgba(37,99,235,.12);
+}
+.contact-modern .ct-form textarea { resize: vertical; min-height: 155px; }
+.contact-modern .ct-submit {
+    padding: 13px 22px;
+    border-radius: 12px;
+    font-weight: 750;
+}
+.contact-modern .ct-cv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 18px;
+    border-radius: 12px;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 750;
+    text-decoration: none;
+}
+.contact-modern .ct-cv:hover { background: #1d4ed8; color: #fff; }
+.contact-modern .ct-divider { border-color: var(--ct-border); opacity: 1; }
+.contact-modern .ct-note {
+    background: var(--ct-soft);
+    border: 1px solid var(--ct-border);
+    border-radius: 13px;
+    padding: 16px;
+    color: var(--ct-muted);
+    line-height: 1.7;
+}
+@media (max-width: 767.98px) {
+    .contact-modern .ct-hero { margin-top: 18px; margin-bottom: 35px; border-radius: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .contact-modern .ct-social a { transition: none; }
+    .contact-modern .ct-social a:hover { transform: none; }
+}
+</style>
+@endpush
 
 @section('content')
+<div class="container contact-modern pb-5">
+    <header class="ct-hero">
+        <span class="ct-eyebrow">LET'S CONNECT</span>
+        <h1>Liên hệ với tôi</h1>
+        <p>Bạn có câu hỏi, ý tưởng dự án hoặc muốn trao đổi về công nghệ?
+           Hãy để lại tin nhắn qua biểu mẫu bên dưới.</p>
+    </header>
 
-@php
-    // THAY THÔNG TIN CÁ NHÂN TẠI ĐÂY
-    $contactEmail = 'vietdp03@gmail.com';
-    $contactPhone = '0971 674 160';
-    $contactLocation = 'Hà Nội, Việt Nam';
-
-    // DÁN LINK FACEBOOK CỦA BẠN VÀO ĐÂY
-    $facebookUrl = 'https://www.facebook.com/doquocviet.03';
-@endphp
-
-<style>
-    .contact-page .contact-hero {
-        background: linear-gradient(135deg, #0b1220, #172554, #312e81);
-        color: #fff;
-        border-radius: 24px;
-        padding: 65px 30px;
-        text-align: center;
-        margin: 30px 0 45px;
-    }
-
-    .contact-page .hero-label {
-        display: inline-block;
-        padding: 8px 18px;
-        border-radius: 30px;
-        background: rgba(59,130,246,.18);
-        color: #93c5fd;
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: 1px;
-        margin-bottom: 18px;
-    }
-
-    .contact-page .hero-title {
-        font-size: clamp(32px, 5vw, 48px);
-        font-weight: 800;
-        margin-bottom: 18px;
-    }
-
-    .contact-page .hero-description {
-        color: #cbd5e1;
-        max-width: 650px;
-        margin: auto;
-        line-height: 1.9;
-    }
-
-    .contact-page .contact-info {
-        background: #0f172a;
-        color: #fff;
-        border-radius: 22px;
-        padding: 35px;
-        height: 100%;
-    }
-
-    .contact-page .contact-info h2,
-    .contact-page .contact-form-card h2 {
-        font-size: 25px;
-        font-weight: 800;
-        margin-bottom: 15px;
-    }
-
-    .contact-page .info-description {
-        color: #94a3b8;
-        line-height: 1.8;
-        margin-bottom: 30px;
-    }
-
-    .contact-page .contact-item {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-        margin-bottom: 25px;
-    }
-
-    .contact-page .contact-icon {
-        width: 50px;
-        height: 50px;
-        flex-shrink: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #1e3a5f;
-        color: #93c5fd;
-        border-radius: 14px;
-        font-size: 22px;
-    }
-
-    .contact-page .contact-item-label {
-        font-size: 13px;
-        color: #94a3b8;
-        margin-bottom: 4px;
-    }
-
-    .contact-page .contact-item-value {
-        color: #fff;
-        font-weight: 600;
-        overflow-wrap: anywhere;
-    }
-
-    /* FACEBOOK */
-
-    .contact-page .facebook-section {
-        margin-top: 35px;
-        border-top: 1px solid #334155;
-        padding-top: 28px;
-    }
-
-    .contact-page .facebook-section h3 {
-        font-size: 19px;
-        font-weight: 700;
-        margin-bottom: 16px;
-    }
-
-    .contact-page .facebook-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        background: #1877f2;
-        color: white;
-        text-decoration: none;
-        padding: 15px 20px;
-        border-radius: 12px;
-        font-weight: 700;
-        transition: all .3s ease;
-    }
-
-    .contact-page .facebook-button:hover {
-        background: #0866d6;
-        color: #fff;
-        transform: translateY(-3px);
-        box-shadow: 0 12px 25px rgba(24,119,242,.25);
-    }
-
-    .contact-page .facebook-button i {
-        font-size: 24px;
-    }
-
-    /* FORM */
-
-    .contact-page .contact-form-card {
-        background: #fff;
-        border: 1px solid #e2e8f0;
-        border-radius: 22px;
-        padding: 35px;
-        height: 100%;
-        box-shadow: 0 10px 35px rgba(15,23,42,.04);
-    }
-
-    .contact-page .form-description {
-        color: #64748b;
-        line-height: 1.8;
-        margin-bottom: 28px;
-    }
-
-    .contact-page .form-label {
-        font-weight: 600;
-        color: #334155;
-        margin-bottom: 9px;
-    }
-
-    .contact-page .form-control {
-        border-radius: 11px;
-        padding: 13px 15px;
-        border: 1px solid #cbd5e1;
-        background: #f8fafc;
-    }
-
-    .contact-page .form-control:focus {
-        background: #fff;
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 4px rgba(59,130,246,.12);
-    }
-
-    .contact-page textarea.form-control {
-        min-height: 160px;
-        resize: vertical;
-    }
-
-    .contact-page .submit-button {
-        background: linear-gradient(135deg, #2563eb, #4f46e5);
-        color: #fff;
-        border: none;
-        border-radius: 12px;
-        padding: 15px 22px;
-        font-weight: 700;
-        width: 100%;
-        transition: all .3s ease;
-    }
-
-    .contact-page .submit-button:hover {
-        background: linear-gradient(135deg, #1d4ed8, #4338ca);
-        transform: translateY(-2px);
-        box-shadow: 0 12px 25px rgba(37,99,235,.2);
-    }
-
-    .contact-page .contact-bottom {
-        background: #eff6ff;
-        border-radius: 20px;
-        padding: 35px;
-        margin-top: 50px;
-        text-align: center;
-    }
-
-    @media (max-width: 768px) {
-        .contact-page .contact-hero {
-            padding: 45px 20px;
-            border-radius: 16px;
-        }
-
-        .contact-page .contact-info,
-        .contact-page .contact-form-card {
-            padding: 25px;
-        }
-    }
-</style>
-
-<div class="container contact-page pb-5">
-
-    <!-- HEADER -->
-    <section class="contact-hero">
-
-        <span class="hero-label">
-            GET IN TOUCH
-        </span>
-
-        <h1 class="hero-title">
-            Liên hệ với tôi
-        </h1>
-
-        <p class="hero-description">
-            Bạn có câu hỏi, muốn trao đổi về dự án
-            hoặc chia sẻ những ý tưởng công nghệ?
-            Hãy kết nối với tôi qua Facebook
-            hoặc gửi tin nhắn trực tiếp tại đây.
-        </p>
-
-    </section>
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show mb-4" role="status">
+            <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+        </div>
+    @endif
 
     <div class="row g-4">
+        <aside class="col-lg-5">
+            <section class="ct-card">
+                <h2><i class="bi bi-person-lines-fill text-primary me-2"></i>Thông tin liên hệ</h2>
 
-        <!-- THÔNG TIN LIÊN HỆ -->
-        <div class="col-lg-5">
-
-            <div class="contact-info">
-
-                <h2>
-                    Thông tin liên hệ
-                </h2>
-
-                <p class="info-description">
-                    Bạn có thể liên hệ với tôi thông qua
-                    những kênh bên dưới.
-                </p>
-
-                <!-- EMAIL -->
-                <div class="contact-item">
-
-                    <div class="contact-icon">
-                        <i class="bi bi-envelope"></i>
-                    </div>
-
-                    <div>
-                        <div class="contact-item-label">
-                            Email
+                @if($profile?->contact_email)
+                    <div class="ct-info">
+                        <span class="ct-icon"><i class="bi bi-envelope"></i></span>
+                        <div>
+                            <h3>Email</h3>
+                            <p><a href="mailto:{{ $profile->contact_email }}" class="text-decoration-none">{{ $profile->contact_email }}</a></p>
                         </div>
-
-                        <div class="contact-item-value">
-                            {{ $contactEmail }}
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- PHONE -->
-                <div class="contact-item">
-
-                    <div class="contact-icon">
-                        <i class="bi bi-telephone"></i>
-                    </div>
-
-                    <div>
-                        <div class="contact-item-label">
-                            Điện thoại
-                        </div>
-
-                        <div class="contact-item-value">
-                            {{ $contactPhone }}
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- LOCATION -->
-                <div class="contact-item">
-
-                    <div class="contact-icon">
-                        <i class="bi bi-geo-alt"></i>
-                    </div>
-
-                    <div>
-                        <div class="contact-item-label">
-                            Nơi ở
-                        </div>
-
-                        <div class="contact-item-value">
-                            {{ $contactLocation }}
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- FACEBOOK -->
-                <div class="facebook-section">
-
-                    <h3>
-                        <i class="bi bi-share me-2"></i>
-                        Kết nối mạng xã hội
-                    </h3>
-
-                    <p class="info-description mb-3">
-                        Theo dõi hoặc nhắn tin cho tôi
-                        thông qua Facebook.
-                    </p>
-
-                    <a href="{{ $facebookUrl }}"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="facebook-button">
-
-                        <i class="bi bi-facebook"></i>
-
-                        <span>
-                            Truy cập Facebook của tôi
-                        </span>
-
-                        <i class="bi bi-arrow-up-right"
-                           style="font-size:16px"></i>
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- FORM LIÊN HỆ -->
-        <div class="col-lg-7">
-
-            <div class="contact-form-card">
-
-                <h2>
-                    <i class="bi bi-send text-primary me-2"></i>
-                    Gửi tin nhắn
-                </h2>
-
-                <p class="form-description">
-                    Điền thông tin vào biểu mẫu dưới đây
-                    để gửi lời nhắn đến tôi.
-                </p>
-
-                @if(session('success'))
-                    <div class="alert alert-success" role="alert">
-                        <i class="bi bi-check-circle me-2"></i>
-                        {{ session('success') }}
                     </div>
                 @endif
+                @if($profile?->phone)
+    <div class="ct-info">
+        <span class="ct-icon">
+            <i class="bi bi-telephone"></i>
+        </span>
+
+        <div>
+            <h3>Số điện thoại</h3>
+            <p>
+                <a href="tel:{{ preg_replace('/[^0-9+]/', '', $profile->phone) }}"
+                   class="text-decoration-none">
+                    {{ $profile->phone }}
+                </a>
+            </p>
+        </div>
+    </div>
+@endif
+                @if($profile?->location)
+                    <div class="ct-info">
+                        <span class="ct-icon"><i class="bi bi-geo-alt"></i></span>
+                        <div>
+                            <h3>Khu vực</h3>
+                            <p>{{ $profile->location }}</p>
+                        </div>
+                    </div>
+                @endif
+
+                @if($profile?->job_title)
+                    <div class="ct-info">
+                        <span class="ct-icon"><i class="bi bi-briefcase"></i></span>
+                        <div>
+                            <h3>Chuyên môn</h3>
+                            <p>{{ $profile->job_title }}</p>
+                        </div>
+                    </div>
+                @endif
+
+                <hr class="ct-divider my-4">
+
+                <h3 class="h6 fw-bold mb-3">Kết nối qua mạng xã hội</h3>
+                <div class="ct-social">
+                    @if($profile?->github_url)
+                        <a href="{{ $profile->github_url }}" target="_blank" rel="noopener noreferrer"
+                           title="GitHub" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                    @endif
+                    @if($profile?->facebook_url)
+                        <a href="{{ $profile->facebook_url }}" target="_blank" rel="noopener noreferrer"
+                           title="Facebook" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                    @endif
+                    @if($profile?->linkedin_url)
+                        <a href="{{ $profile->linkedin_url }}" target="_blank" rel="noopener noreferrer"
+                           title="LinkedIn" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    @endif
+                </div>
+
+                @if($profile?->cv_path)
+                    <div class="mt-4">
+                        <a href="{{ route('cv.download') }}" class="ct-cv">
+                            <i class="bi bi-file-earmark-arrow-down"></i> Tải CV PDF
+                        </a>
+                        <p class="ct-muted text-center small mt-2 mb-0">Hồ sơ năng lực dưới dạng PDF.</p>
+                    </div>
+                @endif
+
+                <div class="ct-note mt-4">
+                    <i class="bi bi-chat-dots me-2"></i>
+                    Bạn cũng có thể gửi tin nhắn trực tiếp bằng biểu mẫu bên cạnh.
+                </div>
+            </section>
+        </aside>
+
+        <div class="col-lg-7">
+            <section class="ct-card">
+                <h2><i class="bi bi-send text-primary me-2"></i>Gửi tin nhắn</h2>
 
                 @if($errors->any())
                     <div class="alert alert-danger" role="alert">
-                        Vui lòng kiểm tra lại thông tin đã nhập.
+                        <strong>Vui lòng kiểm tra thông tin:</strong>
+                        <ul class="mb-0 mt-2">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 @endif
 
-                <form action="{{ route('contact.store') }}"
-                      method="POST">
-
+                <form action="{{ route('contact.store') }}" method="POST" class="ct-form">
                     @csrf
-
-                    <!-- NAME -->
-                    <div class="mb-3">
-
-                        <label for="name" class="form-label">
-                            Họ và tên <span class="text-danger">*</span>
-                        </label>
-
-                        <input type="text"
-                               id="name"
-                               name="name"
-                               class="form-control @error('name') is-invalid @enderror"
-                               placeholder="Nhập họ và tên"
-                               value="{{ old('name') }}"
-                               maxlength="255"
-                               required>
-
-                        @error('name')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="contact-name" class="form-label">Họ và tên <span class="text-danger">*</span></label>
+                            <input id="contact-name" type="text" name="name"
+                                   value="{{ old('name') }}" maxlength="255" autocomplete="name"
+                                   placeholder="Nhập họ và tên"
+                                   class="form-control @error('name') is-invalid @enderror" required>
+                            @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label for="contact-email" class="form-label">Email <span class="text-danger">*</span></label>
+                            <input id="contact-email" type="email" name="email"
+                                   value="{{ old('email') }}" maxlength="255" autocomplete="email"
+                                   placeholder="example@gmail.com"
+                                   class="form-control @error('email') is-invalid @enderror" required>
+                            @error('email')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-12">
+                            <label for="contact-subject" class="form-label">Chủ đề <span class="text-danger">*</span></label>
+                            <input id="contact-subject" type="text" name="subject"
+                                   value="{{ old('subject') }}" maxlength="255"
+                                   placeholder="Nhập chủ đề liên hệ"
+                                   class="form-control @error('subject') is-invalid @enderror" required>
+                            @error('subject')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-12">
+                            <label for="contact-message" class="form-label">Nội dung <span class="text-danger">*</span></label>
+                            <textarea id="contact-message" name="message" rows="7" maxlength="5000"
+                                      placeholder="Nhập nội dung tin nhắn..."
+                                      class="form-control @error('message') is-invalid @enderror"
+                                      required>{{ old('message') }}</textarea>
+                            @error('message')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary ct-submit w-100">
+                                <i class="bi bi-send me-2"></i> Gửi tin nhắn
+                            </button>
+                        </div>
                     </div>
-
-                    <!-- EMAIL -->
-                    <div class="mb-3">
-
-                        <label for="email" class="form-label">
-                            Email <span class="text-danger">*</span>
-                        </label>
-
-                        <input type="email"
-                               id="email"
-                               name="email"
-                               class="form-control @error('email') is-invalid @enderror"
-                               placeholder="example@gmail.com"
-                               value="{{ old('email') }}"
-                               maxlength="255"
-                               required>
-
-                        @error('email')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-
-                    </div>
-
-                    <!-- SUBJECT -->
-                    <div class="mb-3">
-
-                        <label for="subject" class="form-label">
-                            Tiêu đề
-                        </label>
-
-                        <input type="text"
-                               id="subject"
-                               name="subject"
-                               class="form-control @error('subject') is-invalid @enderror"
-                               placeholder="Nhập tiêu đề tin nhắn"
-                               value="{{ old('subject') }}"
-                               maxlength="255">
-
-                        @error('subject')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-
-                    </div>
-
-                    <!-- MESSAGE -->
-                    <div class="mb-4">
-
-                        <label for="message" class="form-label">
-                            Nội dung <span class="text-danger">*</span>
-                        </label>
-
-                        <textarea id="message"
-                                  name="message"
-                                  class="form-control @error('message') is-invalid @enderror"
-                                  placeholder="Nhập nội dung bạn muốn gửi..."
-                                  required>{{ old('message') }}</textarea>
-
-                        @error('message')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                        @enderror
-
-                    </div>
-
-                    <button type="submit"
-                            class="submit-button">
-
-                        <i class="bi bi-send-fill me-2"></i>
-                        Gửi tin nhắn
-
-                    </button>
-
                 </form>
-
-            </div>
-
+            </section>
         </div>
-
     </div>
-
-    <!-- BOTTOM SECTION -->
-    <section class="contact-bottom">
-
-        <h3 class="fw-bold mb-3">
-            Cảm ơn bạn đã ghé thăm Portfolio!
-        </h3>
-
-        <p class="text-muted mb-4">
-            Hãy khám phá thêm các dự án và kỹ năng
-            mà tôi đã phát triển trong quá trình học tập.
-        </p>
-
-        <a href="{{ url('/projects') }}"
-           class="btn btn-primary px-4">
-
-            <i class="bi bi-folder2-open me-2"></i>
-            Xem dự án
-
-        </a>
-
-    </section>
-
 </div>
-
 @endsection

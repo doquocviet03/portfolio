@@ -5,30 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\Skill;
 use App\Models\Experience;
+use App\Models\Profile;
+use Illuminate\Http\Request;
 
 class PortfolioController extends Controller
 {
-    // Trang chủ
     public function home()
     {
+        $profile = Profile::first();
         $projects = Project::latest()->take(3)->get();
         $skills = Skill::latest()->take(6)->get();
         $experiences = Experience::latest()->take(3)->get();
 
         return view('home', compact(
+            'profile',
             'projects',
             'skills',
             'experiences'
         ));
     }
 
-    // Trang giới thiệu
     public function about()
     {
-        return view('about');
+        $profile = Profile::first();
+
+        return view('about', compact('profile'));
     }
 
-    // Trang kỹ năng
     public function skills()
     {
         $skills = Skill::latest()->get();
@@ -36,15 +39,74 @@ class PortfolioController extends Controller
         return view('skills', compact('skills'));
     }
 
-    // Trang dự án
-    public function projects()
+    public function projects(Request $request)
     {
-        $projects = Project::latest()->get();
+        $search = trim((string) $request->query('search', ''));
+        $technology = trim((string) $request->query('technology', ''));
+        $sort = $request->query('sort', 'latest');
 
-        return view('projects', compact('projects'));
+        if (!in_array($sort, ['latest', 'oldest', 'name'], true)) {
+            $sort = 'latest';
+        }
+
+        $query = Project::query();
+
+        if ($search !== '') {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', '%' . $search . '%')
+                  ->orWhere('description', 'like', '%' . $search . '%')
+                  ->orWhere('technologies', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($technology !== '') {
+            $query->where('technologies', 'like', '%' . $technology . '%');
+        }
+
+        if ($sort === 'oldest') {
+            $query->oldest();
+        } elseif ($sort === 'name') {
+            $query->orderBy('title');
+        } else {
+            $query->latest();
+        }
+
+        $projects = $query->paginate(9)->withQueryString();
+
+        $technologies = Project::query()
+            ->whereNotNull('technologies')
+            ->pluck('technologies')
+            ->flatMap(function ($value) {
+                return explode(',', $value);
+            })
+            ->map(fn ($value) => trim($value))
+            ->filter()
+            ->unique(fn ($value) => mb_strtolower($value))
+            ->sort()
+            ->values();
+
+        return view('projects', compact(
+            'projects',
+            'technologies',
+            'search',
+            'technology',
+            'sort'
+        ));
     }
 
-    // Trang kinh nghiệm
+    public function projectDetail(Project $project)
+    {
+        $relatedProjects = Project::where('id', '!=', $project->id)
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('projects.show', compact(
+            'project',
+            'relatedProjects'
+        ));
+    }
+
     public function experience()
     {
         $experiences = Experience::latest()->get();
@@ -52,9 +114,10 @@ class PortfolioController extends Controller
         return view('experience', compact('experiences'));
     }
 
-    // Trang liên hệ
     public function contact()
     {
-        return view('contact');
+        $profile = Profile::first();
+
+        return view('contact', compact('profile'));
     }
 }

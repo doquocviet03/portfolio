@@ -1,1052 +1,215 @@
-
 @extends('layouts.app')
 
-@section('title', 'Giới thiệu | Personal Portfolio')
+@section('title', 'Giới thiệu | Portfolio')
+@section('meta_description', 'Tìm hiểu thông tin cá nhân, quá trình học tập, mục tiêu nghề nghiệp và định hướng phát triển trong lĩnh vực Công nghệ thông tin.')
 
-@section('content')
-
-@php
-    $fullName = 'Đỗ Quốc Việt';
-    $field = 'Công nghệ thông tin';
-    $careerDirection = 'Phát triển phần mềm';
-    $location = 'Việt Nam';
-
-    // Ảnh cá nhân trong public/images/avatar.jpg
-    $avatar = asset('images/avatar.jpg');
-@endphp
-
+@push('styles')
 <style>
     .about-page {
-        --primary: #2563eb;
-        --dark: #0b1220;
+        --about-primary: #2563eb;
+        --about-heading: #0f172a;
+        --about-text: #475569;
+        --about-muted: #64748b;
+        --about-surface: #ffffff;
+        --about-soft: #f1f5f9;
+        --about-line: #e2e8f0;
+        color: var(--about-heading);
     }
-
-    /* HERO */
-
+    html[data-theme="dark"] .about-page,
+    [data-bs-theme="dark"] .about-page {
+        --about-heading: #f8fafc;
+        --about-text: #cbd5e1;
+        --about-muted: #94a3b8;
+        --about-surface: #111c30;
+        --about-soft: #0b1425;
+        --about-line: #283850;
+        --about-primary: #60a5fa;
+    }
     .about-page .about-hero {
-        background: linear-gradient(
-            135deg,
-            #0b1220,
-            #172554,
-            #312e81
-        );
-        color: white;
-        padding: 65px 30px;
-        border-radius: 25px;
-        text-align: center;
-        margin: 30px 0 55px;
         position: relative;
         overflow: hidden;
+        padding: clamp(70px, 9vw, 120px) 0;
+        background: radial-gradient(circle at 85% 15%, rgba(59,130,246,.16), transparent 36%),
+                    linear-gradient(135deg, var(--about-soft), var(--about-surface));
+        border-bottom: 1px solid var(--about-line);
     }
-
-    .about-page .hero-label {
-        display: inline-block;
-        color: #bfdbfe;
-        background: rgba(59,130,246,.18);
-        border: 1px solid rgba(147,197,253,.3);
-        padding: 9px 20px;
-        border-radius: 30px;
-        font-size: 13px;
-        font-weight: 700;
-        letter-spacing: 1px;
-        margin-bottom: 20px;
-    }
-
-    .about-page .hero-title {
-        font-size: clamp(32px, 5vw, 48px);
-        font-weight: 800;
-        margin-bottom: 18px;
-    }
-
-    .about-page .hero-description {
-        max-width: 650px;
-        margin: auto;
-        color: #cbd5e1;
-        line-height: 1.9;
-    }
-
-    /* COMMON */
-
-    .about-page .about-section {
-        margin-bottom: 75px;
-    }
-
-    .about-page .section-label {
-        display: block;
-        color: #2563eb;
-        font-size: 13px;
-        font-weight: 800;
-        letter-spacing: 1.4px;
-        margin-bottom: 12px;
-    }
-
-    .about-page .section-title {
-        color: #0f172a;
-        font-size: clamp(25px, 4vw, 34px);
-        font-weight: 800;
-        margin-bottom: 18px;
-    }
-
-    .about-page .section-description {
-        color: #64748b;
-        line-height: 1.9;
-        margin-bottom: 17px;
-    }
-
-    /* PROFILE CARD */
-
-    .about-page .profile-card {
-        background: linear-gradient(
-            145deg,
-            #0f172a,
-            #1e3a8a
-        );
-        border-radius: 22px;
-        padding: 35px;
-        color: white;
-        text-align: center;
-        height: 100%;
-        box-shadow: 0 20px 45px rgba(15,23,42,.12);
-    }
-
-    /* ẢNH CÁ NHÂN */
-
-    .about-page .profile-avatar {
-        width: 175px;
-        height: 175px;
-        border-radius: 50%;
-        border: 4px solid #60a5fa;
-        padding: 5px;
-        margin: 0 auto 25px;
-        overflow: hidden;
-        background: #1e3a8a;
-        box-shadow: 0 0 30px rgba(96,165,250,.4);
-        transition: .3s ease;
-    }
-
-    .about-page .profile-avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        border-radius: 50%;
-        display: block;
-    }
-
-    .about-page .profile-avatar:hover {
-        transform: scale(1.06);
-        box-shadow: 0 0 45px rgba(96,165,250,.6);
-    }
-
-    .about-page .profile-name {
-        font-size: 25px;
-        font-weight: 800;
-        margin-bottom: 10px;
-    }
-
-    .about-page .profile-role {
-        color: #bfdbfe;
-        font-weight: 600;
-        margin-bottom: 23px;
-    }
-
-    .about-page .profile-divider {
-        border-color: rgba(255,255,255,.2);
-        margin: 25px 0;
-    }
-
-    .about-page .profile-detail {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        text-align: left;
-        color: #e2e8f0;
-        margin-bottom: 18px;
-    }
-
-    .about-page .profile-detail i {
-        font-size: 20px;
-        color: #93c5fd;
-        width: 24px;
-    }
-
-    /* INTRO */
-
-    .about-page .intro-card {
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-radius: 22px;
-        padding: 35px;
-        height: 100%;
-    }
-
-    .about-page .intro-highlight {
-        background: #eff6ff;
-        border-left: 4px solid #2563eb;
-        padding: 20px 23px;
-        border-radius: 12px;
-        color: #1e40af;
-        font-weight: 600;
-        line-height: 1.8;
-        margin-top: 25px;
-    }
-
-    /* INTERESTS */
-
-    .about-page .interest-card {
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-radius: 20px;
-        padding: 30px;
-        height: 100%;
-        transition: .3s;
-    }
-
-    .about-page .interest-card:hover {
-        transform: translateY(-6px);
-        border-color: #93c5fd;
-        box-shadow: 0 18px 40px rgba(15,23,42,.08);
-    }
-
-    .about-page .interest-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 17px;
-        background: #eff6ff;
-        color: #2563eb;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 27px;
-        margin-bottom: 22px;
-    }
-
-    .about-page .interest-card h3 {
-        font-size: 20px;
-        font-weight: 800;
-        color: #0f172a;
-        margin-bottom: 14px;
-    }
-
-    .about-page .interest-card p {
-        color: #64748b;
-        line-height: 1.85;
-        margin-bottom: 0;
-    }
-
-    /* JOURNEY */
-
-    .about-page .journey-box {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 22px;
-        padding: 35px;
-    }
-
-    .about-page .journey-item {
-        position: relative;
-        padding-left: 35px;
-        padding-bottom: 32px;
-        border-left: 2px solid #bfdbfe;
-        margin-left: 10px;
-    }
-
-    .about-page .journey-item:last-child {
-        padding-bottom: 0;
-        border-left-color: transparent;
-    }
-
-    .about-page .journey-item::before {
-        content: "";
+    .about-page .about-hero::before {
+        content: '';
         position: absolute;
-        width: 15px;
-        height: 15px;
+        width: 340px;
+        height: 340px;
+        border: 1px solid rgba(59,130,246,.12);
         border-radius: 50%;
-        background: #2563eb;
-        border: 3px solid #dbeafe;
-        left: -9px;
-        top: 3px;
+        right: -120px;
+        bottom: -210px;
+        pointer-events: none;
     }
-
-    .about-page .journey-item h3 {
-        font-size: 19px;
-        font-weight: 800;
-        color: #0f172a;
-        margin-bottom: 10px;
-    }
-
-    .about-page .journey-item p {
-        color: #64748b;
-        line-height: 1.85;
-        margin-bottom: 0;
-    }
-
-    /* STRENGTHS */
-
-    .about-page .strength-card {
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-radius: 18px;
-        padding: 26px;
-        height: 100%;
-        display: flex;
-        align-items: flex-start;
-        gap: 17px;
-        transition: .3s;
-    }
-
-    .about-page .strength-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 30px rgba(15,23,42,.07);
-    }
-
-    .about-page .strength-icon {
-        width: 48px;
-        height: 48px;
-        min-width: 48px;
-        background: #eff6ff;
-        color: #2563eb;
-        border-radius: 13px;
-        display: flex;
+    .about-page .about-eyebrow {
+        display: inline-flex;
         align-items: center;
-        justify-content: center;
-        font-size: 22px;
+        gap: 8px;
+        padding: 8px 14px;
+        border: 1px solid rgba(59,130,246,.24);
+        border-radius: 100px;
+        background: rgba(59,130,246,.09);
+        color: var(--about-primary);
+        font-weight: 700;
+        font-size: .85rem;
+        letter-spacing: .02em;
     }
-
-    .about-page .strength-card h3 {
-        font-size: 17px;
+    .about-page .about-heading {
+        font-size: clamp(2.35rem, 5vw, 4rem);
+        line-height: 1.14;
         font-weight: 800;
-        color: #0f172a;
-        margin-bottom: 8px;
+        letter-spacing: -.045em;
+        color: var(--about-heading);
+        overflow-wrap: anywhere;
     }
-
-    .about-page .strength-card p {
-        color: #64748b;
-        font-size: 14px;
-        line-height: 1.8;
-        margin-bottom: 0;
+    .about-page .about-role { color: var(--about-primary); font-size: clamp(1.15rem, 2vw, 1.5rem); font-weight: 700; }
+    .about-page .about-lead { max-width: 630px; color: var(--about-text); font-size: 1.06rem; line-height: 1.9; white-space: pre-line; }
+    .about-page .about-actions .btn { padding: 12px 22px; border-radius: 12px; font-weight: 650; }
+    .about-page .about-outline-btn { border: 1px solid var(--about-line); color: var(--about-heading); background: var(--about-surface); }
+    .about-page .about-outline-btn:hover { color: #fff; background: #2563eb; border-color: #2563eb; }
+    .about-page .about-portrait-wrap { position: relative; width: min(100%, 340px); margin: 0 auto; }
+    .about-page .about-portrait-wrap::before { content: ''; position: absolute; inset: -16px; border: 1px solid rgba(59,130,246,.23); border-radius: 34px; transform: rotate(-5deg); }
+    .about-page .about-portrait,
+    .about-page .about-portrait-placeholder {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        border-radius: 28px;
+        border: 6px solid var(--about-surface);
+        box-shadow: 0 25px 65px rgba(15,23,42,.16);
     }
-
-    /* GOALS */
-
-    .about-page .goal-card {
-        background: linear-gradient(
-            135deg,
-            #eff6ff,
-            #eef2ff
-        );
-        border: 1px solid #dbeafe;
-        border-radius: 22px;
-        padding: 35px;
-        height: 100%;
-    }
-
-    .about-page .goal-card h3 {
-        font-size: 22px;
-        font-weight: 800;
-        color: #1e3a8a;
-        margin-bottom: 20px;
-    }
-
-    .about-page .goal-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .about-page .goal-list li {
-        display: flex;
-        gap: 13px;
-        margin-bottom: 17px;
-        color: #334155;
-        line-height: 1.8;
-    }
-
-    .about-page .goal-list li:last-child {
-        margin-bottom: 0;
-    }
-
-    .about-page .goal-list i {
-        color: #2563eb;
-        margin-top: 3px;
-    }
-
-    /* CTA */
-
-    .about-page .about-cta {
-        background: linear-gradient(
-            135deg,
-            #0b1220,
-            #1e3a8a
-        );
-        border-radius: 24px;
-        padding: 55px 30px;
-        text-align: center;
-        color: white;
-    }
-
-    .about-page .about-cta h2 {
-        font-size: clamp(25px, 4vw, 35px);
-        font-weight: 800;
-        margin-bottom: 18px;
-    }
-
-    .about-page .about-cta p {
-        max-width: 620px;
-        margin: 0 auto 28px;
-        color: #cbd5e1;
-        line-height: 1.9;
-    }
-
-    @media(max-width: 768px) {
-        .about-page .about-hero {
-            padding: 45px 20px;
-            border-radius: 18px;
-        }
-
-        .about-page .profile-card,
-        .about-page .intro-card,
-        .about-page .journey-box,
-        .about-page .goal-card {
-            padding: 25px;
-        }
-
-        .about-page .profile-avatar {
-            width: 150px;
-            height: 150px;
-        }
-    }
+    .about-page .about-portrait-placeholder { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg,#dbeafe,#bfdbfe); color: #2563eb; font-size: 7rem; }
+    .about-page .about-portrait-label { position: absolute; bottom: -19px; left: 50%; transform: translateX(-50%); padding: 10px 18px; border-radius: 12px; background: #2563eb; color: white; box-shadow: 0 10px 25px rgba(37,99,235,.28); font-weight: 700; white-space: nowrap; font-size: .9rem; }
+    .about-page .about-section { padding: clamp(64px, 8vw, 96px) 0; }
+    .about-page .about-section-alt { background: var(--about-soft); }
+    .about-page .about-section-heading { font-size: clamp(1.65rem, 3vw, 2.3rem); color: var(--about-heading); font-weight: 800; letter-spacing: -.025em; }
+    .about-page .about-section-subtitle { color: var(--about-muted); line-height: 1.8; }
+    .about-page .about-panel { background: var(--about-surface); border: 1px solid var(--about-line); border-radius: 22px; padding: clamp(24px, 4vw, 38px); height: 100%; box-shadow: 0 10px 35px rgba(15,23,42,.035); }
+    .about-page .about-panel-title { font-size: 1.25rem; font-weight: 750; color: var(--about-heading); margin-bottom: 20px; }
+    .about-page .about-panel-icon { display: inline-flex; align-items: center; justify-content: center; width: 46px; height: 46px; margin-right: 10px; background: rgba(59,130,246,.1); color: var(--about-primary); border-radius: 13px; vertical-align: middle; }
+    .about-page .about-copy { white-space: pre-line; color: var(--about-text); font-size: 1.02rem; line-height: 1.95; overflow-wrap: anywhere; }
+    .about-page .about-info-item { display: flex; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--about-line); }
+    .about-page .about-info-item:last-child { border-bottom: 0; padding-bottom: 0; }
+    .about-page .about-info-icon { flex: 0 0 40px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: var(--about-soft); color: var(--about-primary); border-radius: 11px; font-size: 1.15rem; }
+    .about-page .about-info-label { color: var(--about-muted); font-size: .84rem; margin-bottom: 3px; }
+    .about-page .about-info-value { color: var(--about-heading); font-weight: 650; overflow-wrap: anywhere; }
+    .about-page .about-goal { border-left: 4px solid #2563eb; }
+    .about-page .about-cta { padding: clamp(34px, 6vw, 60px); border-radius: 26px; background: linear-gradient(120deg,#1d4ed8,#4338ca); color: #fff; overflow: hidden; position: relative; }
+    .about-page .about-cta h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 800; color: #fff; }
+    .about-page .about-cta p { color: #dbeafe; line-height: 1.8; }
+    .about-page .about-social { display: inline-flex; align-items: center; gap: 8px; padding: 10px 15px; border-radius: 11px; color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,.35); transition: background .2s, transform .2s; }
+    .about-page .about-social:hover { background: rgba(255,255,255,.16); color: #fff; transform: translateY(-2px); }
+    .about-page .about-social-primary { background: #fff; color: #1d4ed8; border-color: #fff; font-weight: 700; }
+    .about-page .about-social-primary:hover { color: #1d4ed8; background: #eff6ff; }
+    @media (max-width: 991.98px) { .about-page .about-hero { text-align: center; } .about-page .about-lead { margin-inline: auto; } .about-page .about-actions { justify-content: center; } .about-page .about-portrait-wrap { margin-top: 24px; } }
+    @media (prefers-reduced-motion: reduce) { .about-page .about-social { transition: none; } }
 </style>
+@endpush
 
-
-<div class="container about-page pb-5">
-
-    <!-- HERO -->
-
+@section('content')
+<div class="about-page">
     <section class="about-hero">
-
-        <span class="hero-label">
-            ABOUT ME
-        </span>
-
-        <h1 class="hero-title">
-            Giới thiệu bản thân
-        </h1>
-
-        <p class="hero-description">
-            Tìm hiểu về hành trình học tập,
-            niềm đam mê công nghệ
-            và những mục tiêu tôi đang hướng tới.
-        </p>
-
+        <div class="container position-relative">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7">
+                    <span class="about-eyebrow mb-4"><i class="bi bi-stars"></i> TÌM HIỂU VỀ TÔI</span>
+                    <h1 class="about-heading mb-3">{{ $profile?->full_name ?: 'Giới thiệu bản thân' }}</h1>
+                    <div class="about-role mb-3">{{ $profile?->job_title ?: 'Web Developer' }}</div>
+                    <p class="about-lead mb-4">{{ $profile?->short_bio ?: 'Tôi yêu thích lập trình, công nghệ và luôn cố gắng học hỏi để phát triển kỹ năng của mình.' }}</p>
+                    <div class="about-actions d-flex flex-wrap gap-3">
+                        <a href="{{ route('projects') }}" class="btn btn-primary"><i class="bi bi-grid-3x3-gap me-2"></i>Xem dự án</a>
+                        <a href="{{ route('contact') }}" class="btn about-outline-btn"><i class="bi bi-chat-dots me-2"></i>Liên hệ</a>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="about-portrait-wrap">
+                        @if($profile?->avatar)
+                            <img src="{{ asset('storage/' . $profile->avatar) }}" alt="Ảnh đại diện của {{ $profile->full_name ?: 'chủ sở hữu Portfolio' }}" class="about-portrait" width="340" height="340" decoding="async">
+                        @else
+                            <div class="about-portrait-placeholder" aria-label="Ảnh đại diện mặc định"><i class="bi bi-person"></i></div>
+                        @endif
+                        <div class="about-portrait-label"><i class="bi bi-code-slash me-2"></i>{{ $profile?->job_title ?: 'Web Developer' }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
-
-
-    <!-- PROFILE & INTRO -->
 
     <section class="about-section">
-
-        <div class="row g-4">
-
-            <!-- PROFILE -->
-            <div class="col-lg-4">
-
-                <div class="profile-card">
-
-                    <!-- ẢNH CÁ NHÂN -->
-                    <div class="profile-avatar">
-
-                        <img
-                            src="{{ $avatar }}"
-                            alt="Ảnh đại diện {{ $fullName }}"
-                        >
-
-                    </div>
-
-                    <h2 class="profile-name">
-                        {{ $fullName }}
-                    </h2>
-
-                    <p class="profile-role">
-                        {{ $field }}
-                    </p>
-
-                    <hr class="profile-divider">
-
-                    <div class="profile-detail">
-                        <i class="bi bi-mortarboard"></i>
-                        <span>{{ $field }}</span>
-                    </div>
-
-                    <div class="profile-detail">
-                        <i class="bi bi-code-slash"></i>
-                        <span>{{ $careerDirection }}</span>
-                    </div>
-
-                    <div class="profile-detail">
-                        <i class="bi bi-geo-alt"></i>
-                        <span>{{ $location }}</span>
-                    </div>
-
-                    <a href="{{ url('/contact') }}"
-                       class="btn btn-primary w-100 mt-3 py-3">
-
-                        <i class="bi bi-envelope me-2"></i>
-                        Liên hệ với tôi
-
-                    </a>
-
-                </div>
-
+        <div class="container">
+            <div class="mb-5">
+                <span class="about-eyebrow mb-3">01 / CÂU CHUYỆN CỦA TÔI</span>
+                <h2 class="about-section-heading">Hơn cả những dòng code</h2>
+                <p class="about-section-subtitle mb-0">Thông tin và hành trình phát triển bản thân.</p>
             </div>
-
-
-            <!-- INTRO -->
-            <div class="col-lg-8">
-
-                <div class="intro-card">
-
-                    <span class="section-label">
-                        WHO AM I?
-                    </span>
-
-                    <h2 class="section-title">
-                        Xin chào, tôi là {{ $fullName }}!
-                    </h2>
-
-                    <p class="section-description">
-                        Tôi yêu thích lĩnh vực Công nghệ thông tin,
-                        đặc biệt là lập trình và phát triển
-                        các ứng dụng phần mềm.
-                    </p>
-
-                    <p class="section-description">
-                        Trong quá trình học tập,
-                        tôi đã tìm hiểu và thực hành
-                        với nhiều công nghệ như PHP,
-                        Laravel, MySQL, Python,
-                        HTML, CSS và JavaScript.
-                    </p>
-
-                    <p class="section-description">
-                        Tôi quan tâm đến việc xây dựng
-                        các website có giao diện thân thiện,
-                        dễ sử dụng và có khả năng
-                        giải quyết những bài toán thực tế.
-                    </p>
-
-                    <p class="section-description">
-                        Bên cạnh kiến thức lập trình,
-                        tôi cũng chú trọng phát triển
-                        khả năng tự học, tư duy logic,
-                        kỹ năng giải quyết vấn đề
-                        và tinh thần làm việc nhóm.
-                    </p>
-
-                    <div class="intro-highlight">
-                        <i class="bi bi-lightbulb me-2"></i>
-
-                        Mục tiêu của tôi là không ngừng học hỏi,
-                        tích lũy kinh nghiệm thực tế
-                        và trở thành một lập trình viên
-                        có chuyên môn vững vàng.
-                    </div>
-
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <article class="about-panel">
+                        <h3 class="about-panel-title"><span class="about-panel-icon"><i class="bi bi-person-lines-fill"></i></span>Giới thiệu chi tiết</h3>
+                        <div class="about-copy">{{ $profile?->about_me ?: 'Chào mừng bạn đến với Portfolio của tôi. Đây là nơi tôi chia sẻ thông tin cá nhân, quá trình học tập, kinh nghiệm và những dự án đã thực hiện.' }}</div>
+                    </article>
                 </div>
-
+                <div class="col-lg-5">
+                    <aside class="about-panel">
+                        <h3 class="about-panel-title"><span class="about-panel-icon"><i class="bi bi-card-list"></i></span>Thông tin cá nhân</h3>
+                        @if($profile?->full_name)
+                            <div class="about-info-item"><div class="about-info-icon"><i class="bi bi-person"></i></div><div><div class="about-info-label">Họ và tên</div><div class="about-info-value">{{ $profile->full_name }}</div></div></div>
+                        @endif
+                        @if($profile?->field)
+                            <div class="about-info-item"><div class="about-info-icon"><i class="bi bi-laptop"></i></div><div><div class="about-info-label">Lĩnh vực</div><div class="about-info-value">{{ $profile->field }}</div></div></div>
+                        @endif
+                        @if($profile?->location)
+                            <div class="about-info-item"><div class="about-info-icon"><i class="bi bi-geo-alt"></i></div><div><div class="about-info-label">Khu vực</div><div class="about-info-value">{{ $profile->location }}</div></div></div>
+                        @endif
+                        @if($profile?->contact_email)
+                            <div class="about-info-item"><div class="about-info-icon"><i class="bi bi-envelope"></i></div><div><div class="about-info-label">Email</div><div class="about-info-value">{{ $profile->contact_email }}</div></div></div>
+                        @endif
+                        @if(!$profile?->full_name && !$profile?->field && !$profile?->location && !$profile?->contact_email)
+                            <p class="about-copy mb-0">Thông tin cá nhân đang được cập nhật.</p>
+                        @endif
+                    </aside>
+                </div>
             </div>
-
         </div>
-
     </section>
 
-
-    <!-- INTERESTS -->
+    <section class="about-section about-section-alt">
+        <div class="container">
+            <div class="mb-4">
+                <span class="about-eyebrow mb-3">02 / ĐỊNH HƯỚNG</span>
+                <h2 class="about-section-heading">Mục tiêu nghề nghiệp</h2>
+            </div>
+            <article class="about-panel about-goal">
+                <h3 class="about-panel-title"><span class="about-panel-icon"><i class="bi bi-bullseye"></i></span>Điều tôi đang hướng đến</h3>
+                <div class="about-copy">{{ $profile?->career_goal ?: 'Tôi mong muốn phát triển kiến thức chuyên môn, tích lũy kinh nghiệm thực tế và trở thành một lập trình viên có năng lực trong tương lai.' }}</div>
+            </article>
+        </div>
+    </section>
 
     <section class="about-section">
-
-        <div class="text-center mb-5">
-
-            <span class="section-label">
-                MY INTERESTS
-            </span>
-
-            <h2 class="section-title">
-                Lĩnh vực tôi quan tâm
-            </h2>
-
-            <p class="section-description">
-                Những lĩnh vực công nghệ
-                tôi đang tìm hiểu và phát triển.
-            </p>
-
+        <div class="container">
+            <div class="about-cta text-center">
+                <span class="d-inline-block mb-3 text-white-50 fw-semibold">03 / KẾT NỐI</span>
+                <h2 class="mb-3">Cùng kết nối và trao đổi!</h2>
+                <p class="mb-4">Bạn muốn tìm hiểu thêm về dự án hoặc trao đổi về công nghệ? Hãy liên hệ với tôi.</p>
+                <div class="d-flex flex-wrap gap-3 justify-content-center">
+                    @if($profile?->github_url)
+                        <a class="about-social" href="{{ $profile->github_url }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-github"></i> GitHub</a>
+                    @endif
+                    @if($profile?->facebook_url)
+                        <a class="about-social" href="{{ $profile->facebook_url }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-facebook"></i> Facebook</a>
+                    @endif
+                    @if($profile?->linkedin_url)
+                        <a class="about-social" href="{{ $profile->linkedin_url }}" target="_blank" rel="noopener noreferrer"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                    @endif
+                    <a class="about-social about-social-primary" href="{{ route('contact') }}"><i class="bi bi-envelope"></i> Liên hệ ngay</a>
+                </div>
+            </div>
         </div>
-
-        <div class="row g-4">
-
-            <div class="col-md-6 col-lg-3">
-                <div class="interest-card">
-
-                    <div class="interest-icon">
-                        <i class="bi bi-code-slash"></i>
-                    </div>
-
-                    <h3>Web Development</h3>
-
-                    <p>
-                        Phát triển website bằng
-                        PHP, Laravel, HTML,
-                        CSS và JavaScript.
-                    </p>
-
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="interest-card">
-
-                    <div class="interest-icon">
-                        <i class="bi bi-database"></i>
-                    </div>
-
-                    <h3>Database</h3>
-
-                    <p>
-                        Thiết kế và quản lý
-                        cơ sở dữ liệu,
-                        đặc biệt là MySQL.
-                    </p>
-
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="interest-card">
-
-                    <div class="interest-icon">
-                        <i class="bi bi-bar-chart"></i>
-                    </div>
-
-                    <h3>Data Analysis</h3>
-
-                    <p>
-                        Khám phá dữ liệu,
-                        xây dựng biểu đồ
-                        và phân tích bằng Python.
-                    </p>
-
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-3">
-                <div class="interest-card">
-
-                    <div class="interest-icon">
-                        <i class="bi bi-bug"></i>
-                    </div>
-
-                    <h3>Software Testing</h3>
-
-                    <p>
-                        Tìm hiểu kiểm thử
-                        chức năng phần mềm,
-                        ghi nhận và xử lý lỗi.
-                    </p>
-
-                </div>
-            </div>
-
-        </div>
-
     </section>
-
-
-    <!-- LEARNING JOURNEY -->
-
-    <section class="about-section">
-
-        <div class="row align-items-center g-4">
-
-            <div class="col-lg-5">
-
-                <span class="section-label">
-                    MY JOURNEY
-                </span>
-
-                <h2 class="section-title">
-                    Hành trình học tập
-                </h2>
-
-                <p class="section-description">
-                    Tôi tin rằng việc học lập trình
-                    là một quá trình liên tục,
-                    cần kết hợp giữa lý thuyết
-                    và thực hành.
-                </p>
-
-                <p class="section-description">
-                    Mỗi dự án là cơ hội
-                    để áp dụng kiến thức,
-                    giải quyết vấn đề
-                    và hoàn thiện kỹ năng.
-                </p>
-
-                <a href="{{ url('/projects') }}"
-                   class="btn btn-outline-primary px-4 mt-2">
-
-                    Xem các dự án
-                    <i class="bi bi-arrow-right ms-2"></i>
-
-                </a>
-
-            </div>
-
-            <div class="col-lg-7">
-
-                <div class="journey-box">
-
-                    <div class="journey-item">
-
-                        <h3>
-                            <i class="bi bi-book me-2 text-primary"></i>
-                            Xây dựng nền tảng
-                        </h3>
-
-                        <p>
-                            Học kiến thức cơ bản
-                            về lập trình, thuật toán,
-                            cơ sở dữ liệu và
-                            phát triển phần mềm.
-                        </p>
-
-                    </div>
-
-                    <div class="journey-item">
-
-                        <h3>
-                            <i class="bi bi-laptop me-2 text-primary"></i>
-                            Thực hành dự án
-                        </h3>
-
-                        <p>
-                            Xây dựng ứng dụng web
-                            với Laravel, MySQL
-                            và các công nghệ liên quan.
-                        </p>
-
-                    </div>
-
-                    <div class="journey-item">
-
-                        <h3>
-                            <i class="bi bi-graph-up-arrow me-2 text-primary"></i>
-                            Phát triển kỹ năng
-                        </h3>
-
-                        <p>
-                            Tìm hiểu thêm về Python,
-                            phân tích dữ liệu,
-                            kiểm thử phần mềm
-                            và làm việc nhóm.
-                        </p>
-
-                    </div>
-
-                    <div class="journey-item">
-
-                        <h3>
-                            <i class="bi bi-rocket-takeoff me-2 text-primary"></i>
-                            Định hướng tương lai
-                        </h3>
-
-                        <p>
-                            Tiếp tục hoàn thiện
-                            kiến thức chuyên môn
-                            và tìm kiếm cơ hội
-                            áp dụng vào thực tế.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- STRENGTHS -->
-
-    <section class="about-section">
-
-        <div class="text-center mb-5">
-
-            <span class="section-label">
-                PERSONAL STRENGTHS
-            </span>
-
-            <h2 class="section-title">
-                Kỹ năng và điểm mạnh
-            </h2>
-
-            <p class="section-description">
-                Những kỹ năng tôi luôn
-                chú trọng rèn luyện.
-            </p>
-
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-md-6">
-
-                <div class="strength-card">
-
-                    <div class="strength-icon">
-                        <i class="bi bi-lightbulb"></i>
-                    </div>
-
-                    <div>
-                        <h3>Tư duy logic</h3>
-                        <p>
-                            Phân tích yêu cầu,
-                            tìm hiểu nguyên nhân
-                            và xây dựng giải pháp.
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-6">
-
-                <div class="strength-card">
-
-                    <div class="strength-icon">
-                        <i class="bi bi-people"></i>
-                    </div>
-
-                    <div>
-                        <h3>Làm việc nhóm</h3>
-                        <p>
-                            Trao đổi ý tưởng,
-                            phối hợp thực hiện
-                            và hỗ trợ thành viên.
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-6">
-
-                <div class="strength-card">
-
-                    <div class="strength-icon">
-                        <i class="bi bi-book"></i>
-                    </div>
-
-                    <div>
-                        <h3>Tinh thần tự học</h3>
-                        <p>
-                            Chủ động nghiên cứu
-                            tài liệu và thực hành
-                            các công nghệ mới.
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-6">
-
-                <div class="strength-card">
-
-                    <div class="strength-icon">
-                        <i class="bi bi-check2-circle"></i>
-                    </div>
-
-                    <div>
-                        <h3>Trách nhiệm</h3>
-                        <p>
-                            Chú trọng chất lượng,
-                            kiểm tra kết quả
-                            và hoàn thiện công việc.
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- CAREER GOALS -->
-
-    <section class="about-section">
-
-        <div class="text-center mb-5">
-
-            <span class="section-label">
-                CAREER GOALS
-            </span>
-
-            <h2 class="section-title">
-                Mục tiêu nghề nghiệp
-            </h2>
-
-        </div>
-
-        <div class="row g-4">
-
-            <div class="col-lg-6">
-
-                <div class="goal-card">
-
-                    <h3>
-                        <i class="bi bi-bullseye me-2"></i>
-                        Mục tiêu ngắn hạn
-                    </h3>
-
-                    <ul class="goal-list">
-
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>
-                                Củng cố kiến thức
-                                lập trình và cơ sở dữ liệu.
-                            </span>
-                        </li>
-
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>
-                                Nâng cao kỹ năng
-                                Laravel, PHP và MySQL.
-                            </span>
-                        </li>
-
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>
-                                Hoàn thiện các dự án
-                                để xây dựng Portfolio.
-                            </span>
-                        </li>
-
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>
-                                Tích lũy kinh nghiệm
-                                thông qua thực hành.
-                            </span>
-                        </li>
-
-                    </ul>
-
-                </div>
-
-            </div>
-
-            <div class="col-lg-6">
-
-                <div class="goal-card">
-
-                    <h3>
-                        <i class="bi bi-rocket-takeoff me-2"></i>
-                        Mục tiêu dài hạn
-                    </h3>
-
-                    <ul class="goal-list">
-
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>
-                                Phát triển năng lực
-                                chuyên môn trong lĩnh vực CNTT.
-                            </span>
-                        </li>
-
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>
-                                Tham gia xây dựng
-                                các sản phẩm phần mềm thực tế.
-                            </span>
-                        </li>
-
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>
-                                Tiếp tục cập nhật
-                                các công nghệ mới.
-                            </span>
-                        </li>
-
-                        <li>
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>
-                                Trở thành một thành viên
-                                có đóng góp tích cực
-                                trong đội ngũ phát triển.
-                            </span>
-                        </li>
-
-                    </ul>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- CTA -->
-
-    <section class="about-cta">
-
-        <h2>
-            Cùng kết nối và chia sẻ ý tưởng!
-        </h2>
-
-        <p>
-            Cảm ơn bạn đã tìm hiểu về tôi.
-            Hãy khám phá những dự án tôi đã thực hiện
-            hoặc liên hệ nếu bạn muốn trao đổi thêm.
-        </p>
-
-        <div class="d-flex flex-wrap gap-3 justify-content-center">
-
-            <a href="{{ url('/projects') }}"
-               class="btn btn-primary px-4 py-3">
-
-                <i class="bi bi-folder2-open me-2"></i>
-                Xem dự án
-
-            </a>
-
-            <a href="{{ url('/contact') }}"
-               class="btn btn-outline-light px-4 py-3">
-
-                <i class="bi bi-envelope me-2"></i>
-                Liên hệ
-
-            </a>
-
-        </div>
-
-    </section>
-
 </div>
-
 @endsection
