@@ -230,10 +230,11 @@
                     <a href="{{ route('contact') }}" class="btn btn-primary text-white px-4 py-2"><i class="bi bi-send me-2"></i>Gửi tin nhắn</a>
                 </div>
             </div>
-            <div class="footer-bottom d-flex flex-column flex-md-row justify-content-between gap-2">
-                <span>© {{ date('Y') }} Đỗ Quốc Việt. All rights reserved.</span>
-                <span>Built with <i class="bi bi-heart-fill text-danger"></i> Laravel &amp; Bootstrap</span>
-            </div>
+            
+<div class="footer-bottom d-flex justify-content-center text-center">
+    <span>Thiết kế và phát triển bởi Đỗ Quốc Việt</span>
+</div>
+
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
