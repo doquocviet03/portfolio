@@ -261,7 +261,7 @@ html[data-bs-theme="dark"] .contacts-page,html[data-theme="dark"] .contacts-page
 
                                 <td><div class="ct-subject">{{ \Illuminate\Support\Str::limit($contact->subject, 45) }}</div></td>
 
-                                <td class="text-nowrap"><span class="ct-muted small">{{  $contact->created_at?->timezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i') }}</span></td>
+                                <td class="text-nowrap"><span class="ct-muted small">{{ $contact->created_at?->timezone('Asia/Ho_Chi_Minh')->format('d/m/Y H:i') }}</span></td>
 
                                 <td>
 

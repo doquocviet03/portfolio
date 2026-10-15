@@ -1,144 +1,146 @@
 @extends('layouts.app')
 
-@section('title', 'Trang chủ | Portfolio')
-@section('meta_description', 'Portfolio cá nhân giới thiệu bản thân, kỹ năng lập trình, dự án Công nghệ thông tin và định hướng nghề nghiệp.')
+@section('title', 'Trang chủ | Đỗ Quốc Việt')
+@section('meta_description', 'Portfolio cá nhân: giới thiệu, kỹ năng, dự án và kinh nghiệm trong lĩnh vực công nghệ thông tin.')
 
 @push('styles')
 <style>
-/* HOME PAGE — scoped styles to avoid changing Admin and other pages */
-.portfolio-home { --home-accent:#3b82f6; --home-ink:#10213b; --home-muted:#64748b; --home-surface:#fff; --home-border:#e2e8f0; color:var(--home-ink); }
-.portfolio-home .home-hero { position:relative; overflow:hidden; padding:105px 0 95px; background:radial-gradient(ellipse at 82% 18%,rgba(59,130,246,.16),transparent 42%),linear-gradient(135deg,#f4f8ff,#fff 65%); }
-.portfolio-home .home-hero::before { content:""; position:absolute; inset:auto -8% -160px auto; width:380px; height:380px; border-radius:50%; background:rgba(99,102,241,.07); pointer-events:none; }
-.portfolio-home .home-eyebrow { display:inline-flex; align-items:center; gap:9px; border:1px solid rgba(59,130,246,.22); border-radius:100px; padding:9px 15px; color:#2563eb; background:rgba(59,130,246,.07); font-weight:700; font-size:.84rem; letter-spacing:.03em; }
-.portfolio-home .home-eyebrow .dot { width:8px; height:8px; border-radius:50%; background:#22c55e; box-shadow:0 0 0 4px rgba(34,197,94,.12); }
-.portfolio-home .home-heading { margin:24px 0 15px; font-size:clamp(2.55rem,5.2vw,4.6rem); line-height:1.12; letter-spacing:-.055em; font-weight:800; overflow-wrap:anywhere; }
-.portfolio-home .home-heading .gradient-text { background:linear-gradient(100deg,#2563eb,#7c3aed); -webkit-background-clip:text; background-clip:text; color:transparent; }
-.portfolio-home .home-role { color:#2563eb; font-size:clamp(1.12rem,2.1vw,1.5rem); font-weight:700; }
-.portfolio-home .home-description { color:var(--home-muted); font-size:1.06rem; line-height:1.9; max-width:630px; }
-.portfolio-home .home-btn { display:inline-flex; align-items:center; justify-content:center; gap:10px; border-radius:13px; padding:13px 23px; font-weight:700; text-decoration:none; transition:transform .2s,box-shadow .2s,background .2s; }
-.portfolio-home .home-btn:hover { transform:translateY(-3px); }
-.portfolio-home .home-btn-primary { background:linear-gradient(110deg,#2563eb,#4f46e5); color:#fff; box-shadow:0 12px 28px rgba(37,99,235,.2); }
-.portfolio-home .home-btn-primary:hover { color:#fff; box-shadow:0 16px 30px rgba(37,99,235,.28); }
-.portfolio-home .home-btn-secondary { color:var(--home-ink); border:1px solid var(--home-border); background:var(--home-surface); }
-.portfolio-home .home-btn-secondary:hover { color:#2563eb; border-color:#93c5fd; }
-.portfolio-home .home-social { display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; }
-.portfolio-home .home-social a { width:43px; height:43px; border:1px solid var(--home-border); border-radius:12px; display:inline-flex; justify-content:center; align-items:center; color:var(--home-ink); background:var(--home-surface); text-decoration:none; font-size:1.18rem; transition:all .2s; }
-.portfolio-home .home-social a:hover { color:#2563eb; border-color:#93c5fd; transform:translateY(-3px); }
-.portfolio-home .home-portrait-wrap { position:relative; max-width:405px; margin:auto; }
-.portfolio-home .home-portrait-glow { position:absolute; inset:12px; border-radius:40px; background:linear-gradient(135deg,#60a5fa,#8b5cf6); transform:rotate(7deg); opacity:.22; }
-.portfolio-home .home-portrait { position:relative; width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:35px; border:8px solid var(--home-surface); box-shadow:0 30px 75px rgba(30,64,175,.17); background:#dbeafe; }
-.portfolio-home .home-portrait-placeholder { position:relative; aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; border-radius:35px; border:8px solid var(--home-surface); background:linear-gradient(135deg,#dbeafe,#e9d5ff); font-size:8rem; color:#4f46e5; box-shadow:0 30px 75px rgba(30,64,175,.13); }
-.portfolio-home .home-floating-label { position:absolute; bottom:-18px; left:-18px; display:flex; gap:10px; align-items:center; padding:13px 18px; border:1px solid var(--home-border); background:var(--home-surface); color:var(--home-ink); border-radius:14px; box-shadow:0 15px 35px rgba(15,23,42,.12); font-weight:700; }
-.portfolio-home .home-floating-label i { color:#2563eb; font-size:1.35rem; }
-.portfolio-home .home-section { padding:90px 0; }
-.portfolio-home .home-section-alt { background:#f4f7fc; }
-.portfolio-home .home-section-kicker { display:block; color:#2563eb; text-transform:uppercase; letter-spacing:.14em; font-size:.77rem; font-weight:800; margin-bottom:12px; }
-.portfolio-home .home-section-title { font-size:clamp(1.9rem,3.4vw,2.6rem); font-weight:800; letter-spacing:-.035em; margin:0 0 15px; }
-.portfolio-home .home-section-desc { color:var(--home-muted); line-height:1.8; }
-.portfolio-home .home-panel { background:var(--home-surface); border:1px solid var(--home-border); border-radius:22px; padding:35px; box-shadow:0 16px 45px rgba(15,23,42,.035); }
-.portfolio-home .home-about-text { white-space:pre-line; color:var(--home-muted); font-size:1.06rem; line-height:2; }
-.portfolio-home .home-card { height:100%; background:var(--home-surface); border:1px solid var(--home-border); border-radius:20px; overflow:hidden; transition:transform .25s,box-shadow .25s,border-color .25s; }
-.portfolio-home .home-card:hover { transform:translateY(-6px); border-color:#bfdbfe; box-shadow:0 20px 40px rgba(15,23,42,.09); }
-.portfolio-home .home-skill-card { padding:28px; }
-.portfolio-home .home-skill-icon { display:flex; align-items:center; justify-content:center; width:56px; height:56px; border-radius:16px; color:#2563eb; background:linear-gradient(135deg,#dbeafe,#eef2ff); font-size:1.6rem; margin-bottom:20px; }
-.portfolio-home .home-skill-name { font-weight:750; font-size:1.15rem; margin-bottom:12px; }
-.portfolio-home .home-pill { display:inline-block; border:1px solid rgba(59,130,246,.16); border-radius:100px; padding:5px 12px; background:rgba(59,130,246,.08); color:#2563eb; font-size:.78rem; font-weight:700; }
-.portfolio-home .home-project-media { display:block; height:215px; overflow:hidden; background:linear-gradient(135deg,#dbeafe,#ede9fe); }
-.portfolio-home .home-project-media img { display:block; width:100%; height:100%; object-fit:cover; transition:transform .35s; }
-.portfolio-home .home-card:hover .home-project-media img { transform:scale(1.045); }
-.portfolio-home .home-project-placeholder { display:flex; height:100%; align-items:center; justify-content:center; color:#4f46e5; font-size:3.5rem; }
-.portfolio-home .home-project-body { padding:26px; }
-.portfolio-home .home-project-title { font-size:1.18rem; font-weight:800; margin-bottom:12px; }
-.portfolio-home .home-project-desc { color:var(--home-muted); line-height:1.8; min-height:55px; }
-.portfolio-home .home-tech { color:#2563eb; font-size:.87rem; line-height:1.7; overflow-wrap:anywhere; }
-.portfolio-home .home-inline-link { display:inline-flex; align-items:center; gap:9px; font-weight:750; text-decoration:none; color:#2563eb; }
-.portfolio-home .home-inline-link:hover { color:#1d4ed8; }
-.portfolio-home .home-timeline { position:relative; padding-left:32px; }
-.portfolio-home .home-timeline::before { content:""; position:absolute; left:9px; top:10px; bottom:10px; width:2px; background:#bfdbfe; }
-.portfolio-home .home-timeline-item { position:relative; background:var(--home-surface); border:1px solid var(--home-border); border-radius:17px; padding:24px 27px; margin-bottom:20px; }
-.portfolio-home .home-timeline-item::before { content:""; position:absolute; top:30px; left:-30px; width:14px; height:14px; background:#2563eb; border:3px solid #dbeafe; border-radius:50%; }
-.portfolio-home .home-timeline-item h3 { font-size:1.1rem; font-weight:800; }
-.portfolio-home .home-timeline-item p { color:var(--home-muted); line-height:1.8; white-space:pre-line; }
-.portfolio-home .home-contact-banner { border-radius:28px; padding:65px 35px; color:#fff; text-align:center; background:radial-gradient(circle at 15% 15%,rgba(255,255,255,.15),transparent 40%),linear-gradient(120deg,#1d4ed8,#4338ca); }
-.portfolio-home .home-contact-banner p { color:#dbeafe; }
-.portfolio-home .home-contact-banner .home-btn { background:#fff; color:#1d4ed8; }
-.portfolio-home .home-contact-banner .home-btn:hover { color:#1d4ed8; }
-.portfolio-home .home-empty { color:var(--home-muted); border:1px dashed var(--home-border); border-radius:18px; padding:35px; text-align:center; width:100%; }
-html[data-theme="dark"] .portfolio-home { --home-ink:#f1f5f9; --home-muted:#a8b7cb; --home-surface:#172438; --home-border:#334155; }
-html[data-theme="dark"] .portfolio-home .home-hero { background:radial-gradient(ellipse at 82% 18%,rgba(59,130,246,.19),transparent 45%),linear-gradient(135deg,#0b1220,#111d31); }
-html[data-theme="dark"] .portfolio-home .home-section-alt { background:#101b2d; }
-html[data-theme="dark"] .portfolio-home .home-eyebrow { color:#93c5fd; background:rgba(59,130,246,.13); }
-html[data-theme="dark"] .portfolio-home .home-role,html[data-theme="dark"] .portfolio-home .home-section-kicker,html[data-theme="dark"] .portfolio-home .home-tech,html[data-theme="dark"] .portfolio-home .home-inline-link { color:#93c5fd; }
-html[data-theme="dark"] .portfolio-home .home-pill { color:#93c5fd; }
-html[data-theme="dark"] .portfolio-home .home-social a:hover,html[data-theme="dark"] .portfolio-home .home-btn-secondary:hover { color:#93c5fd; }
-@media(max-width:991.98px){.portfolio-home .home-hero{padding:75px 0}.portfolio-home .home-portrait-wrap{max-width:330px;margin-top:30px}.portfolio-home .home-section{padding:65px 0}}
-@media(max-width:575.98px){.portfolio-home .home-hero{padding:55px 0 70px}.portfolio-home .home-heading{font-size:2.5rem}.portfolio-home .home-portrait-wrap{max-width:270px}.portfolio-home .home-floating-label{left:0;bottom:-13px;font-size:.8rem;padding:10px 12px}.portfolio-home .home-panel{padding:23px}.portfolio-home .home-contact-banner{padding:45px 22px}.portfolio-home .home-btn{padding:12px 17px}}
-@media(prefers-reduced-motion:reduce){.portfolio-home .home-card,.portfolio-home .home-btn,.portfolio-home .home-project-media img,.portfolio-home .home-social a{transition:none}.portfolio-home .home-card:hover,.portfolio-home .home-btn:hover,.portfolio-home .home-social a:hover{transform:none}}
+/* Chỉ áp dụng cho trang chủ, không ảnh hưởng Admin */
+.portfolio-home { --ph-bg:#081526; --ph-panel:#10243b; --ph-panel-2:#0c1d32; --ph-text:#f4f8ff; --ph-muted:#a5b9d2; --ph-line:#203c5b; --ph-blue:#2990ff; background:var(--ph-bg); color:var(--ph-text); }
+.portfolio-home a { text-decoration:none; }
+.portfolio-home .home-hero { position:relative; overflow:hidden; padding:95px 0 76px; background:radial-gradient(circle at 77% 22%,rgba(24,118,245,.20),transparent 38%),linear-gradient(135deg,#071426,#0b1d34); }
+.portfolio-home .home-hero:before { content:""; position:absolute; inset:0; pointer-events:none; background-image:linear-gradient(rgba(100,160,240,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(100,160,240,.035) 1px,transparent 1px); background-size:55px 55px; mask-image:linear-gradient(to bottom,black,transparent); }
+.portfolio-home .home-eyebrow { display:inline-flex; gap:9px; align-items:center; color:#83baff; font-weight:700; font-size:.84rem; letter-spacing:.08em; text-transform:uppercase; }
+.portfolio-home .home-eyebrow:before { content:""; width:8px; height:8px; border-radius:50%; background:#38d9a9; box-shadow:0 0 0 5px rgba(56,217,169,.12); }
+.portfolio-home .home-heading { font-size:clamp(2.5rem,5vw,4.65rem); line-height:1.14; font-weight:850; letter-spacing:-.055em; margin:24px 0 15px; }
+.portfolio-home .home-heading span { color:var(--ph-blue); }
+.portfolio-home .home-role { font-size:clamp(1.08rem,2vw,1.45rem); color:#d9e9ff; font-weight:700; margin-bottom:20px; }
+.portfolio-home .home-description { max-width:650px; color:var(--ph-muted); font-size:1.05rem; line-height:1.9; }
+.portfolio-home .home-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:29px; }
+.portfolio-home .home-btn { display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:13px 22px; border-radius:11px; font-weight:750; transition:transform .2s,background .2s,border-color .2s; }
+.portfolio-home .home-btn:hover { transform:translateY(-2px); }
+.portfolio-home .home-btn-primary { color:#fff; background:linear-gradient(120deg,#1675ee,#359dff); box-shadow:0 12px 30px rgba(21,107,235,.23); }
+.portfolio-home .home-btn-primary:hover { color:#fff; }
+.portfolio-home .home-btn-outline { color:#e7f1ff; border:1px solid #3a5877; background:rgba(255,255,255,.035); }
+.portfolio-home .home-btn-outline:hover { color:#fff; border-color:#63a6ff; }
+.portfolio-home .home-social { display:flex; gap:12px; margin-top:25px; }
+.portfolio-home .home-social a { width:42px; height:42px; display:grid; place-items:center; border:1px solid var(--ph-line); border-radius:11px; color:#c4dcf8; background:var(--ph-panel-2); font-size:1.15rem; }
+.portfolio-home .home-social a:hover { color:#fff; border-color:var(--ph-blue); }
+.portfolio-home .home-image-wrap { position:relative; max-width:470px; margin:auto; }
+.portfolio-home .home-image-wrap:before { content:""; position:absolute; inset:24px -14px -18px 24px; border-radius:26px; background:linear-gradient(135deg,rgba(41,144,255,.40),rgba(41,144,255,.06)); filter:blur(12px); }
+.portfolio-home .home-image { display:block; position:relative; width:100%; height:405px; object-fit:cover; border-radius:24px; border:1px solid #2d4c6b; box-shadow:0 25px 70px rgba(0,0,0,.27); }
+.portfolio-home .home-image-empty { position:relative; height:405px; display:grid; place-items:center; border:1px dashed #345675; border-radius:24px; background:linear-gradient(140deg,#102a48,#0b1a2c); color:#6faeff; font-size:7rem; }
+.portfolio-home .home-image-label { position:absolute; bottom:-15px; left:-15px; z-index:1; display:flex; align-items:center; gap:9px; padding:12px 17px; background:#102b49; border:1px solid #305476; border-radius:12px; color:#eaf3ff; font-size:.87rem; font-weight:700; }
+.portfolio-home .home-image-label i { color:#52a5ff; }
+.portfolio-home .home-stats { margin-top:74px; }
+.portfolio-home .home-stat { height:100%; text-align:center; padding:23px 12px; background:rgba(16,39,67,.88); border:1px solid #244362; border-radius:15px; }
+.portfolio-home .home-stat-number { display:block; font-size:clamp(1.65rem,2.5vw,2.15rem); line-height:1.3; font-weight:850; color:#62adff; }
+.portfolio-home .home-stat-label { color:#aec1d8; font-size:.84rem; margin-top:4px; }
+.portfolio-home .home-section { padding:78px 0; }
+.portfolio-home .home-section-alt { background:#0b1b2e; }
+.portfolio-home .home-kicker { color:#59a8ff; font-size:.78rem; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
+.portfolio-home .home-title { font-size:clamp(1.85rem,3.2vw,2.55rem); font-weight:800; letter-spacing:-.035em; margin:12px 0; }
+.portfolio-home .home-muted { color:var(--ph-muted); line-height:1.85; }
+.portfolio-home .home-panel,.portfolio-home .home-card { background:var(--ph-panel); border:1px solid var(--ph-line); border-radius:17px; }
+.portfolio-home .home-panel { padding:30px; }
+.portfolio-home .home-about-text { white-space:pre-line; }
+.portfolio-home .home-card { height:100%; overflow:hidden; transition:transform .22s,border-color .22s; }
+.portfolio-home .home-card:hover { transform:translateY(-5px); border-color:#4074a9; }
+.portfolio-home .home-skill-card { padding:25px; }
+.portfolio-home .home-skill-icon { width:49px; height:49px; display:grid; place-items:center; background:#17385d; color:#7bbaff; border-radius:12px; font-size:1.45rem; margin-bottom:17px; }
+.portfolio-home .home-skill-name { font-size:1.1rem; font-weight:750; }
+.portfolio-home .home-pill { display:inline-block; color:#9dccff; background:#173455; border-radius:100px; padding:5px 11px; font-size:.8rem; }
+.portfolio-home .home-project-image { display:block; height:195px; background:#183452; overflow:hidden; }
+.portfolio-home .home-project-image img { width:100%; height:100%; object-fit:cover; }
+.portfolio-home .home-project-placeholder { height:100%; display:grid; place-items:center; color:#70b3ff; font-size:3rem; }
+.portfolio-home .home-project-body { padding:24px; }
+.portfolio-home .home-project-title { font-size:1.13rem; font-weight:800; color:#fff; }
+.portfolio-home .home-tech { color:#7db9ff; font-size:.85rem; overflow-wrap:anywhere; }
+.portfolio-home .home-link { color:#71b6ff; font-weight:700; }
+.portfolio-home .home-link:hover { color:#fff; }
+.portfolio-home .home-timeline { border-left:2px solid #285784; padding-left:25px; }
+.portfolio-home .home-timeline-item { position:relative; padding:20px 24px; margin-bottom:16px; background:var(--ph-panel); border:1px solid var(--ph-line); border-radius:14px; }
+.portfolio-home .home-timeline-item:before { content:""; position:absolute; width:12px; height:12px; border-radius:50%; background:#2990ff; left:-32px; top:25px; }
+.portfolio-home .home-contact-banner { text-align:center; border-radius:22px; padding:55px 25px; border:1px solid #285583; background:linear-gradient(125deg,#10365f,#0e2748); }
+.portfolio-home .home-empty { border:1px dashed #3b5572; border-radius:13px; padding:24px; color:#a6bbd3; }
+html[data-theme="light"] .portfolio-home { --ph-bg:#f7faff; --ph-panel:#fff; --ph-panel-2:#fff; --ph-text:#14263f; --ph-muted:#5f7085; --ph-line:#dce5f0; }
+html[data-theme="light"] .portfolio-home .home-hero { background:radial-gradient(circle at 77% 22%,rgba(24,118,245,.12),transparent 40%),#f5f9ff; }
+html[data-theme="light"] .portfolio-home .home-role,html[data-theme="light"] .portfolio-home .home-project-title { color:#19314e; }
+html[data-theme="light"] .portfolio-home .home-btn-outline { color:#1a3657; border-color:#c8d8e9; }
+html[data-theme="light"] .portfolio-home .home-section-alt { background:#edf4fc; }
+html[data-theme="light"] .portfolio-home .home-stat { background:#fff; border-color:#d7e5f5; }
+html[data-theme="light"] .portfolio-home .home-stat-label { color:#5e7188; }
+html[data-theme="light"] .portfolio-home .home-image-label { background:#fff; color:#18334f; }
+html[data-theme="light"] .portfolio-home .home-social a { color:#29547e; }
+html[data-theme="light"] .portfolio-home .home-timeline-item { background:#fff; }
+@media(max-width:991.98px) { .portfolio-home .home-hero { padding:65px 0; } .portfolio-home .home-image-wrap { margin-top:35px; max-width:420px; } .portfolio-home .home-stats { margin-top:65px; } }
+@media(max-width:575.98px) { .portfolio-home .home-heading { font-size:2.65rem; } .portfolio-home .home-image,.portfolio-home .home-image-empty { height:305px; } .portfolio-home .home-image-label { left:5px; } .portfolio-home .home-section { padding:55px 0; } .portfolio-home .home-panel { padding:22px; } }
+@media(prefers-reduced-motion:reduce) { .portfolio-home .home-card,.portfolio-home .home-btn { transition:none; } }
 </style>
 @endpush
 
 @section('content')
 <div class="portfolio-home">
-    {{-- HERO --}}
     <section class="home-hero">
         <div class="container position-relative">
             <div class="row align-items-center g-5">
                 <div class="col-lg-7">
-                    <span class="home-eyebrow"><span class="dot"></span> CHÀO MỪNG ĐẾN VỚI PORTFOLIO</span>
-                    <h1 class="home-heading">Xin chào, tôi là<br><span class="gradient-text">{{ $profile?->full_name ?: 'Tên của bạn' }}</span></h1>
-                    <p class="home-role mb-3"><i class="bi bi-code-slash me-2"></i>{{ $profile?->job_title ?: 'Web Developer' }}</p>
-                    <p class="home-description">{{ $profile?->short_bio ?: 'Chào mừng bạn đến với website Portfolio cá nhân của tôi. Đây là nơi giới thiệu những kỹ năng, dự án và kinh nghiệm của tôi.' }}</p>
-                    <div class="d-flex flex-wrap gap-3 mt-4">
-                        <a href="{{ route('projects') }}" class="home-btn home-btn-primary"><i class="bi bi-grid-1x2"></i> Khám phá dự án <i class="bi bi-arrow-up-right"></i></a>
-                        <a href="{{ route('contact') }}" class="home-btn home-btn-secondary"><i class="bi bi-chat-dots"></i> Liên hệ với tôi</a>
-                        @if($profile?->cv_path && Route::has('cv.download'))
-                            <a href="{{ route('cv.download') }}" class="home-btn home-btn-secondary"><i class="bi bi-file-earmark-arrow-down"></i> Tải CV PDF</a>
+                    <span class="home-eyebrow">Chào mừng đến với Portfolio</span>
+                    <h1 class="home-heading">Xin chào, tôi là<br><span>{{ $profile?->full_name ?: 'Đỗ Quốc Việt' }}</span></h1>
+                    <p class="home-role"><i class="bi bi-code-slash me-2"></i>{{ $profile?->job_title ?: 'Lập trình viên Công nghệ thông tin' }}</p>
+                    <p class="home-description">{{ $profile?->short_bio ?: 'Tôi yêu thích lập trình, công nghệ và luôn mong muốn học hỏi, phát triển bản thân thông qua các dự án thực tế.' }}</p>
+                    <div class="home-actions">
+                        <a class="home-btn home-btn-primary" href="{{ route('projects') }}"><i class="bi bi-grid"></i> Xem dự án <i class="bi bi-arrow-up-right"></i></a>
+                        @if(Route::has('cv.download') && $profile?->cv_path)
+                            <a class="home-btn home-btn-outline" href="{{ route('cv.download') }}"><i class="bi bi-download"></i> Tải CV</a>
+                        @else
+                            <a class="home-btn home-btn-outline" href="{{ route('contact') }}"><i class="bi bi-envelope"></i> Liên hệ</a>
                         @endif
                     </div>
                     <div class="home-social">
-                        @if($profile?->github_url)<a href="{{ $profile->github_url }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub"><i class="bi bi-github"></i></a>@endif
-                        @if($profile?->linkedin_url)<a href="{{ $profile->linkedin_url }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn"><i class="bi bi-linkedin"></i></a>@endif
-                        @if($profile?->facebook_url)<a href="{{ $profile->facebook_url }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook"><i class="bi bi-facebook"></i></a>@endif
+                        @if($profile?->github_url)<a href="{{ $profile->github_url }}" target="_blank" rel="noopener noreferrer" title="GitHub" aria-label="GitHub"><i class="bi bi-github"></i></a>@endif
+                        @if($profile?->linkedin_url)<a href="{{ $profile->linkedin_url }}" target="_blank" rel="noopener noreferrer" title="LinkedIn" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>@endif
+                        @if($profile?->facebook_url)<a href="{{ $profile->facebook_url }}" target="_blank" rel="noopener noreferrer" title="Facebook" aria-label="Facebook"><i class="bi bi-facebook"></i></a>@endif
                     </div>
                 </div>
                 <div class="col-lg-5">
-                    <div class="home-portrait-wrap">
-                        <div class="home-portrait-glow"></div>
+                    <div class="home-image-wrap">
                         @if($profile?->avatar)
-                            <img class="home-portrait" src="{{ asset('storage/' . $profile->avatar) }}" alt="Ảnh đại diện của {{ $profile->full_name ?: 'chủ Portfolio' }}" fetchpriority="high" decoding="async">
+                            <img class="home-image" src="{{ asset('storage/' . $profile->avatar) }}" alt="Ảnh của {{ $profile->full_name ?: 'chủ Portfolio' }}" fetchpriority="high">
                         @else
-                            <div class="home-portrait-placeholder"><i class="bi bi-person"></i></div>
+                            <div class="home-image-empty"><i class="bi bi-person-workspace"></i></div>
                         @endif
-                        <div class="home-floating-label"><i class="bi bi-stars"></i> Đam mê công nghệ</div>
+                        <div class="home-image-label"><i class="bi bi-stars"></i> Đam mê công nghệ</div>
                     </div>
                 </div>
+            </div>
+            <div class="row g-3 home-stats">
+                <div class="col-6 col-lg-3"><div class="home-stat"><span class="home-stat-number">{{ $projects->count() }}+</span><div class="home-stat-label">Dự án nổi bật</div></div></div>
+                <div class="col-6 col-lg-3"><div class="home-stat"><span class="home-stat-number">{{ $skills->count() }}+</span><div class="home-stat-label">Kỹ năng & công nghệ</div></div></div>
+                <div class="col-6 col-lg-3"><div class="home-stat"><span class="home-stat-number">{{ $experiences->count() }}+</span><div class="home-stat-label">Kinh nghiệm</div></div></div>
+                <div class="col-6 col-lg-3"><div class="home-stat"><span class="home-stat-number">{{ date('Y') }}</span><div class="home-stat-label">Năm hiện tại</div></div></div>
             </div>
         </div>
     </section>
 
-    {{-- ABOUT --}}
     <section class="home-section">
         <div class="container">
             <div class="row align-items-center g-4">
                 <div class="col-lg-4">
-                    <span class="home-section-kicker">01 / VỀ TÔI</span>
-                    <h2 class="home-section-title">Một chút về bản thân</h2>
-                    <p class="home-section-desc">Tìm hiểu về hành trình học tập, sở thích và định hướng phát triển của tôi.</p>
-                    <a href="{{ route('about') }}" class="home-inline-link">Khám phá thêm <i class="bi bi-arrow-right"></i></a>
+                    <h2 class="home-title">Một chút về bản thân</h2>
+                    <p class="home-muted">Tìm hiểu về hành trình học tập, định hướng và niềm yêu thích công nghệ của tôi.</p>
+                    <a class="home-link" href="{{ route('about') }}">Xem giới thiệu <i class="bi bi-arrow-right ms-1"></i></a>
                 </div>
-                <div class="col-lg-8">
-                    <div class="home-panel"><p class="home-about-text mb-0">{{ $profile?->about_me ?: 'Tôi yêu thích công nghệ, lập trình và luôn mong muốn học hỏi những kiến thức mới để phát triển bản thân.' }}</p></div>
-                </div>
+                <div class="col-lg-8"><div class="home-panel"><p class="home-muted home-about-text mb-0">{{ $profile?->about_me ?: 'Tôi luôn mong muốn trau dồi kiến thức, tham gia các dự án thực tế và phát triển kỹ năng trong lĩnh vực công nghệ thông tin.' }}</p></div></div>
             </div>
         </div>
     </section>
 
-    {{-- SKILLS --}}
     <section class="home-section home-section-alt">
         <div class="container">
-            <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-5">
-                <div><span class="home-section-kicker">02 / CHUYÊN MÔN</span><h2 class="home-section-title">Kỹ năng nổi bật</h2><p class="home-section-desc mb-0">Những kỹ năng và công nghệ tôi đang sử dụng, phát triển.</p></div>
-                <a href="{{ route('skills') }}" class="home-inline-link">Tất cả kỹ năng <i class="bi bi-arrow-right"></i></a>
+            <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+                <div><h2 class="home-title">Kỹ năng nổi bật</h2><p class="home-muted mb-0">Những công nghệ và kỹ năng tôi đang học tập, sử dụng.</p></div>
+                <a class="home-link" href="{{ route('skills') }}">Tất cả kỹ năng <i class="bi bi-arrow-right"></i></a>
             </div>
             <div class="row g-4">
                 @forelse($skills as $skill)
@@ -150,29 +152,24 @@ html[data-theme="dark"] .portfolio-home .home-social a:hover,html[data-theme="da
         </div>
     </section>
 
-    {{-- PROJECTS --}}
     <section class="home-section">
         <div class="container">
-            <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-5">
-                <div><span class="home-section-kicker">03 / SẢN PHẨM</span><h2 class="home-section-title">Dự án nổi bật</h2><p class="home-section-desc mb-0">Một số sản phẩm và dự án tôi đã thực hiện.</p></div>
-                <a href="{{ route('projects') }}" class="home-inline-link">Xem tất cả dự án <i class="bi bi-arrow-right"></i></a>
+            <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
+                <div><h2 class="home-title">Dự án nổi bật</h2><p class="home-muted mb-0">Một số dự án và sản phẩm tôi đã thực hiện.</p></div>
+                <a class="home-link" href="{{ route('projects') }}">Xem tất cả <i class="bi bi-arrow-right"></i></a>
             </div>
             <div class="row g-4">
                 @forelse($projects as $project)
                     <div class="col-md-6 col-lg-4">
                         <article class="home-card">
-                            <a class="home-project-media" href="{{ route('projects.show', $project) }}" aria-label="Xem dự án {{ $project->title }}">
-                                @if($project->image)
-                                    <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}" loading="lazy" decoding="async">
-                                @else
-                                    <span class="home-project-placeholder"><i class="bi bi-folder2-open"></i></span>
-                                @endif
+                            <a class="home-project-image" href="{{ route('projects.show', $project) }}" aria-label="Xem dự án {{ $project->title }}">
+                                @if($project->image)<img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}" loading="lazy">@else<span class="home-project-placeholder"><i class="bi bi-folder2-open"></i></span>@endif
                             </a>
                             <div class="home-project-body">
                                 <h3 class="home-project-title">{{ $project->title }}</h3>
-                                <p class="home-project-desc">{{ \Illuminate\Support\Str::limit($project->description, 125) }}</p>
-                                @if($project->technologies)<p class="home-tech mb-3"><i class="bi bi-code-slash me-1"></i>{{ \Illuminate\Support\Str::limit($project->technologies, 90) }}</p>@endif
-                                <a href="{{ route('projects.show', $project) }}" class="home-inline-link">Chi tiết dự án <i class="bi bi-arrow-up-right"></i></a>
+                                <p class="home-muted">{{ \Illuminate\Support\Str::limit($project->description, 125) }}</p>
+                                @if($project->technologies)<p class="home-tech"><i class="bi bi-code-slash me-1"></i>{{ \Illuminate\Support\Str::limit($project->technologies, 90) }}</p>@endif
+                                <a class="home-link" href="{{ route('projects.show', $project) }}">Chi tiết dự án <i class="bi bi-arrow-up-right"></i></a>
                             </div>
                         </article>
                     </div>
@@ -183,22 +180,13 @@ html[data-theme="dark"] .portfolio-home .home-social a:hover,html[data-theme="da
         </div>
     </section>
 
-    {{-- EXPERIENCE --}}
     <section class="home-section home-section-alt">
         <div class="container">
-            <div class="row g-5">
-                <div class="col-lg-4"><span class="home-section-kicker">04 / HÀNH TRÌNH</span><h2 class="home-section-title">Kinh nghiệm</h2><p class="home-section-desc">Quá trình học tập, làm việc và những điều tôi tích lũy được.</p><a href="{{ route('experience') }}" class="home-inline-link">Xem chi tiết <i class="bi bi-arrow-right"></i></a></div>
+            <div class="row g-4">
+                <div class="col-lg-4"><h2 class="home-title">Kinh nghiệm</h2><p class="home-muted">Quá trình học tập, làm việc và những điều tôi tích lũy được.</p><a class="home-link" href="{{ route('experience') }}">Xem chi tiết <i class="bi bi-arrow-right"></i></a></div>
                 <div class="col-lg-8"><div class="home-timeline">
                     @forelse($experiences as $experience)
-                        <article class="home-timeline-item">
-                            <h3>{{ $experience->title }}</h3>
-                            @if($experience->company)
-                                <p class="home-tech fw-semibold mb-2">{{ $experience->company }}</p>
-                            @endif
-                            @if($experience->description)
-                                <p class="mb-0">{{ $experience->description }}</p>
-                            @endif
-                        </article>
+                        <article class="home-timeline-item"><h3 class="h5 fw-bold">{{ $experience->title }}</h3>@if($experience->company)<p class="home-tech mb-2">{{ $experience->company }}</p>@endif @if($experience->description)<p class="home-muted mb-0" style="white-space:pre-line">{{ $experience->description }}</p>@endif</article>
                     @empty
                         <div class="home-empty">Chưa có thông tin kinh nghiệm.</div>
                     @endforelse
@@ -207,9 +195,8 @@ html[data-theme="dark"] .portfolio-home .home-social a:hover,html[data-theme="da
         </div>
     </section>
 
-    {{-- CONTACT --}}
     <section class="home-section">
-        <div class="container"><div class="home-contact-banner"><span class="text-uppercase fw-bold small" style="letter-spacing:.14em">CÙNG KẾT NỐI</span><h2 class="home-section-title mt-3 text-white">Bạn có ý tưởng muốn trao đổi?</h2><p class="mb-4">Hãy liên hệ để cùng chia sẻ về công nghệ, dự án và cơ hội hợp tác.</p><a href="{{ route('contact') }}" class="home-btn"><i class="bi bi-send"></i> Gửi lời nhắn <i class="bi bi-arrow-right"></i></a></div></div>
+        <div class="container"><div class="home-contact-banner"><span class="home-kicker">Cùng kết nối</span><h2 class="home-title">Bạn có ý tưởng muốn trao đổi?</h2><p class="home-muted mb-4">Hãy liên hệ để cùng chia sẻ về công nghệ, dự án và cơ hội hợp tác.</p><a class="home-btn home-btn-primary" href="{{ route('contact') }}"><i class="bi bi-send"></i> Gửi lời nhắn</a></div></div>
     </section>
 </div>
 @endsection

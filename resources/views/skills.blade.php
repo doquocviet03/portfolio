@@ -1,288 +1,465 @@
+
 @extends('layouts.app')
 
-@section('title', 'Kỹ năng | Portfolio')
-@section('meta_description', 'Khám phá kỹ năng lập trình, công nghệ sử dụng và kỹ năng phát triển phần mềm.')
+@section('title', 'Kỹ năng | Đỗ Quốc Việt')
 
 @push('styles')
 <style>
-    .skills-modern {
-        --sk-surface: #ffffff;
-        --sk-text: #0f172a;
-        --sk-muted: #64748b;
-        --sk-border: #e2e8f0;
-        --sk-soft: #f1f5f9;
-        --sk-accent: #2563eb;
-        color: var(--sk-text);
+    .skills-v5 {
+        padding: 70px 0 90px;
+        color: var(--bs-body-color);
     }
-    html[data-theme="dark"] .skills-modern,
-    html[data-bs-theme="dark"] .skills-modern {
-        --sk-surface: #111c30;
-        --sk-text: #f1f5f9;
-        --sk-muted: #a6b5cb;
-        --sk-border: #30415c;
-        --sk-soft: #192943;
-        --sk-accent: #93c5fd;
-    }
-    .skills-modern .sk-hero {
-        margin: 30px 0 65px;
-        padding: clamp(52px, 8vw, 95px) 24px;
-        border-radius: 28px;
-        position: relative;
-        overflow: hidden;
+
+    .skills-v5 .sk-hero {
         text-align: center;
-        color: #fff;
-        background: radial-gradient(circle at 85% 12%, rgba(96,165,250,.28), transparent 35%),
-                    linear-gradient(120deg, #0b1220, #172554 60%, #312e81);
+        margin-bottom: 65px;
     }
-    .skills-modern .sk-hero > * { position: relative; z-index: 1; }
-    .skills-modern .sk-eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        border: 1px solid rgba(191,219,254,.35);
-        border-radius: 99px;
-        background: rgba(255,255,255,.09);
-        padding: 8px 17px;
-        color: #bfdbfe;
+
+    .skills-v5 .sk-kicker {
+        display: inline-block;
+        color: #6366f1;
+        font-size: 13px;
         font-weight: 700;
-        font-size: 12px;
-        letter-spacing: .12em;
+        letter-spacing: 1.5px;
         text-transform: uppercase;
+        margin-bottom: 12px;
     }
-    .skills-modern .sk-hero h1 {
-        margin: 22px 0 16px;
-        font-size: clamp(34px, 5vw, 58px);
-        font-weight: 850;
-        letter-spacing: -.035em;
+
+    .skills-v5 .sk-title {
+        font-size: clamp(32px, 5vw, 52px);
+        font-weight: 800;
+        margin-bottom: 20px;
     }
-    .skills-modern .sk-hero p {
-        max-width: 680px;
+
+    .skills-v5 .sk-lead {
+        max-width: 750px;
         margin: 0 auto;
-        color: #cbd5e1;
-        line-height: 1.85;
+        color: var(--bs-secondary-color);
+        line-height: 1.8;
         font-size: 16px;
     }
-    .skills-modern .sk-section { padding-bottom: 78px; }
-    .skills-modern .sk-heading {
+
+    .skills-v5 .sk-section {
+        margin-bottom: 75px;
+    }
+
+    .skills-v5 .sk-section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .skills-v5 .sk-section-title {
+        font-size: 28px;
         font-weight: 800;
-        font-size: clamp(25px, 3vw, 34px);
-        color: var(--sk-text);
-        letter-spacing: -.025em;
         margin-bottom: 10px;
     }
-    .skills-modern .sk-muted { color: var(--sk-muted); }
-    .skills-modern .sk-count {
-        border: 1px solid var(--sk-border);
-        background: var(--sk-soft);
-        color: var(--sk-text);
-        border-radius: 99px;
-        padding: 9px 17px;
-        font-weight: 700;
-        font-size: 13px;
+
+    .skills-v5 .sk-subtitle {
+        color: var(--bs-secondary-color);
+        margin: 0;
     }
-    .skills-modern .sk-card {
-        background: var(--sk-surface);
-        border: 1px solid var(--sk-border);
-        border-radius: 22px;
-        padding: 27px;
+
+    .skills-v5 .sk-count {
+        white-space: nowrap;
+        padding: 10px 16px;
+        border-radius: 50px;
+        background: rgba(99, 102, 241, 0.1);
+        color: #6366f1;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .skills-v5 .sk-card {
         height: 100%;
-        box-shadow: 0 8px 28px rgba(15,23,42,.035);
-        transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+        padding: 28px;
+        border-radius: 20px;
+        border: 1px solid var(--bs-border-color);
+        background: var(--bs-body-bg);
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.035);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .skills-modern .sk-card:hover {
-        transform: translateY(-5px);
-        border-color: #60a5fa;
-        box-shadow: 0 18px 42px rgba(37,99,235,.12);
+
+    .skills-v5 .sk-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 35px rgba(99, 102, 241, 0.12);
     }
-    .skills-modern .sk-icon {
-        width: 57px;
-        height: 57px;
+
+    .skills-v5 .sk-icon {
+        width: 62px;
+        height: 62px;
         display: inline-flex;
         justify-content: center;
         align-items: center;
-        border-radius: 17px;
-        background: linear-gradient(135deg, #dbeafe, #e0e7ff);
-        color: #1d4ed8;
-        font-size: 26px;
-        flex-shrink: 0;
+        border-radius: 16px;
+        background: rgba(99, 102, 241, 0.09);
+        color: #6366f1;
+        font-size: 30px;
+        margin-bottom: 22px;
     }
-    .skills-modern .sk-card h3 {
-        font-size: 19px;
-        font-weight: 750;
-        margin: 22px 0 9px;
-        overflow-wrap: anywhere;
-        color: var(--sk-text);
+
+    .skills-v5 .sk-icon img {
+        width: 38px;
+        height: 38px;
+        object-fit: contain;
     }
-    .skills-modern .sk-level {
-        display: inline-block;
-        border-radius: 8px;
-        padding: 5px 10px;
-        background: var(--sk-soft);
-        color: var(--sk-accent);
-        font-size: 13px;
+
+    .skills-v5 .sk-card h3 {
+        font-size: 20px;
         font-weight: 700;
+        margin-bottom: 12px;
     }
-    .skills-modern .sk-progress {
-        margin-top: 19px;
-        background: var(--sk-soft);
-        height: 9px;
-        border-radius: 99px;
+
+    .skills-v5 .sk-description {
+        color: var(--bs-secondary-color);
+        font-size: 14px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .skills-v5 .sk-level {
+        padding: 6px 12px;
+        border-radius: 10px;
+        background: rgba(99, 102, 241, 0.1);
+        color: #6366f1;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .skills-v5 .sk-track {
+        width: 100%;
+        height: 8px;
+        background: rgba(99, 102, 241, 0.12);
+        border-radius: 50px;
         overflow: hidden;
+        margin-top: 20px;
     }
-    .skills-modern .sk-progress-fill {
+
+    .skills-v5 .sk-fill {
         height: 100%;
+        background: linear-gradient(90deg, #6366f1, #8b5cf6);
         border-radius: inherit;
-        background: linear-gradient(90deg, #2563eb, #8b5cf6);
     }
-    .skills-modern .sk-progress-note {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        margin-top: 10px;
-        font-size: 12px;
-        color: var(--sk-muted);
-    }
-    .skills-modern .sk-info-card h3 { font-size: 18px; margin-top: 20px; }
-    .skills-modern .sk-info-card p { color: var(--sk-muted); line-height: 1.8; margin: 0; }
-    .skills-modern .sk-empty {
-        border: 1px dashed var(--sk-border);
-        border-radius: 22px;
-        padding: 60px 25px;
+
+    .skills-v5 .sk-empty {
+        padding: 35px;
+        border: 1px dashed var(--bs-border-color);
+        border-radius: 18px;
         text-align: center;
-        color: var(--sk-muted);
-        background: var(--sk-surface);
+        color: var(--bs-secondary-color);
     }
-    .skills-modern .sk-cta {
-        padding: clamp(35px, 6vw, 65px);
-        border-radius: 26px;
-        background: linear-gradient(125deg, #172554, #312e81);
+
+    .skills-v5 .sk-cta {
+        padding: 55px 25px;
         text-align: center;
+        border-radius: 25px;
         color: #fff;
-        margin-bottom: 55px;
+        background: linear-gradient(135deg, #4f46e5, #7c3aed);
     }
-    .skills-modern .sk-cta h2 { font-weight: 800; }
-    .skills-modern .sk-cta p { color: #dbeafe; }
-    .skills-modern .sk-cta .btn-light { color: #172554; font-weight: 700; }
-    .skills-modern .sk-cta .btn-outline-light { font-weight: 700; }
-    @media (max-width: 767.98px) {
-        .skills-modern .sk-hero { margin-top: 18px; margin-bottom: 45px; border-radius: 19px; }
-        .skills-modern .sk-section { padding-bottom: 55px; }
-        .skills-modern .sk-card { padding: 23px; }
+
+    .skills-v5 .sk-cta h2 {
+        font-weight: 800;
     }
-    @media (prefers-reduced-motion: reduce) {
-        .skills-modern .sk-card { transition: none; }
-        .skills-modern .sk-card:hover { transform: none; }
+
+    .skills-v5 .sk-cta p {
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    .skills-v5 .sk-cta .btn {
+        padding: 11px 22px;
+        border-radius: 12px;
+        font-weight: 600;
+    }
+
+    @media (max-width: 767px) {
+        .skills-v5 {
+            padding: 45px 0 65px;
+        }
+
+        .skills-v5 .sk-section-head {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .skills-v5 .sk-section-title {
+            font-size: 24px;
+        }
+
+        .skills-v5 .sk-card {
+            padding: 22px;
+        }
     }
 </style>
 @endpush
 
 @section('content')
-<div class="container skills-modern">
-    <header class="sk-hero">
-        <span class="sk-eyebrow"><i class="bi bi-stars"></i> Skills & Expertise</span>
-        <h1>Kỹ năng của tôi</h1>
-        <p>Những công nghệ, kiến thức chuyên môn và kỹ năng tôi đang sử dụng,
-           rèn luyện và phát triển qua học tập cùng các dự án thực tế.</p>
-    </header>
 
-    <section class="sk-section" aria-labelledby="skills-title">
-        <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
-            <div>
-                <h2 id="skills-title" class="sk-heading">Kỹ năng chuyên môn</h2>
-                <p class="sk-muted mb-0">Danh sách kỹ năng được cập nhật từ hệ thống quản trị.</p>
+@php
+    $techLogos = [
+        'php' => 'php/php-original.svg',
+        'laravel' => 'laravel/laravel-original.svg',
+        'python' => 'python/python-original.svg',
+        'mysql' => 'mysql/mysql-original.svg',
+        'html' => 'html5/html5-original.svg',
+        'html5' => 'html5/html5-original.svg',
+        'css' => 'css3/css3-original.svg',
+        'css3' => 'css3/css3-original.svg',
+        'javascript' => 'javascript/javascript-original.svg',
+        'bootstrap' => 'bootstrap/bootstrap-original.svg',
+        'git' => 'git/git-original.svg',
+        'github' => 'github/github-original.svg',
+        'java' => 'java/java-original.svg',
+        'flutter' => 'flutter/flutter-original.svg',
+        'dart' => 'dart/dart-original.svg',
+        'react' => 'react/react-original.svg',
+        'vue' => 'vuejs/vuejs-original.svg',
+        'node.js' => 'nodejs/nodejs-original.svg',
+        'c++' => 'cplusplus/cplusplus-original.svg',
+        'c#' => 'csharp/csharp-original.svg',
+    ];
+
+    $programmingSkills = $programmingSkills ?? collect();
+    $personalSkills = $personalSkills ?? collect();
+@endphp
+
+<div class="skills-v5">
+    <div class="container">
+
+        <header class="sk-hero">
+
+            <h1 class="sk-title">Kỹ năng của tôi</h1>
+
+            <p class="sk-lead">
+                Những công nghệ, kiến thức chuyên môn và kỹ năng cá nhân
+                tôi đang rèn luyện trong quá trình học tập và thực hiện dự án.
+            </p>
+        </header>
+
+        {{-- KỸ NĂNG LẬP TRÌNH --}}
+        <section class="sk-section" aria-labelledby="technical-title">
+
+            <div class="sk-section-head">
+                <div>
+                    <h2 id="technical-title" class="sk-section-title">
+                        Kỹ năng lập trình
+                    </h2>
+
+                    <p class="sk-subtitle">
+                        Ngôn ngữ lập trình, framework, cơ sở dữ liệu và công cụ.
+                    </p>
+                </div>
+
+                <span class="sk-count">
+                    <i class="bi bi-grid-3x3-gap me-2"></i>
+                    {{ $programmingSkills->count() }} kỹ năng
+                </span>
             </div>
-            <span class="sk-count"><i class="bi bi-grid-3x3-gap me-2"></i>{{ $skills->count() }} kỹ năng</span>
-        </div>
 
-        <div class="row g-4">
-            @forelse($skills as $skill)
-                @php
-                    $rawLevel = $skill->level;
-                    $hasNumericLevel = is_numeric($rawLevel);
-                    $numericLevel = $hasNumericLevel ? max(0, min(100, (float) $rawLevel)) : null;
-                @endphp
-                <div class="col-md-6 col-lg-4">
-                    <article class="sk-card">
-                        <div class="d-flex justify-content-between align-items-start gap-2">
-                            <span class="sk-icon"><i class="bi bi-code-square"></i></span>
-                            @if($hasNumericLevel)
-                                <span class="sk-level">{{ round($numericLevel) }}%</span>
-                            @elseif(filled($rawLevel))
-                                <span class="sk-level">{{ $rawLevel }}</span>
+            <div class="row g-4">
+
+                @forelse($programmingSkills as $skill)
+
+                    @php
+                        $skillName = mb_strtolower(trim((string) $skill->name));
+
+                        $logoPath = $techLogos[$skillName] ?? null;
+
+                        $uploadedIcon = !empty($skill->icon)
+                            ? (
+                                filter_var($skill->icon, FILTER_VALIDATE_URL)
+                                    ? $skill->icon
+                                    : asset('storage/' . ltrim($skill->icon, '/'))
+                            )
+                            : null;
+
+                        $numericLevel = is_numeric($skill->level)
+                            ? max(0, min(100, (int) $skill->level))
+                            : null;
+                    @endphp
+
+                    <div class="col-md-6 col-lg-4">
+                        <article class="sk-card">
+
+                            <div class="d-flex justify-content-between align-items-center gap-2">
+
+                                <span class="sk-icon">
+
+                                    @if($uploadedIcon)
+                                        <img
+                                            src="{{ $uploadedIcon }}"
+                                            alt="Logo {{ $skill->name }}"
+                                            loading="lazy"
+                                            onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'"
+                                        >
+                                        <i class="bi bi-code-square" style="display:none"></i>
+
+                                    @elseif($logoPath)
+                                        <img
+                                            src="{{ 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/' . $logoPath }}"
+                                            alt="Logo {{ $skill->name }}"
+                                            loading="lazy"
+                                            onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'"
+                                        >
+                                        <i class="bi bi-code-square" style="display:none"></i>
+
+                                    @else
+                                        <i class="bi bi-code-square"></i>
+                                    @endif
+
+                                </span>
+
+                                @if($numericLevel !== null)
+                                    <span class="sk-level">
+                                        {{ $numericLevel }}%
+                                    </span>
+                                @endif
+
+                            </div>
+
+                            <h3>{{ $skill->name }}</h3>
+
+                            @if(filled($skill->description))
+                                <p class="sk-description">
+                                    {{ $skill->description }}
+                                </p>
                             @endif
-                        </div>
-                        <h3>{{ $skill->name }}</h3>
-                        @if($hasNumericLevel)
-                            <div class="sk-progress" role="progressbar"
-                                 aria-label="Mức độ kỹ năng {{ $skill->name }}"
-                                 aria-valuenow="{{ $numericLevel }}"
-                                 aria-valuemin="0" aria-valuemax="100">
-                                <div class="sk-progress-fill" style="width: {{ $numericLevel }}%"></div>
-                            </div>
-                            <div class="sk-progress-note">
-                                <span>Mức độ đã cập nhật</span>
-                                <span>{{ round($numericLevel) }}/100</span>
-                            </div>
-                        @elseif(filled($rawLevel))
-                            <p class="sk-muted small mb-0 mt-3">Cấp độ: {{ $rawLevel }}</p>
-                        @else
-                            <p class="sk-muted small mb-0 mt-3">Đang tiếp tục phát triển</p>
-                        @endif
-                    </article>
-                </div>
-            @empty
-                <div class="col-12">
-                    <div class="sk-empty">
-                        <i class="bi bi-tools display-4 d-block mb-3"></i>
-                        <h3 class="h5 fw-bold">Chưa có kỹ năng nào</h3>
-                        <p class="mb-0">Danh sách sẽ xuất hiện sau khi kỹ năng được thêm từ Admin.</p>
+
+                            @if($numericLevel !== null)
+                                <div
+                                    class="sk-track"
+                                    role="progressbar"
+                                    aria-label="Mức độ kỹ năng {{ $skill->name }}"
+                                    aria-valuenow="{{ $numericLevel }}"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                >
+                                    <div
+                                        class="sk-fill"
+                                        style="width: {{ $numericLevel }}%"
+                                    ></div>
+                                </div>
+                            @endif
+
+                        </article>
                     </div>
+
+                @empty
+                    <div class="col-12">
+                        <div class="sk-empty">
+                            Chưa có kỹ năng lập trình. Hãy thêm trong Admin.
+                        </div>
+                    </div>
+                @endforelse
+
+            </div>
+        </section>
+
+        {{-- KỸ NĂNG CÁ NHÂN --}}
+        <section class="sk-section" aria-labelledby="personal-title">
+
+            <div class="sk-section-head">
+                <div>
+                    <h2 id="personal-title" class="sk-section-title">
+                        Kỹ năng cá nhân
+                    </h2>
+
+                    <p class="sk-subtitle">
+                        Các kỹ năng hỗ trợ học tập, làm việc
+                        và phát triển bản thân.
+                    </p>
                 </div>
-            @endforelse
-        </div>
-    </section>
 
-    <section class="sk-section" aria-labelledby="soft-skills-title">
-        <div class="text-center mb-4">
-            <h2 id="soft-skills-title" class="sk-heading">Kỹ năng hỗ trợ</h2>
-            <p class="sk-muted mb-0">Những năng lực quan trọng khi học tập và phát triển phần mềm.</p>
-        </div>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <article class="sk-card sk-info-card">
-                    <span class="sk-icon"><i class="bi bi-lightbulb"></i></span>
-                    <h3>Tư duy giải quyết vấn đề</h3>
-                    <p>Phân tích yêu cầu, xác định nguyên nhân và tìm kiếm hướng xử lý phù hợp khi lập trình.</p>
-                </article>
+                <span class="sk-count">
+                    <i class="bi bi-person-check me-2"></i>
+                    {{ $personalSkills->count() }} kỹ năng
+                </span>
             </div>
-            <div class="col-md-4">
-                <article class="sk-card sk-info-card">
-                    <span class="sk-icon"><i class="bi bi-people"></i></span>
-                    <h3>Làm việc nhóm</h3>
-                    <p>Trao đổi ý tưởng, phối hợp công việc và cùng các thành viên hoàn thành mục tiêu.</p>
-                </article>
-            </div>
-            <div class="col-md-4">
-                <article class="sk-card sk-info-card">
-                    <span class="sk-icon"><i class="bi bi-book"></i></span>
-                    <h3>Tự học và phát triển</h3>
-                    <p>Chủ động đọc tài liệu, thực hành công nghệ mới và cải thiện kiến thức chuyên môn.</p>
-                </article>
-            </div>
-        </div>
-    </section>
 
-    <section class="sk-cta" aria-labelledby="skills-cta-title">
-        <h2 id="skills-cta-title" class="mb-3">Khám phá các dự án của tôi</h2>
-        <p class="mb-4">Xem cách những kỹ năng này được áp dụng trong các sản phẩm và bài thực hành.</p>
-        <div class="d-flex flex-wrap justify-content-center gap-3">
-            <a href="{{ url('/projects') }}" class="btn btn-light px-4 py-2">
-                <i class="bi bi-folder2-open me-2"></i>Xem dự án
-            </a>
-            <a href="{{ url('/contact') }}" class="btn btn-outline-light px-4 py-2">
-                <i class="bi bi-envelope me-2"></i>Liên hệ
-            </a>
-        </div>
-    </section>
+            <div class="row g-4">
+
+                @forelse($personalSkills as $skill)
+
+                    @php
+                        $uploadedIcon = !empty($skill->icon)
+                            ? (
+                                filter_var($skill->icon, FILTER_VALIDATE_URL)
+                                    ? $skill->icon
+                                    : asset('storage/' . ltrim($skill->icon, '/'))
+                            )
+                            : null;
+                    @endphp
+
+                    <div class="col-md-6 col-lg-4">
+                        <article class="sk-card">
+
+                            <span class="sk-icon">
+
+                                @if($uploadedIcon)
+                                    <img
+                                        src="{{ $uploadedIcon }}"
+                                        alt="Biểu tượng {{ $skill->name }}"
+                                        loading="lazy"
+                                        onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'"
+                                    >
+                                    <i class="bi bi-person-check" style="display:none"></i>
+                                @else
+                                    <i class="bi bi-person-check"></i>
+                                @endif
+
+                            </span>
+
+                            <h3>{{ $skill->name }}</h3>
+
+                            @if(filled($skill->description))
+                                <p class="sk-description">
+                                    {{ $skill->description }}
+                                </p>
+                            @endif
+
+                        </article>
+                    </div>
+
+                @empty
+                    <div class="col-12">
+                        <div class="sk-empty">
+                            Chưa có kỹ năng cá nhân. Hãy thêm trong Admin.
+                        </div>
+                    </div>
+                @endforelse
+
+            </div>
+        </section>
+
+        {{-- KHÁM PHÁ DỰ ÁN --}}
+        <section class="sk-cta" aria-labelledby="skills-cta-title">
+
+            <h2 id="skills-cta-title" class="mb-3">
+                Khám phá các dự án của tôi
+            </h2>
+
+            <p class="mb-4">
+                Xem cách tôi áp dụng những kỹ năng này
+                trong các dự án thực tế.
+            </p>
+
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+
+                <a href="{{ route('projects') }}" class="btn btn-light">
+                    <i class="bi bi-folder2-open me-2"></i>
+                    Xem dự án
+                </a>
+
+                <a href="{{ route('contact') }}" class="btn btn-outline-light">
+                    <i class="bi bi-envelope me-2"></i>
+                    Liên hệ
+                </a>
+
+            </div>
+        </section>
+
+    </div>
 </div>
+
 @endsection

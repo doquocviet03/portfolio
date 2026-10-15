@@ -1,7 +1,7 @@
 
 /* =========================================
    PORTFOLIO THEME + ANIMATION
-   STEP 10.8
+   FIX DARK / LIGHT MODE
 ========================================= */
 
 (function () {
@@ -21,22 +21,40 @@
         try {
             localStorage.setItem(STORAGE_KEY, theme);
         } catch (error) {
-            // Trình duyệt không cho phép lưu.
+            // Không thể lưu chế độ giao diện.
         }
     }
 
     function getCurrentTheme() {
-        return document.documentElement.dataset.theme === 'dark'
+        return document.documentElement.getAttribute('data-theme') === 'dark'
             ? 'dark'
             : 'light';
+    }
+
+    function applyTheme(theme) {
+        const selectedTheme = theme === 'dark' ? 'dark' : 'light';
+
+        // Đồng bộ giao diện tùy chỉnh và Bootstrap 5.3
+        document.documentElement.setAttribute('data-theme', selectedTheme);
+        document.documentElement.setAttribute('data-bs-theme', selectedTheme);
+
+        document.body.classList.toggle(
+            'dark-mode',
+            selectedTheme === 'dark'
+        );
+
+        document.body.classList.toggle(
+            'light-mode',
+            selectedTheme === 'light'
+        );
+
+        updateButton();
     }
 
     function updateButton() {
         const button = document.getElementById('themeToggle');
 
-        if (!button) {
-            return;
-        }
+        if (!button) return;
 
         const dark = getCurrentTheme() === 'dark';
 
@@ -51,7 +69,7 @@
 
         button.setAttribute(
             'title',
-            dark ? 'Chế độ sáng' : 'Chế độ tối'
+            dark ? 'Chuyển sang chế độ sáng' : 'Chuyển sang chế độ tối'
         );
 
         button.setAttribute('aria-pressed', String(dark));
@@ -68,9 +86,7 @@
             ? saved
             : (preferredDark ? 'dark' : 'light');
 
-        document.documentElement.dataset.theme = theme;
-
-        updateButton();
+        applyTheme(theme);
 
         const button = document.getElementById('themeToggle');
 
@@ -80,9 +96,8 @@
                     ? 'light'
                     : 'dark';
 
-                document.documentElement.dataset.theme = next;
+                applyTheme(next);
                 saveTheme(next);
-                updateButton();
             });
         }
     }
@@ -100,9 +115,7 @@
             '.custom-card, .skill-card, .experience-card, .project-card'
         );
 
-        if (!elements.length) {
-            return;
-        }
+        if (!elements.length) return;
 
         const observer = new IntersectionObserver(
             function (entries) {

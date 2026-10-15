@@ -32,12 +32,32 @@ class PortfolioController extends Controller
         return view('about', compact('profile'));
     }
 
-    public function skills()
-    {
-        $skills = Skill::latest()->get();
+    
+public function skills()
+{
+    // Lấy kỹ năng lập trình
+    $programmingSkills = \App\Models\Skill::query()
+        ->where('type', 'programming')
+        ->orderBy('sort_order')
+        ->orderBy('id')
+        ->get();
 
-        return view('skills', compact('skills'));
-    }
+    // Lấy kỹ năng cá nhân
+    $personalSkills = \App\Models\Skill::query()
+        ->where('type', 'personal')
+        ->orderBy('sort_order')
+        ->orderBy('id')
+        ->get();
+
+    // Giữ biến skills để tương thích với code cũ
+    $skills = $programmingSkills;
+
+    return view('skills', compact(
+        'skills',
+        'programmingSkills',
+        'personalSkills'
+    ));
+}
 
     public function projects(Request $request)
     {
