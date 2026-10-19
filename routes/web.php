@@ -46,6 +46,15 @@ use App\Http\Controllers\Admin\ContactReplyController;
 
 */
 
+// Chuyển đổi ngôn ngữ Tiếng Việt / English
+Route::get('/language/{locale}', function (string $locale) {
+    abort_unless(in_array($locale, ['vi', 'en'], true), 404);
+
+    session(['locale' => $locale]);
+
+    return redirect()->back(fallback: route('home'));
+})->name('language.switch');
+
 // Trang chủ
 
 Route::get('/', [
@@ -295,6 +304,12 @@ Route::prefix('admin')
 
         ])->name('profile.update');
 
+        // Tự động dịch hồ sơ cá nhân sang tiếng Anh (Admin)
+        Route::post('/profile/translate', [
+            ProfileController::class,
+            'translate'
+        ])->middleware('throttle:10,1')->name('profile.translate');
+
         /*
 
         |--------------------------------------------------------------------------
@@ -379,6 +394,13 @@ Route::prefix('admin')
 
         */
 
+        // Dịch nội dung dự án sang tiếng Anh (chỉ Admin đăng nhập)
+        // Đặt trước resource để tránh xung đột với route /projects/{project}.
+        Route::post('/projects/translate', [
+            ProjectController::class,
+            'translate'
+        ])->middleware('throttle:10,1')->name('projects.translate');
+
         Route::resource(
 
             'projects',
@@ -387,23 +409,28 @@ Route::prefix('admin')
 
         )->except(['show']);
 
-        /*
+        
+/*
+|--------------------------------------------------------------------------
+| QUẢN LÝ KỸ NĂNG
+|--------------------------------------------------------------------------
+*/
 
-        |--------------------------------------------------------------------------
+// Tự động dịch kỹ năng sang tiếng Anh
+// Đặt trước resource để tránh xung đột route.
+Route::post('/skills/translate', [
+    SkillController::class,
+    'translate'
+])
+    ->middleware('throttle:10,1')
+    ->name('skills.translate');
 
-        | QUẢN LÝ KỸ NĂNG
+// Thêm, sửa, xóa, xem danh sách kỹ năng
+Route::resource(
+    'skills',
+    SkillController::class
+)->except(['show']);
 
-        |--------------------------------------------------------------------------
-
-        */
-
-        Route::resource(
-
-            'skills',
-
-            SkillController::class
-
-        )->except(['show']);
 
         /*
 
@@ -414,6 +441,13 @@ Route::prefix('admin')
         |--------------------------------------------------------------------------
 
         */
+
+        // Tự động dịch kinh nghiệm sang tiếng Anh (Admin)
+        // Đặt trước resource để tránh xung đột với /experiences/{experience}.
+        Route::post('/experiences/translate', [
+            ExperienceController::class,
+            'translate'
+        ])->middleware('throttle:10,1')->name('experiences.translate');
 
         Route::resource(
 

@@ -127,6 +127,30 @@ html[data-theme="dark"] .experience-edit {
                         <p class="ee-help mt-2 mb-0">Có thể ghi các nhiệm vụ và kết quả nổi bật trong quá trình làm việc hoặc học tập.</p>
                     </div>
 
+                    <h2 class="ee-card-title mt-4"><i class="bi bi-translate text-primary me-2"></i>English translation</h2>
+                    <p class="ee-help mb-3">Bạn có thể nhập thủ công hoặc dịch tự động từ nội dung tiếng Việt. Bản dịch chỉ được lưu khi nhấn Cập nhật.</p>
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-outline-primary" id="translateExperienceBtn">
+                            <i class="bi bi-translate me-1"></i> Tự động dịch sang English
+                        </button>
+                        <div id="experienceTranslateStatus" class="ee-help mt-2" role="status" aria-live="polite"></div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="experienceTitleEn" class="form-label">Position / Experience (English)</label>
+                        <input id="experienceTitleEn" name="title_en" type="text" maxlength="255" value="{{ old('title_en', $experience->title_en) }}" class="form-control @error('title_en') is-invalid @enderror" placeholder="QA Game Intern">
+                        @error('title_en') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="mb-4">
+                        <label for="experienceCompanyEn" class="form-label">Company / School (English)</label>
+                        <input id="experienceCompanyEn" name="company_en" type="text" maxlength="255" value="{{ old('company_en', $experience->company_en) }}" class="form-control @error('company_en') is-invalid @enderror" placeholder="Company or school name">
+                        @error('company_en') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+                    <div class="mb-4">
+                        <label for="experienceDescriptionEn" class="form-label">Description (English)</label>
+                        <textarea id="experienceDescriptionEn" name="description_en" rows="5" class="form-control @error('description_en') is-invalid @enderror" placeholder="Responsibilities and achievements...">{{ old('description_en', $experience->description_en) }}</textarea>
+                        @error('description_en') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+
                     <h2 class="ee-card-title mt-4"><i class="bi bi-calendar3 text-primary me-2"></i>Thời gian</h2>
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
@@ -199,6 +223,53 @@ html[data-theme="dark"] .experience-edit {
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('editExperienceForm');
+    const translateBtn = document.getElementById('translateExperienceBtn');
+    const translateStatus = document.getElementById('experienceTranslateStatus');
+    if (translateBtn && translateStatus) {
+        translateBtn.addEventListener('click', async function () {
+            const fields = {
+                title: document.getElementById('experienceTitle').value.trim(),
+                company: document.getElementById('experienceCompany').value.trim(),
+                description: document.getElementById('experienceDescription').value.trim()
+            };
+            if (!Object.values(fields).some(Boolean)) {
+                translateStatus.textContent = 'Vui lòng nhập nội dung tiếng Việt trước khi dịch.';
+                return;
+            }
+            translateBtn.disabled = true;
+            translateStatus.textContent = 'Đang dịch, vui lòng chờ...';
+            try {
+                const response = await fetch(@json(route('admin.experiences.translate')), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': @json(csrf_token())
+                    },
+                    body: JSON.stringify(fields)
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.message || 'Không thể kết nối dịch vụ dịch.');
+                const targetIds = {
+                    title_en: 'experienceTitleEn',
+                    company_en: 'experienceCompanyEn',
+                    description_en: 'experienceDescriptionEn'
+                };
+                for (const [key, value] of Object.entries(result.translations || {})) {
+                    const target = document.getElementById(targetIds[key]);
+                    if (target && typeof value === 'string' && value.trim()) target.value = value;
+                }
+                const failed = Object.keys(result.errors || {});
+                translateStatus.textContent = failed.length
+                    ? 'Một số trường chưa dịch được: ' + failed.join(', ') + '. Nội dung tiếng Anh cũ được giữ nguyên.'
+                    : (result.message || 'Đã dịch thành công. Kiểm tra bản dịch trước khi lưu.');
+            } catch (error) {
+                translateStatus.textContent = error.message || 'Dịch tự động thất bại.';
+            } finally {
+                translateBtn.disabled = false;
+            }
+        });
+    }
     const start = document.getElementById('experienceStart');
     const end = document.getElementById('experienceEnd');
     const warning = document.getElementById('dateWarning');

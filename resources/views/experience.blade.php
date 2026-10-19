@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Kinh nghiệm | Portfolio')
-@section('meta_description', 'Hành trình học tập, kinh nghiệm dự án và phát triển chuyên môn trong lĩnh vực Công nghệ thông tin.')
+@section('title', app()->getLocale() === 'en' ? 'Experience | Portfolio' : 'Kinh nghiệm | Portfolio')
+@section('meta_description', app()->getLocale() === 'en' ? 'My learning journey, project experience and professional development in Information Technology.' : 'Hành trình học tập, kinh nghiệm dự án và phát triển chuyên môn trong lĩnh vực Công nghệ thông tin.')
 
 @push('styles')
 <style>
@@ -191,21 +191,24 @@ html[data-bs-theme="dark"] .experience-modern .ex-date { color: #93c5fd; }
 @endpush
 
 @section('content')
+<div class="alert alert-info">
+    Ngôn ngữ hiện tại: {{ app()->getLocale() }}
+</div>
 <div class="container experience-modern pb-4">
     <header class="ex-hero">
         <span class="ex-label">MY JOURNEY & EXPERIENCE</span>
-        <h1>Hành trình & Kinh nghiệm</h1>
-        <p>Những cột mốc trong quá trình học tập, thực hành dự án và phát triển kỹ năng công nghệ của tôi.</p>
+        <h1>{{ app()->getLocale() === 'en' ? 'Journey & Experience' : 'Hành trình & Kinh nghiệm' }}</h1>
+        <p>{{ app()->getLocale() === 'en' ? 'Milestones in my learning journey, hands-on projects and technology skills development.' : 'Những cột mốc trong quá trình học tập, thực hành dự án và phát triển kỹ năng công nghệ của tôi.' }}</p>
     </header>
 
     <section aria-labelledby="timeline-title">
         <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mb-4">
             <div>
-                <h2 id="timeline-title" class="ex-heading">Dòng thời gian</h2>
-                <p class="ex-muted mb-0">Các hoạt động và kinh nghiệm đã tích lũy.</p>
+                <h2 id="timeline-title" class="ex-heading">{{ app()->getLocale() === 'en' ? 'Timeline' : 'Dòng thời gian' }}</h2>
+                <p class="ex-muted mb-0">{{ app()->getLocale() === 'en' ? 'Activities and experience gained over time.' : 'Các hoạt động và kinh nghiệm đã tích lũy.' }}</p>
             </div>
             <span class="ex-count">
-                <i class="bi bi-clock-history me-2"></i>{{ $experiences->count() }} trải nghiệm
+                <i class="bi bi-clock-history me-2"></i>{{ $experiences->count() }} {{ app()->getLocale() === 'en' ? 'experiences' : 'trải nghiệm' }}
             </span>
         </div>
 
@@ -218,23 +221,23 @@ html[data-bs-theme="dark"] .experience-modern .ex-date { color: #93c5fd; }
                                 <div class="ex-date">
                                     <i class="bi bi-calendar3"></i>
                                     <span>
-                                        {{ $experience->start_date ? \Illuminate\Support\Carbon::parse($experience->start_date)->format('m/Y') : 'Chưa xác định' }}
+                                        {{ $experience->start_date ? \Illuminate\Support\Carbon::parse($experience->start_date)->format('m/Y') : (app()->getLocale() === 'en' ? 'Not specified' : 'Chưa xác định') }}
                                         —
-                                        {{ $experience->end_date ? \Illuminate\Support\Carbon::parse($experience->end_date)->format('m/Y') : 'Hiện tại' }}
+                                        {{ $experience->end_date ? \Illuminate\Support\Carbon::parse($experience->end_date)->format('m/Y') : (app()->getLocale() === 'en' ? 'Present' : 'Hiện tại') }}
                                     </span>
                                 </div>
                             @endif
 
-                            <h3>{{ $experience->title }}</h3>
+                            <h3>{{ $experience->translated('title') }}</h3>
 
-                            @if($experience->company)
+                            @if($experience->translated('company'))
                                 <div class="ex-company">
-                                    <i class="bi bi-building me-2"></i>{{ $experience->company }}
+                                    <i class="bi bi-building me-2"></i>{{ $experience->translated('company') }}
                                 </div>
                             @endif
 
-                            @if($experience->description)
-                                <div class="ex-description">{{ $experience->description }}</div>
+                            @if($experience->translated('description'))
+                                <div class="ex-description">{{ $experience->translated('description') }}</div>
                             @endif
                         </article>
                     </div>
@@ -243,51 +246,51 @@ html[data-bs-theme="dark"] .experience-modern .ex-date { color: #93c5fd; }
         @else
             <div class="ex-empty">
                 <i class="bi bi-briefcase display-4 d-block mb-3"></i>
-                <h3 class="h5 fw-bold">Chưa có kinh nghiệm nào</h3>
-                <p class="mb-0">Dữ liệu sẽ xuất hiện sau khi được cập nhật từ trang quản trị.</p>
+                <h3 class="h5 fw-bold">{{ app()->getLocale() === 'en' ? 'No experience added yet' : 'Chưa có kinh nghiệm nào' }}</h3>
+                <p class="mb-0">{{ app()->getLocale() === 'en' ? 'Experience entries will appear once added in the admin dashboard.' : 'Dữ liệu sẽ xuất hiện sau khi được cập nhật từ trang quản trị.' }}</p>
             </div>
         @endif
     </section>
 
     <section class="mt-5 pt-4" aria-labelledby="development-title">
         <div class="text-center mb-4">
-            <h2 id="development-title" class="ex-heading">Những điều tôi luôn hướng đến</h2>
-            <p class="ex-muted mb-0">Không ngừng phát triển chuyên môn và các kỹ năng làm việc.</p>
+            <h2 id="development-title" class="ex-heading">{{ app()->getLocale() === 'en' ? 'What I Strive For' : 'Những điều tôi luôn hướng đến' }}</h2>
+            <p class="ex-muted mb-0">{{ app()->getLocale() === 'en' ? 'Continuously developing professional and workplace skills.' : 'Không ngừng phát triển chuyên môn và các kỹ năng làm việc.' }}</p>
         </div>
         <div class="row g-4">
             <div class="col-md-4">
                 <article class="ex-card ex-info">
                     <span class="ex-icon"><i class="bi bi-code-slash"></i></span>
-                    <h3>Phát triển chuyên môn</h3>
-                    <p>Tăng cường kỹ năng lập trình, tìm hiểu công nghệ và ứng dụng kiến thức vào dự án.</p>
+                    <h3>{{ app()->getLocale() === 'en' ? 'Professional Growth' : 'Phát triển chuyên môn' }}</h3>
+                    <p>{{ app()->getLocale() === 'en' ? 'Strengthening programming skills, exploring technologies and applying knowledge to projects.' : 'Tăng cường kỹ năng lập trình, tìm hiểu công nghệ và ứng dụng kiến thức vào dự án.' }}</p>
                 </article>
             </div>
             <div class="col-md-4">
                 <article class="ex-card ex-info">
                     <span class="ex-icon"><i class="bi bi-people"></i></span>
-                    <h3>Hợp tác và giao tiếp</h3>
-                    <p>Trao đổi ý tưởng, tiếp nhận phản hồi và phối hợp hiệu quả khi làm việc nhóm.</p>
+                    <h3>{{ app()->getLocale() === 'en' ? 'Collaboration & Communication' : 'Hợp tác và giao tiếp' }}</h3>
+                    <p>{{ app()->getLocale() === 'en' ? 'Sharing ideas, welcoming feedback and collaborating effectively with teams.' : 'Trao đổi ý tưởng, tiếp nhận phản hồi và phối hợp hiệu quả khi làm việc nhóm.' }}</p>
                 </article>
             </div>
             <div class="col-md-4">
                 <article class="ex-card ex-info">
                     <span class="ex-icon"><i class="bi bi-graph-up-arrow"></i></span>
-                    <h3>Không ngừng tiến bộ</h3>
-                    <p>Học hỏi từ thử thách, cải thiện phương pháp làm việc và định hướng phát triển lâu dài.</p>
+                    <h3>{{ app()->getLocale() === 'en' ? 'Continuous Improvement' : 'Không ngừng tiến bộ' }}</h3>
+                    <p>{{ app()->getLocale() === 'en' ? 'Learning from challenges, improving working methods and pursuing long-term growth.' : 'Học hỏi từ thử thách, cải thiện phương pháp làm việc và định hướng phát triển lâu dài.' }}</p>
                 </article>
             </div>
         </div>
     </section>
 
     <section class="ex-cta" aria-labelledby="experience-cta-title">
-        <h2 id="experience-cta-title" class="fw-bold mb-3">Khám phá các dự án tôi đã thực hiện</h2>
-        <p class="mb-4">Những kiến thức và trải nghiệm được vận dụng trong các sản phẩm thực tế.</p>
+        <h2 id="experience-cta-title" class="fw-bold mb-3">{{ app()->getLocale() === 'en' ? 'Explore My Projects' : 'Khám phá các dự án tôi đã thực hiện' }}</h2>
+        <p class="mb-4">{{ app()->getLocale() === 'en' ? 'See how I apply my knowledge and experience in real projects.' : 'Những kiến thức và trải nghiệm được vận dụng trong các sản phẩm thực tế.' }}</p>
         <div class="d-flex flex-wrap justify-content-center gap-3">
             <a href="{{ route('projects') }}" class="btn btn-light px-4 py-2">
-                <i class="bi bi-folder2-open me-2"></i>Xem dự án
+                <i class="bi bi-folder2-open me-2"></i>{{ app()->getLocale() === 'en' ? 'View Projects' : 'Xem dự án' }}
             </a>
             <a href="{{ route('contact') }}" class="btn btn-outline-light px-4 py-2">
-                <i class="bi bi-envelope me-2"></i>Liên hệ
+                <i class="bi bi-envelope me-2"></i>{{ app()->getLocale() === 'en' ? 'Contact' : 'Liên hệ' }}
             </a>
         </div>
     </section>

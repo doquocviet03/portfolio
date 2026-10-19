@@ -1,7 +1,7 @@
 
 @extends('layouts.app')
 
-@section('title', 'Kỹ năng | Đỗ Quốc Việt')
+@section('title', app()->getLocale() === 'en' ? 'Skills | Đỗ Quốc Việt' : 'Kỹ năng | Đỗ Quốc Việt')
 
 @push('styles')
 <style>
@@ -197,6 +197,8 @@
 @section('content')
 
 @php
+    $isEnglish = app()->getLocale() === 'en';
+
     $techLogos = [
         'php' => 'php/php-original.svg',
         'laravel' => 'laravel/laravel-original.svg',
@@ -229,11 +231,12 @@
 
         <header class="sk-hero">
 
-            <h1 class="sk-title">Kỹ năng của tôi</h1>
+            <h1 class="sk-title">{{ $isEnglish ? 'My Skills' : 'Kỹ năng của tôi' }}</h1>
 
             <p class="sk-lead">
-                Những công nghệ, kiến thức chuyên môn và kỹ năng cá nhân
-                tôi đang rèn luyện trong quá trình học tập và thực hiện dự án.
+                {{ $isEnglish
+                    ? 'Technologies, technical knowledge, and personal skills I am developing through learning and projects.'
+                    : 'Những công nghệ, kiến thức chuyên môn và kỹ năng cá nhân tôi đang rèn luyện trong quá trình học tập và thực hiện dự án.' }}
             </p>
         </header>
 
@@ -243,17 +246,17 @@
             <div class="sk-section-head">
                 <div>
                     <h2 id="technical-title" class="sk-section-title">
-                        Kỹ năng lập trình
+                        {{ $isEnglish ? 'Technical Skills' : 'Kỹ năng lập trình' }}
                     </h2>
 
                     <p class="sk-subtitle">
-                        Ngôn ngữ lập trình, framework, cơ sở dữ liệu và công cụ.
+                        {{ $isEnglish ? 'Programming languages, frameworks, databases, and tools.' : 'Ngôn ngữ lập trình, framework, cơ sở dữ liệu và công cụ.' }}
                     </p>
                 </div>
 
                 <span class="sk-count">
                     <i class="bi bi-grid-3x3-gap me-2"></i>
-                    {{ $programmingSkills->count() }} kỹ năng
+                    {{ $programmingSkills->count() }} {{ $isEnglish ? 'skills' : 'kỹ năng' }}
                 </span>
             </div>
 
@@ -289,7 +292,7 @@
                                     @if($uploadedIcon)
                                         <img
                                             src="{{ $uploadedIcon }}"
-                                            alt="Logo {{ $skill->name }}"
+                                            alt="Logo {{ $skill->translated('name') }}"
                                             loading="lazy"
                                             onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'"
                                         >
@@ -298,7 +301,7 @@
                                     @elseif($logoPath)
                                         <img
                                             src="{{ 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/' . $logoPath }}"
-                                            alt="Logo {{ $skill->name }}"
+                                            alt="Logo {{ $skill->translated('name') }}"
                                             loading="lazy"
                                             onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'"
                                         >
@@ -318,11 +321,11 @@
 
                             </div>
 
-                            <h3>{{ $skill->name }}</h3>
+                            <h3>{{ $skill->translated('name') }}</h3>
 
-                            @if(filled($skill->description))
+                            @if(filled($skill->translated('description')))
                                 <p class="sk-description">
-                                    {{ $skill->description }}
+                                    {{ $skill->translated('description') }}
                                 </p>
                             @endif
 
@@ -330,7 +333,7 @@
                                 <div
                                     class="sk-track"
                                     role="progressbar"
-                                    aria-label="Mức độ kỹ năng {{ $skill->name }}"
+                                    aria-label="{{ $isEnglish ? 'Skill level: ' : 'Mức độ kỹ năng ' }}{{ $skill->translated('name') }}"
                                     aria-valuenow="{{ $numericLevel }}"
                                     aria-valuemin="0"
                                     aria-valuemax="100"
@@ -348,7 +351,7 @@
                 @empty
                     <div class="col-12">
                         <div class="sk-empty">
-                            Chưa có kỹ năng lập trình. Hãy thêm trong Admin.
+                            {{ $isEnglish ? 'No technical skills yet.' : 'Chưa có kỹ năng lập trình. Hãy thêm trong Admin.' }}
                         </div>
                     </div>
                 @endforelse
@@ -362,18 +365,17 @@
             <div class="sk-section-head">
                 <div>
                     <h2 id="personal-title" class="sk-section-title">
-                        Kỹ năng cá nhân
+                        {{ $isEnglish ? 'Personal Skills' : 'Kỹ năng cá nhân' }}
                     </h2>
 
                     <p class="sk-subtitle">
-                        Các kỹ năng hỗ trợ học tập, làm việc
-                        và phát triển bản thân.
+                        {{ $isEnglish ? 'Skills that support learning, teamwork, and personal growth.' : 'Các kỹ năng hỗ trợ học tập, làm việc và phát triển bản thân.' }}
                     </p>
                 </div>
 
                 <span class="sk-count">
                     <i class="bi bi-person-check me-2"></i>
-                    {{ $personalSkills->count() }} kỹ năng
+                    {{ $personalSkills->count() }} {{ $isEnglish ? 'skills' : 'kỹ năng' }}
                 </span>
             </div>
 
@@ -399,7 +401,7 @@
                                 @if($uploadedIcon)
                                     <img
                                         src="{{ $uploadedIcon }}"
-                                        alt="Biểu tượng {{ $skill->name }}"
+                                        alt="{{ $isEnglish ? 'Icon' : 'Biểu tượng' }} {{ $skill->translated('name') }}"
                                         loading="lazy"
                                         onerror="this.style.display='none';this.nextElementSibling.style.display='inline-block'"
                                     >
@@ -410,11 +412,11 @@
 
                             </span>
 
-                            <h3>{{ $skill->name }}</h3>
+                            <h3>{{ $skill->translated('name') }}</h3>
 
-                            @if(filled($skill->description))
+                            @if(filled($skill->translated('description')))
                                 <p class="sk-description">
-                                    {{ $skill->description }}
+                                    {{ $skill->translated('description') }}
                                 </p>
                             @endif
 
@@ -424,7 +426,7 @@
                 @empty
                     <div class="col-12">
                         <div class="sk-empty">
-                            Chưa có kỹ năng cá nhân. Hãy thêm trong Admin.
+                            {{ $isEnglish ? 'No personal skills yet.' : 'Chưa có kỹ năng cá nhân. Hãy thêm trong Admin.' }}
                         </div>
                     </div>
                 @endforelse
@@ -436,24 +438,23 @@
         <section class="sk-cta" aria-labelledby="skills-cta-title">
 
             <h2 id="skills-cta-title" class="mb-3">
-                Khám phá các dự án của tôi
+                {{ $isEnglish ? 'Explore My Projects' : 'Khám phá các dự án của tôi' }}
             </h2>
 
             <p class="mb-4">
-                Xem cách tôi áp dụng những kỹ năng này
-                trong các dự án thực tế.
+                {{ $isEnglish ? 'See how I apply these skills in real projects.' : 'Xem cách tôi áp dụng những kỹ năng này trong các dự án thực tế.' }}
             </p>
 
             <div class="d-flex flex-wrap justify-content-center gap-3">
 
                 <a href="{{ route('projects') }}" class="btn btn-light">
                     <i class="bi bi-folder2-open me-2"></i>
-                    Xem dự án
+                    {{ $isEnglish ? 'View Projects' : 'Xem dự án' }}
                 </a>
 
                 <a href="{{ route('contact') }}" class="btn btn-outline-light">
                     <i class="bi bi-envelope me-2"></i>
-                    Liên hệ
+                    {{ $isEnglish ? 'Contact' : 'Liên hệ' }}
                 </a>
 
             </div>

@@ -10,12 +10,22 @@ use Illuminate\Http\Request;
 
 class PortfolioController extends Controller
 {
+    // Trang chủ
     public function home()
     {
         $profile = Profile::first();
-        $projects = Project::latest()->take(3)->get();
-        $skills = Skill::latest()->take(6)->get();
-        $experiences = Experience::latest()->take(3)->get();
+
+        $projects = Project::latest()
+            ->take(3)
+            ->get();
+
+        $skills = Skill::latest()
+            ->take(6)
+            ->get();
+
+        $experiences = Experience::latest()
+            ->take(3)
+            ->get();
 
         return view('home', compact(
             'profile',
@@ -25,6 +35,7 @@ class PortfolioController extends Controller
         ));
     }
 
+    // Trang giới thiệu
     public function about()
     {
         $profile = Profile::first();
@@ -32,67 +43,100 @@ class PortfolioController extends Controller
         return view('about', compact('profile'));
     }
 
-    
-public function skills()
-{
-    // Lấy kỹ năng lập trình
-    $programmingSkills = \App\Models\Skill::query()
-        ->where('type', 'programming')
-        ->orderBy('sort_order')
-        ->orderBy('id')
-        ->get();
+    // Trang kỹ năng
+    public function skills()
+    {
+        // Kỹ năng lập trình
+        $programmingSkills = Skill::query()
+            ->where('type', 'programming')
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
 
-    // Lấy kỹ năng cá nhân
-    $personalSkills = \App\Models\Skill::query()
-        ->where('type', 'personal')
-        ->orderBy('sort_order')
-        ->orderBy('id')
-        ->get();
+        // Kỹ năng cá nhân
+        $personalSkills = Skill::query()
+            ->where('type', 'personal')
+            ->orderBy('sort_order')
+            ->orderBy('id')
+            ->get();
 
-    // Giữ biến skills để tương thích với code cũ
-    $skills = $programmingSkills;
+        // Giữ tương thích với giao diện cũ
+        $skills = $programmingSkills;
 
-    return view('skills', compact(
-        'skills',
-        'programmingSkills',
-        'personalSkills'
-    ));
-}
+        return view('skills', compact(
+            'skills',
+            'programmingSkills',
+            'personalSkills'
+        ));
+    }
 
+    // Danh sách dự án
     public function projects(Request $request)
     {
         $search = trim((string) $request->query('search', ''));
-        $technology = trim((string) $request->query('technology', ''));
+
+        $technology = trim(
+            (string) $request->query('technology', '')
+        );
+
         $sort = $request->query('sort', 'latest');
 
-        if (!in_array($sort, ['latest', 'oldest', 'name'], true)) {
+        if (!in_array($sort, [
+            'latest',
+            'oldest',
+            'name'
+        ], true)) {
             $sort = 'latest';
         }
 
         $query = Project::query();
 
+        // Tìm kiếm bằng tiếng Việt và tiếng Anh
         if ($search !== '') {
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', '%' . $search . '%')
-                  ->orWhere('description', 'like', '%' . $search . '%')
-                  ->orWhere('technologies', 'like', '%' . $search . '%');
+                $keyword = '%' . $search . '%';
+
+                $q->where('title', 'like', $keyword)
+                    ->orWhere('description', 'like', $keyword)
+                    ->orWhere('title_en', 'like', $keyword)
+                    ->orWhere('description_en', 'like', $keyword)
+                    ->orWhere('technologies', 'like', $keyword);
             });
         }
 
+        // Lọc theo công nghệ
         if ($technology !== '') {
-            $query->where('technologies', 'like', '%' . $technology . '%');
+            $query->where(
+                'technologies',
+                'like',
+                '%' . $technology . '%'
+            );
         }
 
+        // Sắp xếp dự án
         if ($sort === 'oldest') {
             $query->oldest();
+
         } elseif ($sort === 'name') {
-            $query->orderBy('title');
+
+            if (app()->getLocale() === 'en') {
+                $query->orderByRaw(
+                    "COALESCE(NULLIF(title_en, ''), title) ASC"
+                );
+            } else {
+                $query->orderBy('title', 'asc');
+            }
+
         } else {
             $query->latest();
         }
 
-        $projects = $query->paginate(9)->withQueryString();
+        // Phân trang
+        $projects = $query
+            ->paginate(9)
+            ->withQueryString();
 
+        // Danh sách công nghệ
         $technologies = Project::query()
             ->whereNotNull('technologies')
             ->pluck('technologies')
@@ -114,9 +158,11 @@ public function skills()
         ));
     }
 
+    // Chi tiết dự án
     public function projectDetail(Project $project)
     {
-        $relatedProjects = Project::where('id', '!=', $project->id)
+        $relatedProjects = Project::query()
+            ->where('id', '!=', $project->id)
             ->latest()
             ->take(3)
             ->get();
@@ -127,6 +173,7 @@ public function skills()
         ));
     }
 
+    // Kinh nghiệm làm việc
     public function experience()
     {
         $experiences = Experience::latest()->get();
@@ -134,6 +181,7 @@ public function skills()
         return view('experience', compact('experiences'));
     }
 
+    // Liên hệ
     public function contact()
     {
         $profile = Profile::first();

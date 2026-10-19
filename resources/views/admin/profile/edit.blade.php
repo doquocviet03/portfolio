@@ -572,6 +572,42 @@ html[data-theme="dark"] .profile-panel {
 
 
 
+            <div class="profile-panel">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+                    <h5 class="profile-heading mb-0"><i class="bi bi-translate text-primary me-2"></i>Nội dung tiếng Anh (English)</h5>
+                    <button type="button" id="translateProfileBtn" class="btn btn-outline-primary"><i class="bi bi-translate me-1"></i>Tự động dịch sang English</button>
+                </div>
+                <p class="text-muted small">Nhập nội dung tiếng Việt ở phía trên, nhấn tự động dịch, kiểm tra bản dịch rồi nhấn Lưu thông tin.</p>
+                <div id="profileTranslateStatus" class="alert d-none" role="status" aria-live="polite"></div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="job_title_en" class="form-label">Chức danh tiếng Anh</label>
+                        <input type="text" id="job_title_en" name="job_title_en" class="form-control @error('job_title_en') is-invalid @enderror" maxlength="255" value="{{ old('job_title_en', $profile?->job_title_en) }}">
+                        @error('job_title_en')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="col-md-6">
+                        <label for="field_en" class="form-label">Lĩnh vực tiếng Anh</label>
+                        <input type="text" id="field_en" name="field_en" class="form-control @error('field_en') is-invalid @enderror" maxlength="255" value="{{ old('field_en', $profile?->field_en) }}">
+                        @error('field_en')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="col-12">
+                        <label for="short_bio_en" class="form-label">Giới thiệu ngắn tiếng Anh</label>
+                        <textarea id="short_bio_en" name="short_bio_en" rows="3" class="form-control @error('short_bio_en') is-invalid @enderror" maxlength="2000">{{ old('short_bio_en', $profile?->short_bio_en) }}</textarea>
+                        @error('short_bio_en')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="col-12">
+                        <label for="about_me_en" class="form-label">Giới thiệu chi tiết tiếng Anh</label>
+                        <textarea id="about_me_en" name="about_me_en" rows="6" class="form-control @error('about_me_en') is-invalid @enderror">{{ old('about_me_en', $profile?->about_me_en) }}</textarea>
+                        @error('about_me_en')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                    <div class="col-12">
+                        <label for="career_goal_en" class="form-label">Mục tiêu nghề nghiệp tiếng Anh</label>
+                        <textarea id="career_goal_en" name="career_goal_en" rows="6" class="form-control @error('career_goal_en') is-invalid @enderror">{{ old('career_goal_en', $profile?->career_goal_en) }}</textarea>
+                        @error('career_goal_en')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                </div>
+            </div>
+
             <div class="d-flex flex-wrap gap-3">
 
 
@@ -700,4 +736,65 @@ html[data-theme="dark"] .profile-panel {
 
 </script>
 
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const button = document.getElementById('translateProfileBtn');
+    const status = document.getElementById('profileTranslateStatus');
+    if (!button || !status) return;
+
+    const fields = ['job_title', 'field', 'short_bio', 'about_me', 'career_goal'];
+    const showStatus = (message, kind) => {
+        status.textContent = message;
+        status.className = 'alert alert-' + kind;
+    };
+
+    button.addEventListener('click', async function () {
+        const payload = {};
+        fields.forEach(field => {
+            payload[field] = document.querySelector('[name="' + field + '"]')?.value || '';
+        });
+
+        if (!fields.some(field => payload[field].trim() !== '')) {
+            showStatus('Hãy nhập ít nhất một nội dung tiếng Việt trước khi dịch.', 'warning');
+            return;
+        }
+
+        button.disabled = true;
+        showStatus('Đang dịch nội dung, vui lòng chờ...', 'info');
+        try {
+            const response = await fetch(@json(route('admin.profile.translate')), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': @json(csrf_token()),
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                const validationMessage = data.errors
+                    ? Object.values(data.errors).flat().join(' ')
+                    : null;
+                throw new Error(validationMessage || data.message || 'Không thể dịch nội dung.');
+            }
+            if (!data.translations) throw new Error('Phản hồi dịch không hợp lệ.');
+
+            fields.forEach(field => {
+                const target = document.querySelector('[name="' + field + '_en"]');
+                if (target && Object.prototype.hasOwnProperty.call(data.translations, field + '_en')) {
+                    target.value = data.translations[field + '_en'] ?? '';
+                }
+            });
+            showStatus('Đã dịch xong. Hãy kiểm tra bản dịch và nhấn Lưu thông tin để lưu vào database.', 'success');
+        } catch (error) {
+            showStatus(error.message || 'Có lỗi khi dịch. Vui lòng thử lại.', 'danger');
+        } finally {
+            button.disabled = false;
+        }
+    });
+});
+</script>
 @endpush

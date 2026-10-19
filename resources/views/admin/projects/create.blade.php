@@ -120,6 +120,40 @@ body.dark-mode .project-create {
 
         <hr class="pc-divider">
 
+        <section class="mb-4 p-3 rounded-4 border" style="border-color:var(--pc-border,var(--pe-border)) !important;">
+            <h2 class="h5 fw-bold mb-2"><i class="bi bi-translate me-2 text-primary"></i>Bản dịch tiếng Anh</h2>
+            <p class="small mb-3">Nhập nội dung tiếng Việt trước, nhấn dịch và kiểm tra bản dịch. Bạn có thể sửa từng ô trước khi lưu dự án.</p>
+            <button type="button" id="translateProjectButton" class="btn btn-outline-primary mb-3">
+                <i class="bi bi-translate me-1"></i> Tự động dịch sang English
+            </button>
+            <div id="translateProjectStatus" class="small mb-3" role="status" aria-live="polite"></div>
+            <div class="mb-3">
+                    <label for="title_en" class="form-label">Tên dự án (English)</label>
+                    <input id="title_en" name="title_en" type="text" maxlength="255" value="{{ old('title_en') }}" class="form-control @error('title_en') is-invalid @enderror">
+                    @error('title_en')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+            <div class="mb-3">
+                    <label for="description_en" class="form-label">Mô tả dự án (English)</label>
+                    <textarea id="description_en" name="description_en" rows="4" class="form-control @error('description_en') is-invalid @enderror">{{ old('description_en') }}</textarea>
+                    @error('description_en')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+            <div class="mb-3">
+                    <label for="features_en" class="form-label">Main features (English)</label>
+                    <textarea id="features_en" name="features_en" rows="4" class="form-control @error('features_en') is-invalid @enderror">{{ old('features_en') }}</textarea>
+                    @error('features_en')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+            <div class="mb-3">
+                    <label for="challenges_en" class="form-label">Challenges and solutions (English)</label>
+                    <textarea id="challenges_en" name="challenges_en" rows="4" class="form-control @error('challenges_en') is-invalid @enderror">{{ old('challenges_en') }}</textarea>
+                    @error('challenges_en')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+            <div class="mb-3">
+                    <label for="results_en" class="form-label">Results (English)</label>
+                    <textarea id="results_en" name="results_en" rows="4" class="form-control @error('results_en') is-invalid @enderror">{{ old('results_en') }}</textarea>
+                    @error('results_en')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
+        </section>
+
         <section aria-labelledby="links-title">
             <h2 id="links-title" class="pc-section-title"><i class="bi bi-link-45deg text-primary me-2"></i>Liên kết dự án</h2>
             <p class="pc-section-note">Có thể để trống nếu chưa có mã nguồn công khai hoặc bản demo.</p>
@@ -176,6 +210,70 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     window.addEventListener('pagehide', function () {
         if (objectUrl) URL.revokeObjectURL(objectUrl);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const button = document.getElementById('translateProjectButton');
+    const status = document.getElementById('translateProjectStatus');
+    if (!button || !status) return;
+
+    const pairs = {
+        title: 'title_en',
+        description: 'description_en',
+        features: 'features_en',
+        challenges: 'challenges_en',
+        results: 'results_en'
+    };
+    button.addEventListener('click', async function () {
+        const form = button.closest('form');
+        const payload = {};
+        for (const source of Object.keys(pairs)) {
+            payload[source] = form.elements.namedItem(source)?.value || '';
+        }
+        if (!Object.values(payload).some(v => v.trim())) {
+            status.textContent = 'Vui lòng nhập nội dung tiếng Việt trước khi dịch.';
+            return;
+        }
+        const populated = Object.values(pairs).filter(name =>
+            (form.elements.namedItem(name)?.value || '').trim()
+        );
+        if (populated.length && !window.confirm(
+            'Các ô tiếng Anh đã có nội dung. Bạn có muốn thay bằng bản dịch mới không?'
+        )) return;
+
+        button.disabled = true;
+        status.textContent = 'Đang dịch nội dung, vui lòng chờ...';
+        try {
+            const response = await fetch(@json(route('admin.projects.translate')), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': form.querySelector('input[name="_token"]').value
+                },
+                credentials: 'same-origin',
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                const firstError = data.errors
+                    ? Object.values(data.errors).flat()[0]
+                    : null;
+                throw new Error(firstError || data.message || 'Không thể dịch nội dung.');
+            }
+            for (const [name, value] of Object.entries(data.translations || {})) {
+                if (Object.values(pairs).includes(name)) {
+                    const target = form.elements.namedItem(name);
+                    if (target) target.value = value || '';
+                }
+            }
+            status.textContent = 'Đã dịch xong. Hãy kiểm tra và nhấn Lưu/Cập nhật dự án.';
+        } catch (error) {
+            status.textContent = 'Lỗi dịch: ' + error.message;
+        } finally {
+            button.disabled = false;
+        }
     });
 });
 </script>

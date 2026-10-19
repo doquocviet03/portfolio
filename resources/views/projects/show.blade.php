@@ -2,9 +2,9 @@
 
 
 
-@section('title', $project->title . ' | Personal Portfolio')
+@section('title', $project->translated('title') . ' | Personal Portfolio')
 
-@section('meta_description', \Illuminate\Support\Str::limit(strip_tags($project->description ?? 'Thông tin chi tiết dự án và các công nghệ sử dụng.'), 155))
+@section('meta_description', \Illuminate\Support\Str::limit(strip_tags($project->translated('description') ?? (app()->getLocale() === 'en' ? 'Project details and technologies used.' : 'Thông tin chi tiết dự án và các công nghệ sử dụng.')), 155))
 
 
 
@@ -370,6 +370,7 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 @section('content')
 
 @php
+    $en = app()->getLocale() === 'en';
 
     $techList = array_values(array_filter(
 
@@ -389,17 +390,17 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
         <a href="{{ route('projects') }}" class="pd-back">
 
-            <i class="bi bi-arrow-left"></i> Quay lại danh sách dự án
+            <i class="bi bi-arrow-left"></i> {{ $en ? 'Back to projects' : 'Quay lại danh sách dự án' }}
 
         </a>
 
         <div><span class="pd-eyebrow">PROJECT CASE STUDY</span></div>
 
-        <h1>{{ $project->title }}</h1>
+        <h1>{{ $project->translated('title') }}</h1>
 
         <p class="mb-0 mt-3">
 
-            Khám phá thông tin, công nghệ, các chức năng và kết quả của dự án.
+            {{ $en ? 'Explore project details, technologies, features, and outcomes.' : 'Khám phá thông tin, công nghệ, các chức năng và kết quả của dự án.' }}
 
         </p>
 
@@ -411,13 +412,13 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
         <main class="col-lg-8">
 
-            <section class="pd-card" aria-label="Hình ảnh dự án">
+            <section class="pd-card" aria-label="{{ $en ? 'Project image' : 'Hình ảnh dự án' }}">
 
                 @if($project->image)
 
                     <img src="{{ asset('storage/' . $project->image) }}"
 
-                         alt="Hình ảnh dự án {{ $project->title }}"
+                         alt="{{ $en ? 'Project image:' : 'Hình ảnh dự án' }} {{ $project->translated('title') }}"
 
                          class="pd-image"
 
@@ -425,7 +426,7 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
                 @else
 
-                    <div class="pd-placeholder" aria-label="Chưa có hình ảnh dự án">
+                    <div class="pd-placeholder" aria-label="{{ $en ? 'No project image available' : 'Chưa có hình ảnh dự án' }}">
 
                         <i class="bi bi-folder2-open"></i>
 
@@ -439,21 +440,21 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
             <section class="pd-card">
 
-                <h2><i class="bi bi-info-circle me-2"></i>Giới thiệu dự án</h2>
+                <h2><i class="bi bi-info-circle me-2"></i>{{ $en ? 'Project Overview' : 'Giới thiệu dự án' }}</h2>
 
-                <div class="pd-text">{{ $project->description ?: 'Chưa cập nhật mô tả dự án.' }}</div>
+                <div class="pd-text">{{ $project->translated('description') ?: ($en ? 'Project description not available.' : 'Chưa cập nhật mô tả dự án.') }}</div>
 
             </section>
 
 
 
-            @if($project->features)
+            @if($project->translated('features'))
 
                 <section class="pd-card">
 
-                    <h2><i class="bi bi-list-check me-2"></i>Các chức năng chính</h2>
+                    <h2><i class="bi bi-list-check me-2"></i>{{ $en ? 'Main Features' : 'Các chức năng chính' }}</h2>
 
-                    <div class="pd-text">{{ $project->features }}</div>
+                    <div class="pd-text">{{ $project->translated('features') }}</div>
 
                 </section>
 
@@ -461,13 +462,13 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
 
 
-            @if($project->challenges)
+            @if($project->translated('challenges'))
 
                 <section class="pd-card">
 
-                    <h2><i class="bi bi-lightbulb me-2"></i>Khó khăn và giải pháp</h2>
+                    <h2><i class="bi bi-lightbulb me-2"></i>{{ $en ? 'Challenges and Solutions' : 'Khó khăn và giải pháp' }}</h2>
 
-                    <div class="pd-text">{{ $project->challenges }}</div>
+                    <div class="pd-text">{{ $project->translated('challenges') }}</div>
 
                 </section>
 
@@ -475,13 +476,13 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
 
 
-            @if($project->results)
+            @if($project->translated('results'))
 
                 <section class="pd-card">
 
-                    <h2><i class="bi bi-trophy me-2"></i>Kết quả đạt được</h2>
+                    <h2><i class="bi bi-trophy me-2"></i>{{ $en ? 'Results Achieved' : 'Kết quả đạt được' }}</h2>
 
-                    <div class="pd-text">{{ $project->results }}</div>
+                    <div class="pd-text">{{ $project->translated('results') }}</div>
 
                 </section>
 
@@ -495,7 +496,7 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
             <section class="pd-card">
 
-                <h2><i class="bi bi-cpu me-2"></i>Công nghệ sử dụng</h2>
+                <h2><i class="bi bi-cpu me-2"></i>{{ $en ? 'Technologies Used' : 'Công nghệ sử dụng' }}</h2>
 
                 @forelse($techList as $tech)
 
@@ -503,7 +504,7 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
                 @empty
 
-                    <p class="pd-muted mb-0">Chưa cập nhật công nghệ.</p>
+                    <p class="pd-muted mb-0">{{ $en ? 'Technologies not available.' : 'Chưa cập nhật công nghệ.' }}</p>
 
                 @endforelse
 
@@ -513,7 +514,7 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
             <section class="pd-card">
 
-                <h2><i class="bi bi-link-45deg me-2"></i>Liên kết dự án</h2>
+                <h2><i class="bi bi-link-45deg me-2"></i>{{ $en ? 'Project Links' : 'Liên kết dự án' }}</h2>
 
                 @if($project->github_url)
 
@@ -521,7 +522,7 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
                        target="_blank" rel="noopener noreferrer">
 
-                        <i class="bi bi-github"></i> Xem mã nguồn GitHub
+                        <i class="bi bi-github"></i> {{ $en ? 'View GitHub Source' : 'Xem mã nguồn GitHub' }}
 
                     </a>
 
@@ -533,7 +534,7 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
                        target="_blank" rel="noopener noreferrer">
 
-                        <i class="bi bi-box-arrow-up-right"></i> Xem Live Demo
+                        <i class="bi bi-box-arrow-up-right"></i> {{ $en ? 'View Live Demo' : 'Xem Live Demo' }}
 
                     </a>
 
@@ -541,7 +542,7 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
                 @if(!$project->github_url && !$project->demo_url)
 
-                    <p class="pd-muted mb-0">Chưa có liên kết cho dự án này.</p>
+                    <p class="pd-muted mb-0">{{ $en ? 'No links available for this project.' : 'Chưa có liên kết cho dự án này.' }}</p>
 
                 @endif
 
@@ -551,17 +552,17 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
             <section class="pd-card">
 
-                <h2><i class="bi bi-calendar3 me-2"></i>Thông tin dự án</h2>
+                <h2><i class="bi bi-calendar3 me-2"></i>{{ $en ? 'Project Information' : 'Thông tin dự án' }}</h2>
 
-                <p class="pd-muted small mb-1">Ngày thêm dự án</p>
+                <p class="pd-muted small mb-1">{{ $en ? 'Date Added' : 'Ngày thêm dự án' }}</p>
 
-                <p class="fw-semibold mb-3">{{ $project->created_at?->format('d/m/Y') ?? 'Chưa cập nhật' }}</p>
+                <p class="fw-semibold mb-3">{{ $project->created_at?->format('d/m/Y') ?? ($en ? 'Not available' : 'Chưa cập nhật') }}</p>
 
                 <hr class="pd-divider">
 
-                <p class="pd-muted small mb-1">Cập nhật gần nhất</p>
+                <p class="pd-muted small mb-1">{{ $en ? 'Last Updated' : 'Cập nhật gần nhất' }}</p>
 
-                <p class="fw-semibold mb-0">{{ $project->updated_at?->format('d/m/Y') ?? 'Chưa cập nhật' }}</p>
+                <p class="fw-semibold mb-0">{{ $project->updated_at?->format('d/m/Y') ?? ($en ? 'Not available' : 'Chưa cập nhật') }}</p>
 
             </section>
 
@@ -577,11 +578,11 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
 
-                <h2 id="related-projects-title" class="fw-bold mb-0">Dự án khác</h2>
+                <h2 id="related-projects-title" class="fw-bold mb-0">{{ $en ? 'Other Projects' : 'Dự án khác' }}</h2>
 
                 <a href="{{ route('projects') }}" class="text-decoration-none">
 
-                    Xem tất cả <i class="bi bi-arrow-right"></i>
+                    {{ $en ? 'View All' : 'Xem tất cả' }} <i class="bi bi-arrow-right"></i>
 
                 </a>
 
@@ -599,7 +600,7 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
                                 <img src="{{ asset('storage/' . $related->image) }}"
 
-                                     alt="Dự án {{ $related->title }}"
+                                     alt="{{ $en ? 'Project:' : 'Dự án' }} {{ $related->translated('title') }}"
 
                                      loading="lazy" decoding="async">
 
@@ -611,15 +612,15 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
                             <div class="pd-related-body">
 
-                                <h3>{{ $related->title }}</h3>
+                                <h3>{{ $related->translated('title') }}</h3>
 
-                                <p>{{ \Illuminate\Support\Str::limit($related->description ?? '', 110) }}</p>
+                                <p>{{ \Illuminate\Support\Str::limit($related->translated('description') ?? '', 110) }}</p>
 
                                 <a href="{{ route('projects.show', $related) }}"
 
                                    class="btn btn-outline-primary rounded-pill">
 
-                                    Xem chi tiết <i class="bi bi-arrow-right ms-1"></i>
+                                    {{ $en ? 'View Details' : 'Xem chi tiết' }} <i class="bi bi-arrow-right ms-1"></i>
 
                                 </a>
 

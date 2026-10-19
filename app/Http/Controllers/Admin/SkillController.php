@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Skill;
+use App\Services\TranslationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -50,7 +51,6 @@ class SkillController extends Controller
         try {
             Skill::create($data);
         } catch (\Throwable $e) {
-            // Xóa ảnh mới nếu lưu database thất bại
             if ($newIcon) {
                 Storage::disk('public')->delete($newIcon);
             }
@@ -87,7 +87,6 @@ class SkillController extends Controller
         try {
             $skill->update($data);
         } catch (\Throwable $e) {
-            // Xóa ảnh mới nếu cập nhật database thất bại
             if ($newIcon) {
                 Storage::disk('public')->delete($newIcon);
             }
@@ -95,7 +94,6 @@ class SkillController extends Controller
             throw $e;
         }
 
-        // Xóa ảnh cũ sau khi cập nhật thành công
         if (
             $newIcon &&
             $oldIcon &&
@@ -117,7 +115,6 @@ class SkillController extends Controller
 
         $skill->delete();
 
-        // Chỉ xóa ảnh thuộc thư mục skills
         if (
             $icon &&
             str_starts_with($icon, 'skills/')
@@ -130,12 +127,77 @@ class SkillController extends Controller
             ->with('success', 'Xóa kỹ năng thành công!');
     }
 
+    // Tự động dịch Skills từ VI sang EN
+    public function translate(
+        Request $request,
+        TranslationService $translator
+    ) {
+        $data = $request->validate([
+            'name' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'description' => [
+                'nullable',
+                'string',
+                'max:2000',
+            ],
+        ]);
+
+        $fields = ['name', 'description'];
+        $translations = [];
+        $errors = [];
+
+        if (
+            trim((string) ($data['name'] ?? '')) === '' &&
+            trim((string) ($data['description'] ?? '')) === ''
+        ) {
+            return response()->json([
+                'message' => 'Vui lòng nhập tên hoặc mô tả kỹ năng.',
+            ], 422);
+        }
+
+        foreach ($fields as $field) {
+            $value = trim((string) ($data[$field] ?? ''));
+
+            if ($value === '') {
+                $translations[$field . '_en'] = '';
+                continue;
+            }
+
+            try {
+                $translations[$field . '_en'] =
+                    $translator->translate($value);
+            } catch (\Throwable $e) {
+                report($e);
+
+                $errors[$field] =
+                    'Không thể dịch trường này.';
+            }
+        }
+
+        return response()->json([
+            'translations' => $translations,
+            'errors' => $errors,
+            'message' => empty($errors)
+                ? 'Dịch tự động thành công!'
+                : 'Một số trường chưa dịch được.',
+        ]);
+    }
+
     // Kiểm tra dữ liệu thêm và sửa
     private function validateSkill(Request $request): array
     {
         $data = $request->validate([
             'name' => [
                 'required',
+                'string',
+                'max:255',
+            ],
+
+            'name_en' => [
+                'nullable',
                 'string',
                 'max:255',
             ],
@@ -149,6 +211,12 @@ class SkillController extends Controller
                 'nullable',
                 'string',
                 'max:2000',
+            ],
+
+            'description_en' => [
+                'nullable',
+                'string',
+                'max:5000',
             ],
 
             'level' => [
@@ -174,15 +242,12 @@ class SkillController extends Controller
             ],
         ]);
 
-        // Kỹ năng cá nhân không sử dụng phần trăm
         if ($data['type'] === 'personal') {
             $data['level'] = null;
         }
 
-        // Mặc định thứ tự hiển thị
         $data['sort_order'] = $data['sort_order'] ?? 0;
 
-        // File ảnh được xử lý riêng
         unset($data['icon']);
 
         return $data;
