@@ -305,7 +305,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     window.addEventListener('pagehide', clearPreview);
 });
-</script>
 
 document.addEventListener('DOMContentLoaded', function () {
     const button = document.getElementById('translateProjectButton');
@@ -370,4 +369,5 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+</script>
 @endpush
