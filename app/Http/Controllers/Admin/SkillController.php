@@ -238,7 +238,7 @@ class SkillController extends Controller
                 'nullable',
                 'image',
                 'mimes:jpg,jpeg,png,webp',
-                'max:2048',
+                'max:10240', // 10MB
             ],
         ]);
 

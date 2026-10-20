@@ -50,7 +50,7 @@ class ProfileController extends Controller
             'linkedin_url' => 'nullable|url|max:2048',
 
             // Ảnh đại diện
-            'avatar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'avatar' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:10240', // 10MB
         ]);
 
         $profile = Profile::first();

@@ -271,7 +271,7 @@ html[data-theme="dark"] .profile-panel {
 
                 <small class="text-muted d-block mt-3">
 
-                    JPG, PNG hoặc WEBP. Tối đa 2 MB.
+                    JPG, PNG hoặc WEBP. Tối đa 10 MB.
 
                 </small>
 
@@ -694,9 +694,9 @@ html[data-theme="dark"] .profile-panel {
 
 
 
-            if (file.size > 2 * 1024 * 1024) {
+            if (file.size > 10 * 1024 * 1024) {
 
-                alert('Ảnh không được vượt quá 2 MB.');
+                alert('Ảnh không được vượt quá 10 MB.');
 
                 this.value = '';
 

@@ -57,7 +57,7 @@ class ProjectController extends Controller
             'technologies' => ['nullable', 'string', 'max:2000'],
             'github_url' => ['nullable', 'url', 'max:2048'],
             'demo_url' => ['nullable', 'url', 'max:2048'],
-            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'features' => ['nullable', 'string'],
             'challenges' => ['nullable', 'string'],
             'results' => ['nullable', 'string'],
