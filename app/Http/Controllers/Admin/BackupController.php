@@ -15,20 +15,26 @@ class BackupController extends Controller
         return storage_path('app/backups');
     }
 
+    private function isBackupFilename(string $filename): bool
+    {
+        return preg_match('/^portfolio-[A-Za-z0-9_-]+\.(zip|sqlite)$/D', $filename) === 1;
+    }
+
     public function index()
     {
         $directory = $this->backupDirectory();
         File::ensureDirectoryExists($directory);
 
         $backups = collect(File::files($directory))
-            ->filter(fn ($file) => $file->getExtension() === 'zip'
-                && preg_match('/^portfolio-[A-Za-z0-9_-]+\.zip$/', $file->getFilename()))
+            ->filter(fn ($file) => $this->isBackupFilename($file->getFilename()))
             ->sortByDesc(fn ($file) => $file->getMTime())
             ->map(fn ($file) => [
                 'name' => $file->getFilename(),
                 'size' => round($file->getSize() / 1048576, 2),
                 'date' => date('d/m/Y H:i', $file->getMTime()),
-            ])->values();
+                'type' => strtolower($file->getExtension()),
+            ])
+            ->values();
 
         return view('admin.backups.index', compact('backups'));
     }
@@ -36,19 +42,21 @@ class BackupController extends Controller
     public function store()
     {
         if (!class_exists(ZipArchive::class)) {
-            return back()->with('error', 'PHP chưa bật extension ZIP.');
+            return $this->backupWithoutZip();
         }
 
         $directory = $this->backupDirectory();
-        File::ensureDirectoryExists($directory);
-        $filename = 'portfolio-' . now()->format('Y-m-d_H-i-s') . '-' . Str::random(6) . '.zip';
-        $destination = $directory . DIRECTORY_SEPARATOR . $filename;
+        $destination = null;
+        $temporaryDatabase = null;
         $zip = new ZipArchive();
         $opened = false;
         $closed = false;
-        $temporarySql = null;
 
         try {
+            File::ensureDirectoryExists($directory);
+            $filename = 'portfolio-' . now()->format('Y-m-d_H-i-s') . '-' . Str::random(6) . '.zip';
+            $destination = $directory . DIRECTORY_SEPARATOR . $filename;
+
             if ($zip->open($destination, ZipArchive::CREATE | ZipArchive::EXCL) !== true) {
                 throw new \RuntimeException('Không thể tạo file ZIP.');
             }
@@ -58,22 +66,23 @@ class BackupController extends Controller
             if ($driver === 'sqlite') {
                 $databasePath = DB::connection()->getDatabaseName();
                 if ($databasePath === ':memory:' || !File::isFile($databasePath)) {
-                    throw new \RuntimeException('Không tìm thấy file SQLite để sao lưu.');
+                    throw new \RuntimeException('Không tìm thấy database SQLite.');
                 }
-                // A consistent SQLite snapshot, including data still in WAL, is needed.
-                // VACUUM INTO creates an independent snapshot without copying the live DB file.
-                $snapshot = $directory . DIRECTORY_SEPARATOR . 'snapshot-' . Str::random(24) . '.sqlite';
-                $temporarySql = $snapshot;
-                $quotedPath = str_replace("'", "''", $snapshot);
+
+                $temporaryDatabase = $directory . DIRECTORY_SEPARATOR . 'snapshot-' . Str::random(24) . '.sqlite';
+                $quotedPath = str_replace("'", "''", $temporaryDatabase);
                 DB::connection()->statement("VACUUM INTO '{$quotedPath}'");
-                if (!$zip->addFile($snapshot, 'database/portfolio.sqlite')) {
+                if (!File::isFile($temporaryDatabase) || File::size($temporaryDatabase) === 0) {
+                    throw new \RuntimeException('Không thể tạo bản sao SQLite.');
+                }
+                if (!$zip->addFile($temporaryDatabase, 'database/portfolio.sqlite')) {
                     throw new \RuntimeException('Không thể thêm SQLite vào ZIP.');
                 }
                 $databaseEntry = 'database/portfolio.sqlite';
             } elseif ($driver === 'mysql') {
-                $temporarySql = $directory . DIRECTORY_SEPARATOR . 'export-' . Str::random(24) . '.sql';
-                $this->exportMysqlToFile($temporarySql);
-                if (!$zip->addFile($temporarySql, 'database/portfolio.sql')) {
+                $temporaryDatabase = $directory . DIRECTORY_SEPARATOR . 'export-' . Str::random(24) . '.sql';
+                $this->exportMysqlToFile($temporaryDatabase);
+                if (!$zip->addFile($temporaryDatabase, 'database/portfolio.sql')) {
                     throw new \RuntimeException('Không thể thêm SQL vào ZIP.');
                 }
                 $databaseEntry = 'database/portfolio.sql';
@@ -94,10 +103,11 @@ class BackupController extends Controller
                 }
             }
 
-            if (!$zip->addFromString('README.txt',
+            if (!$zip->addFromString(
+                'README.txt',
                 "Laravel Personal Portfolio Backup\nCreated: " . now()->toDateTimeString() .
-                "\nDatabase: {$databaseEntry}\nUploaded files: uploads/\n" .
-                "Restore manually after reviewing the backup.\n")) {
+                "\nDatabase: {$databaseEntry}\nUploaded files: uploads/\nRestore manually after reviewing the backup.\n"
+            )) {
                 throw new \RuntimeException('Không thể thêm README vào ZIP.');
             }
 
@@ -107,24 +117,64 @@ class BackupController extends Controller
             $closed = true;
 
             if (!File::isFile($destination) || File::size($destination) === 0) {
-                throw new \RuntimeException('File ZIP được tạo không hợp lệ.');
+                throw new \RuntimeException('File ZIP không hợp lệ.');
             }
 
             return redirect()->route('admin.backups.index')
-                ->with('success', 'Tạo bản sao lưu thành công!');
+                ->with('success', 'Tạo bản sao lưu ZIP thành công!');
         } catch (\Throwable $e) {
             report($e);
             if ($opened && !$closed) {
-                try { $zip->close(); } catch (\Throwable $ignored) {}
+                try {
+                    $zip->close();
+                } catch (\Throwable $ignored) {
+                }
             }
-            if (File::exists($destination)) {
+            if ($destination && File::exists($destination)) {
                 File::delete($destination);
             }
-            return back()->with('error', 'Sao lưu thất bại. Kiểm tra log Laravel và cấu hình database.');
+            return back()->with('error', 'Sao lưu thất bại. Kiểm tra log Laravel và quyền ghi thư mục.');
         } finally {
-            if ($temporarySql && File::exists($temporarySql)) {
-                File::delete($temporarySql);
+            if ($temporaryDatabase && File::exists($temporaryDatabase)) {
+                File::delete($temporaryDatabase);
             }
+        }
+    }
+
+    private function backupWithoutZip()
+    {
+        $directory = $this->backupDirectory();
+        $destination = null;
+
+        try {
+            File::ensureDirectoryExists($directory);
+
+            if (DB::connection()->getDriverName() !== 'sqlite') {
+                return back()->with('error', 'Hosting chưa hỗ trợ ZIP. Sao lưu không ZIP hiện chỉ hỗ trợ SQLite.');
+            }
+
+            $databasePath = DB::connection()->getDatabaseName();
+            if ($databasePath === ':memory:' || !File::isFile($databasePath)) {
+                throw new \RuntimeException('Không tìm thấy database SQLite.');
+            }
+
+            $filename = 'portfolio-' . now()->format('Y-m-d_H-i-s') . '-' . Str::random(6) . '.sqlite';
+            $destination = $directory . DIRECTORY_SEPARATOR . $filename;
+            $quotedPath = str_replace("'", "''", $destination);
+            DB::connection()->statement("VACUUM INTO '{$quotedPath}'");
+
+            if (!File::isFile($destination) || File::size($destination) === 0) {
+                throw new \RuntimeException('Bản sao SQLite không hợp lệ.');
+            }
+
+            return redirect()->route('admin.backups.index')
+                ->with('success', 'Sao lưu SQLite thành công! Lưu ý: bản sao này không chứa ảnh tải lên.');
+        } catch (\Throwable $e) {
+            report($e);
+            if ($destination && File::exists($destination)) {
+                File::delete($destination);
+            }
+            return back()->with('error', 'Không thể sao lưu SQLite. Kiểm tra log Laravel và quyền ghi thư mục.');
         }
     }
 
@@ -198,7 +248,7 @@ class BackupController extends Controller
 
     private function getBackupPath(string $filename): string
     {
-        abort_unless((bool) preg_match('/^portfolio-[A-Za-z0-9_-]+\.zip$/D', $filename), 404);
+        abort_unless($this->isBackupFilename($filename), 404);
         return $this->backupDirectory() . DIRECTORY_SEPARATOR . $filename;
     }
 }

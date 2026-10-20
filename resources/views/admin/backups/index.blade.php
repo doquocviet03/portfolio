@@ -87,8 +87,9 @@ html[data-bs-theme="dark"] .backup-page,html[data-theme="dark"] .backup-page {
         <div>
             <div class="fw-bold mb-1">Lưu ý về sao lưu</div>
             <div class="bk-muted small">
-                Theo cấu hình sao lưu hiện tại, file ZIP có thể chứa dữ liệu cơ sở dữ liệu và ảnh đã tải lên.
-                Hãy tải file về máy, cất giữ an toàn và kiểm tra khả năng khôi phục trước khi cần sử dụng.
+                Bản sao lưu ZIP có thể chứa database và ảnh đã tải lên.
+                Bản sao lưu SQLite chỉ chứa dữ liệu database, không bao gồm ảnh.
+                Hãy tải file về máy và cất giữ ở nơi an toàn. Nên kiểm tra khả năng khôi phục định kỳ.
             </div>
         </div>
     </div>
@@ -115,7 +116,9 @@ html[data-bs-theme="dark"] .backup-page,html[data-theme="dark"] .backup-page {
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center gap-3">
-                                        <span class="bk-file-icon"><i class="bi bi-file-earmark-zip"></i></span>
+                                        <span class="bk-file-icon">
+                                            <i class="bi {{ ($backup['type'] ?? 'zip') === 'sqlite' ? 'bi-database' : 'bi-file-earmark-zip' }}"></i>
+                                        </span>
                                         <span class="fw-semibold bk-file-name">{{ $backup['name'] }}</span>
                                     </div>
                                 </td>
