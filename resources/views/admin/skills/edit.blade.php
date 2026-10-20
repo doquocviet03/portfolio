@@ -4,9 +4,9 @@
 
 
 
-@section('title', 'Thêm kỹ năng')
+@section('title', 'Sửa kỹ năng')
 
-@section('page_title', 'Thêm kỹ năng')
+@section('page_title', 'Chỉnh sửa kỹ năng')
 
 
 
@@ -14,45 +14,45 @@
 
 <style>
 
-.skill-create {
+.skill-edit {
 
-    --sc-bg: #fff;
+    --se-bg: #ffffff;
 
-    --sc-text: #0f172a;
+    --se-text: #0f172a;
 
-    --sc-muted: #64748b;
+    --se-muted: #64748b;
 
-    --sc-border: #dbe3ef;
+    --se-border: #dbe3ef;
 
-    --sc-soft: #f8fafc;
+    --se-soft: #f8fafc;
 
-    color: var(--sc-text);
-
-}
-
-
-
-html[data-theme="dark"] .skill-create,
-
-html[data-bs-theme="dark"] .skill-create {
-
-    --sc-bg: #17243a;
-
-    --sc-text: #f1f5f9;
-
-    --sc-muted: #b9c8da;
-
-    --sc-border: #34465e;
-
-    --sc-soft: #1e2e46;
+    color: var(--se-text);
 
 }
 
 
 
-.skill-create .sc-heading {
+html[data-bs-theme="dark"] .skill-edit,
 
-    color: var(--sc-text);
+html[data-theme="dark"] .skill-edit {
+
+    --se-bg: #17243a;
+
+    --se-text: #f1f5f9;
+
+    --se-muted: #b9c8da;
+
+    --se-border: #34465e;
+
+    --se-soft: #1e2e46;
+
+}
+
+
+
+.skill-edit .se-heading {
+
+    color: var(--se-text);
 
     font-weight: 800;
 
@@ -60,21 +60,21 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-.skill-create .sc-muted,
+.skill-edit .se-muted,
 
-.skill-create .form-text {
+.skill-edit .form-text {
 
-    color: var(--sc-muted) !important;
+    color: var(--se-muted) !important;
 
 }
 
 
 
-.skill-create .sc-card {
+.skill-edit .se-card {
 
-    background: var(--sc-bg);
+    background: var(--se-bg);
 
-    border: 1px solid var(--sc-border);
+    border: 1px solid var(--se-border);
 
     border-radius: 20px;
 
@@ -86,15 +86,15 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-.skill-create .sc-section-title {
+.skill-edit .se-section-title {
 
-    color: var(--sc-text);
+    color: var(--se-text);
 
     font-size: 18px;
 
     font-weight: 800;
 
-    border-bottom: 1px solid var(--sc-border);
+    border-bottom: 1px solid var(--se-border);
 
     padding-bottom: 16px;
 
@@ -104,9 +104,9 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-.skill-create .form-label {
+.skill-edit .form-label {
 
-    color: var(--sc-text);
+    color: var(--se-text);
 
     font-weight: 650;
 
@@ -114,15 +114,15 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-.skill-create .form-control,
+.skill-edit .form-control,
 
-.skill-create .form-select {
+.skill-edit .form-select {
 
-    background: var(--sc-soft);
+    background: var(--se-soft);
 
-    color: var(--sc-text);
+    color: var(--se-text);
 
-    border: 1px solid var(--sc-border);
+    border: 1px solid var(--se-border);
 
     border-radius: 11px;
 
@@ -132,13 +132,13 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-.skill-create .form-control:focus,
+.skill-edit .form-control:focus,
 
-.skill-create .form-select:focus {
+.skill-edit .form-select:focus {
 
-    background: var(--sc-bg);
+    background: var(--se-bg);
 
-    color: var(--sc-text);
+    color: var(--se-text);
 
     border-color: #60a5fa;
 
@@ -148,31 +148,31 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-.skill-create .form-control::placeholder {
+.skill-edit .form-control::placeholder {
 
-    color: var(--sc-muted);
+    color: var(--se-muted);
 
-    opacity: .85;
-
-}
-
-
-
-.skill-create .form-select option {
-
-    background: var(--sc-bg);
-
-    color: var(--sc-text);
+    opacity: .9;
 
 }
 
 
 
-.skill-create .sc-level-panel {
+.skill-edit .form-select option {
 
-    background: var(--sc-soft);
+    background: var(--se-bg);
 
-    border: 1px solid var(--sc-border);
+    color: var(--se-text);
+
+}
+
+
+
+.skill-edit .se-level-panel {
+
+    background: var(--se-soft);
+
+    border: 1px solid var(--se-border);
 
     border-radius: 16px;
 
@@ -182,7 +182,7 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-.skill-create .sc-range {
+.skill-edit .se-range {
 
     accent-color: #2563eb;
 
@@ -194,7 +194,7 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-.skill-create .sc-percent {
+.skill-edit .se-percent {
 
     font-size: 29px;
 
@@ -202,21 +202,15 @@ html[data-bs-theme="dark"] .skill-create {
 
     color: #3b82f6;
 
-    min-width: 76px;
-
-    text-align: right;
-
 }
 
 
 
-.skill-create .sc-progress {
-
-    width: 100%;
+.skill-edit .se-progress {
 
     height: 11px;
 
-    background: var(--sc-border);
+    background: var(--se-border);
 
     border-radius: 999px;
 
@@ -226,13 +220,11 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-.skill-create .sc-progress-bar {
+.skill-edit .se-progress-bar {
 
     height: 100%;
 
-    width: 50%;
-
-    background: linear-gradient(90deg, #2563eb, #38bdf8);
+    background: linear-gradient(90deg,#2563eb,#38bdf8);
 
     border-radius: inherit;
 
@@ -242,17 +234,27 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-.skill-create .sc-back {
+.skill-edit .se-actions {
 
-    display: inline-flex;
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
 
     align-items: center;
 
-    border: 1px solid var(--sc-border);
+}
 
-    color: var(--sc-text);
 
-    background: var(--sc-soft);
+
+.skill-edit .se-back {
+
+    border: 1px solid var(--se-border);
+
+    color: var(--se-text);
+
+    background: var(--se-soft);
 
     border-radius: 11px;
 
@@ -264,9 +266,9 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-.skill-create .sc-back:hover {
+.skill-edit .se-back:hover {
 
-    color: var(--sc-text);
+    color: var(--se-text);
 
     border-color: #60a5fa;
 
@@ -274,7 +276,7 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-.skill-create .sc-save {
+.skill-edit .se-save {
 
     border-radius: 11px;
 
@@ -286,45 +288,9 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-.skill-create .sc-preview {
+.skill-edit .se-hint {
 
-    width: 84px;
-
-    height: 84px;
-
-    border-radius: 16px;
-
-    border: 1px dashed var(--sc-border);
-
-    background: var(--sc-soft);
-
-    display: grid;
-
-    place-items: center;
-
-    overflow: hidden;
-
-    color: var(--sc-muted);
-
-}
-
-
-
-.skill-create .sc-preview img {
-
-    width: 100%;
-
-    height: 100%;
-
-    object-fit: contain;
-
-}
-
-
-
-.skill-create .sc-hint {
-
-    color: var(--sc-muted);
+    color: var(--se-muted);
 
     font-size: 13px;
 
@@ -332,9 +298,63 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-/* Ẩn phần trăm khi chọn kỹ năng cá nhân */
+.skill-edit .se-icon-preview {
 
-.skill-create #programmingLevelSection[hidden] {
+    width: 100px;
+
+    height: 100px;
+
+    object-fit: contain;
+
+    border-radius: 16px;
+
+    background: var(--se-soft);
+
+    border: 1px solid var(--se-border);
+
+    padding: 10px;
+
+}
+
+
+
+.skill-edit .se-preview-placeholder {
+
+    width: 100px;
+
+    height: 100px;
+
+    border-radius: 16px;
+
+    background: var(--se-soft);
+
+    border: 1px dashed var(--se-border);
+
+    display: grid;
+
+    place-items: center;
+
+    color: #60a5fa;
+
+    font-size: 36px;
+
+}
+
+
+
+.skill-edit .se-info-row {
+
+    border-bottom: 1px solid var(--se-border);
+
+    padding-bottom: 12px;
+
+    margin-bottom: 12px;
+
+}
+
+
+
+.skill-edit #skillLevelSection[hidden] {
 
     display: none !important;
 
@@ -344,7 +364,7 @@ html[data-bs-theme="dark"] .skill-create {
 
 @media (prefers-reduced-motion: reduce) {
 
-    .skill-create .sc-progress-bar {
+    .skill-edit .se-progress-bar {
 
         transition: none;
 
@@ -360,7 +380,45 @@ html[data-bs-theme="dark"] .skill-create {
 
 @section('content')
 
-<div class="skill-create container-fluid px-0">
+@php
+
+    $selectedType = old('type', $skill->type ?? 'programming');
+
+    $selectedLevel = old('level', $skill->level ?? 50);
+
+
+
+    $hasIcon = filled($skill->icon)
+
+        && (
+
+            str_starts_with($skill->icon, 'skills/')
+
+            || filter_var($skill->icon, FILTER_VALIDATE_URL)
+
+        );
+
+
+
+    $iconUrl = $hasIcon
+
+        ? (
+
+            filter_var($skill->icon, FILTER_VALIDATE_URL)
+
+                ? $skill->icon
+
+                : asset('storage/' . $skill->icon)
+
+        )
+
+        : null;
+
+@endphp
+
+
+
+<div class="skill-edit container-fluid px-0">
 
 
 
@@ -368,15 +426,19 @@ html[data-bs-theme="dark"] .skill-create {
 
         <div>
 
-            <h1 class="sc-heading h3 mb-1">
+            <h1 class="se-heading h3 mb-1">
 
-                Thêm kỹ năng mới
+                Chỉnh sửa kỹ năng
 
             </h1>
 
-            <p class="sc-muted mb-0">
 
-                Quản lý kỹ năng lập trình và kỹ năng cá nhân hiển thị trên Portfolio.
+
+            <p class="se-muted mb-0">
+
+                Cập nhật thông tin cho kỹ năng:
+
+                <strong>{{ $skill->name }}</strong>
 
             </p>
 
@@ -384,9 +446,9 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-        <a href="{{ route('admin.skills.index') }}" class="sc-back">
+        <a href="{{ route('admin.skills.index') }}" class="se-back">
 
-            <i class="bi bi-arrow-left me-2"></i>
+            <i class="bi bi-arrow-left me-1"></i>
 
             Quay lại danh sách
 
@@ -402,7 +464,7 @@ html[data-bs-theme="dark"] .skill-create {
 
             <i class="bi bi-exclamation-triangle-fill me-2"></i>
 
-            Vui lòng kiểm tra lại thông tin bên dưới.
+            Vui lòng kiểm tra lại thông tin.
 
 
 
@@ -426,13 +488,13 @@ html[data-bs-theme="dark"] .skill-create {
 
         <div class="col-xl-8">
 
-            <section class="sc-card">
+            <section class="se-card">
 
 
 
-                <h2 class="sc-section-title">
+                <h2 class="se-section-title">
 
-                    <i class="bi bi-grid-3x3-gap text-primary me-2"></i>
+                    <i class="bi bi-pencil-square text-primary me-2"></i>
 
                     Thông tin kỹ năng
 
@@ -440,151 +502,147 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-                <form method="POST"
+                <form
 
-                      action="{{ route('admin.skills.store') }}"
+                    method="POST"
 
-                      enctype="multipart/form-data"
+                    action="{{ route('admin.skills.update', $skill) }}"
 
-                      id="createSkillForm">
+                    enctype="multipart/form-data"
 
+                    id="editSkillForm"
 
+                >
 
                     @csrf
 
-
-
-                    <div class="row g-3 mb-4">
-
-                        <div class="col-md-6">
-
-                            <label for="skillType" class="form-label">
-
-                                Loại kỹ năng <span class="text-danger">*</span>
-
-                            </label>
+                    @method('PUT')
 
 
 
-                            <select id="skillType"
-
-                                    name="type"
-
-                                    class="form-select @error('type') is-invalid @enderror"
-
-                                    required>
-
-
-
-                                <option value="programming"
-
-                                    @selected(old('type', 'programming') === 'programming')>
-
-                                    Kỹ năng lập trình
-
-                                </option>
-
-
-
-                                <option value="personal"
-
-                                    @selected(old('type') === 'personal')>
-
-                                    Kỹ năng cá nhân
-
-                                </option>
-
-                            </select>
-
-
-
-                            @error('type')
-
-                                <div class="invalid-feedback">{{ $message }}</div>
-
-                            @enderror
-
-                        </div>
-
-
-
-                        <div class="col-md-6">
-
-                            <label for="skillOrder" class="form-label">
-
-                                Thứ tự hiển thị
-
-                            </label>
-
-
-
-                            <input id="skillOrder"
-
-                                   type="number"
-
-                                   name="sort_order"
-
-                                   min="0"
-
-                                   max="99999"
-
-                                   step="1"
-
-                                   value="{{ old('sort_order', 0) }}"
-
-                                   class="form-control @error('sort_order') is-invalid @enderror">
-
-
-
-                            @error('sort_order')
-
-                                <div class="invalid-feedback">{{ $message }}</div>
-
-                            @enderror
-
-                        </div>
-
-                    </div>
-
-
+                    {{-- LOẠI KỸ NĂNG --}}
 
                     <div class="mb-4">
 
-                        <label for="skillName" class="form-label">
+                        <label for="skillType" class="form-label">
 
-                            Tên kỹ năng <span class="text-danger">*</span>
+                            Loại kỹ năng
+
+                            <span class="text-danger">*</span>
 
                         </label>
 
 
 
-                        <input id="skillName"
+                        <select
 
-                               name="name"
+                            id="skillType"
 
-                               type="text"
+                            name="type"
 
-                               maxlength="255"
+                            class="form-select @error('type') is-invalid @enderror"
 
-                               value="{{ old('name') }}"
+                            required
 
-                               class="form-control @error('name') is-invalid @enderror"
+                        >
 
-                               placeholder="Ví dụ: Laravel, Python, Làm việc nhóm..."
+                            <option value="programming"
 
-                               required>
+                                @selected($selectedType === 'programming')>
+
+                                Kỹ năng lập trình
+
+                            </option>
+
+
+
+                            <option value="personal"
+
+                                @selected($selectedType === 'personal')>
+
+                                Kỹ năng cá nhân
+
+                            </option>
+
+                        </select>
+
+
+
+                        @error('type')
+
+                            <div class="invalid-feedback">
+
+                                {{ $message }}
+
+                            </div>
+
+                        @enderror
+
+
+
+                        <p class="se-hint mt-2 mb-0">
+
+                            Kỹ năng lập trình có phần trăm thành thạo.
+
+                            Kỹ năng cá nhân chỉ hiển thị tên, biểu tượng và mô tả.
+
+                        </p>
+
+                    </div>
+
+
+
+                    {{-- TÊN KỸ NĂNG --}}
+
+                    <div class="mb-4">
+
+                        <label for="skillName" class="form-label">
+
+                            Tên kỹ năng
+
+                            <span class="text-danger">*</span>
+
+                        </label>
+
+
+
+                        <input
+
+                            id="skillName"
+
+                            type="text"
+
+                            name="name"
+
+                            value="{{ old('name', $skill->name) }}"
+
+                            class="form-control @error('name') is-invalid @enderror"
+
+                            placeholder="Ví dụ: Laravel, Python, Làm việc nhóm..."
+
+                            maxlength="255"
+
+                            required
+
+                        >
 
 
 
                         @error('name')
 
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback">
+
+                                {{ $message }}
+
+                            </div>
 
                         @enderror
 
                     </div>
 
 
+
+                    {{-- MÔ TẢ --}}
 
                     <div class="mb-4">
 
@@ -596,23 +654,31 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-                        <textarea id="skillDescription"
+                        <textarea
 
-                                  name="description"
+                            id="skillDescription"
 
-                                  rows="4"
+                            name="description"
 
-                                  maxlength="2000"
+                            rows="4"
 
-                                  class="form-control @error('description') is-invalid @enderror"
+                            maxlength="2000"
 
-                                  placeholder="Mô tả ngắn về kiến thức, công cụ hoặc khả năng của bạn...">{{ old('description') }}</textarea>
+                            class="form-control @error('description') is-invalid @enderror"
+
+                            placeholder="Mô tả ngắn về kiến thức, kinh nghiệm hoặc khả năng..."
+
+                        >{{ old('description', $skill->description) }}</textarea>
 
 
 
                         @error('description')
 
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback">
+
+                                {{ $message }}
+
+                            </div>
 
                         @enderror
 
@@ -622,7 +688,7 @@ html[data-bs-theme="dark"] .skill-create {
 
                     
                     {{-- ENGLISH TRANSLATION --}}
-                    <div class="mb-4 p-3 rounded-3" style="border:1px solid var(--sc-border); background:var(--sc-soft);">
+                    <div class="mb-4 p-3 rounded-3" style="border:1px solid var(--se-border); background:var(--se-soft);">
                         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
                             <h3 class="h6 fw-bold mb-0">English translation</h3>
                             <button type="button" id="translateSkillBtn" class="btn btn-outline-primary btn-sm">
@@ -633,7 +699,7 @@ html[data-bs-theme="dark"] .skill-create {
                         <div class="mb-3">
                             <label for="skillNameEn" class="form-label">Tên kỹ năng (English)</label>
                             <input id="skillNameEn" name="name_en" type="text" maxlength="255"
-                                value="{{ old('name_en', '') }}"
+                                value="{{ old('name_en', $skill->name_en) }}"
                                 class="form-control @error('name_en') is-invalid @enderror"
                                 placeholder="e.g. Teamwork, Communication, Laravel">
                             @error('name_en') <div class="invalid-feedback">{{ $message }}</div> @enderror
@@ -642,62 +708,70 @@ html[data-bs-theme="dark"] .skill-create {
                             <label for="skillDescriptionEn" class="form-label">Mô tả kỹ năng (English)</label>
                             <textarea id="skillDescriptionEn" name="description_en" rows="4" maxlength="5000"
                                 class="form-control @error('description_en') is-invalid @enderror"
-                                placeholder="Describe this skill in English...">{{ old('description_en', '') }}</textarea>
+                                placeholder="Describe this skill in English...">{{ old('description_en', $skill->description_en) }}</textarea>
                             @error('description_en') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                     </div>
+
+                    {{-- LOGO / ICON --}}
 
                     <div class="mb-4">
 
                         <label for="skillIcon" class="form-label">
 
-                            Logo / Icon kỹ năng
+                            Logo / Biểu tượng kỹ năng
 
                         </label>
 
 
 
-                        <div class="d-flex align-items-start gap-3 flex-wrap">
+                        <div class="d-flex align-items-center flex-wrap gap-3 mb-3">
 
-                            <div class="sc-preview"
+                            <img
 
-                                 id="skillIconPreview"
+                                id="skillIconPreview"
 
-                                 aria-label="Xem trước logo">
+                                src="{{ $iconUrl ?? '' }}"
 
-                                <i class="bi bi-image fs-2"></i>
+                                alt="Logo kỹ năng"
+
+                                class="se-icon-preview"
+
+                                style="{{ $hasIcon ? '' : 'display:none;' }}"
+
+                            >
+
+
+
+                            <div
+
+                                id="skillIconPlaceholder"
+
+                                class="se-preview-placeholder"
+
+                                style="{{ $hasIcon ? 'display:none;' : '' }}"
+
+                            >
+
+                                <i class="bi bi-image"></i>
 
                             </div>
 
 
 
-                            <div class="flex-grow-1" style="min-width:220px">
+                            <div>
 
-                                <input id="skillIcon"
+                                <div class="fw-semibold se-heading">
 
-                                       name="icon"
+                                    Xem trước logo
 
-                                       type="file"
-
-                                       accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
-
-                                       class="form-control @error('icon') is-invalid @enderror">
+                                </div>
 
 
 
-                                @error('icon')
+                                <div class="se-hint">
 
-                                    <div class="invalid-feedback">{{ $message }}</div>
-
-                                @enderror
-
-
-
-                                <div class="sc-hint mt-2">
-
-                                    Chấp nhận JPG, PNG, WebP, tối đa 2 MB.
-
-                                    Nếu không tải ảnh, giao diện sử dụng biểu tượng mặc định.
+                                    JPG, PNG, WebP — tối đa 2 MB
 
                                 </div>
 
@@ -705,15 +779,61 @@ html[data-bs-theme="dark"] .skill-create {
 
                         </div>
 
+
+
+                        <input
+
+                            type="file"
+
+                            id="skillIcon"
+
+                            name="icon"
+
+                            accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+
+                            class="form-control @error('icon') is-invalid @enderror"
+
+                        >
+
+
+
+                        @error('icon')
+
+                            <div class="invalid-feedback">
+
+                                {{ $message }}
+
+                            </div>
+
+                        @enderror
+
+
+
+                        <p class="se-hint mt-2 mb-0">
+
+                            Không chọn ảnh mới nếu muốn giữ nguyên logo hiện tại.
+
+                        </p>
+
                     </div>
 
 
 
-                    <div class="mb-4" id="programmingLevelSection">
+                    {{-- MỨC ĐỘ LẬP TRÌNH --}}
+
+                    <div
+
+                        class="mb-4"
+
+                        id="skillLevelSection"
+
+                        @if($selectedType === 'personal') hidden @endif
+
+                    >
 
                         <label for="skillLevel" class="form-label">
 
-                            Mức độ thành thạo (0–100%)
+                            Mức độ kỹ năng (0–100%)
 
                             <span class="text-danger">*</span>
 
@@ -721,19 +841,21 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-                        <div class="sc-level-panel">
+                        <div class="se-level-panel">
 
                             <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
 
-                                <span class="sc-muted small">
+                                <span class="se-muted small">
 
                                     Điều chỉnh mức độ
 
                                 </span>
 
-                                <span class="sc-percent" id="skillPercent">
 
-                                    50%
+
+                                <span class="se-percent" id="skillPercent">
+
+                                    {{ $selectedLevel }}%
 
                                 </span>
 
@@ -741,41 +863,55 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-                            <input id="skillLevelRange"
+                            <input
 
-                                   type="range"
+                                id="skillLevelRange"
 
-                                   class="sc-range mb-3"
+                                type="range"
 
-                                   min="0"
+                                class="se-range mb-3"
 
-                                   max="100"
+                                min="0"
 
-                                   step="1"
+                                max="100"
 
-                                   value="{{ old('level', 50) }}"
+                                step="1"
 
-                                   aria-label="Điều chỉnh mức độ kỹ năng">
+                                value="{{ $selectedLevel }}"
+
+                                aria-label="Điều chỉnh mức độ kỹ năng"
+
+                            >
 
 
 
-                            <div class="sc-progress mb-3"
+                            <div
 
-                                 role="progressbar"
+                                class="se-progress mb-3"
 
-                                 id="skillProgress"
+                                id="skillProgress"
 
-                                 aria-label="Mức độ kỹ năng"
+                                role="progressbar"
 
-                                 aria-valuemin="0"
+                                aria-label="Mức độ kỹ năng"
 
-                                 aria-valuemax="100"
+                                aria-valuemin="0"
 
-                                 aria-valuenow="50">
+                                aria-valuemax="100"
 
-                                <div class="sc-progress-bar"
+                                aria-valuenow="{{ max(0, min(100, (int) $selectedLevel)) }}"
 
-                                     id="skillProgressBar"></div>
+                            >
+
+                                <div
+
+                                    class="se-progress-bar"
+
+                                    id="skillProgressBar"
+
+                                    style="width: {{ max(0, min(100, (int) $selectedLevel)) }}%"
+
+                                ></div>
 
                             </div>
 
@@ -791,27 +927,33 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-                                <input id="skillLevel"
+                                <input
 
-                                       type="number"
+                                    id="skillLevel"
 
-                                       name="level"
+                                    type="number"
 
-                                       class="form-control @error('level') is-invalid @enderror"
+                                    name="level"
 
-                                       style="max-width:130px"
+                                    min="0"
 
-                                       min="0"
+                                    max="100"
 
-                                       max="100"
+                                    step="1"
 
-                                       step="1"
+                                    value="{{ $selectedLevel }}"
 
-                                       value="{{ old('level', 50) }}">
+                                    class="form-control @error('level') is-invalid @enderror"
+
+                                    style="max-width:130px"
+
+                                    @if($selectedType === 'programming') required @else disabled @endif
+
+                                >
 
 
 
-                                <span class="sc-muted small">%</span>
+                                <span class="se-muted small">%</span>
 
                             </div>
 
@@ -831,11 +973,9 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-                        <p class="sc-hint mt-2 mb-0">
+                        <p class="se-hint mt-2 mb-0">
 
                             Chỉ áp dụng cho kỹ năng lập trình.
-
-                            Kỹ năng cá nhân không sử dụng phần trăm.
 
                         </p>
 
@@ -843,25 +983,81 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
-                    <div class="d-flex flex-wrap align-items-center gap-3">
+                    {{-- THỨ TỰ HIỂN THỊ --}}
 
-                        <button type="submit"
+                    <div class="mb-4">
 
-                                class="btn btn-primary sc-save">
+                        <label for="skillSortOrder" class="form-label">
 
-                            <i class="bi bi-check2-circle me-2"></i>
+                            Thứ tự hiển thị
 
-                            Lưu kỹ năng
+                        </label>
+
+
+
+                        <input
+
+                            id="skillSortOrder"
+
+                            type="number"
+
+                            name="sort_order"
+
+                            min="0"
+
+                            max="99999"
+
+                            step="1"
+
+                            value="{{ old('sort_order', $skill->sort_order ?? 0) }}"
+
+                            class="form-control @error('sort_order') is-invalid @enderror"
+
+                            style="max-width:200px"
+
+                        >
+
+
+
+                        @error('sort_order')
+
+                            <div class="invalid-feedback">
+
+                                {{ $message }}
+
+                            </div>
+
+                        @enderror
+
+
+
+                        <p class="se-hint mt-2 mb-0">
+
+                            Số nhỏ hơn sẽ được hiển thị trước.
+
+                        </p>
+
+                    </div>
+
+
+
+                    {{-- NÚT LƯU --}}
+
+                    <div class="se-actions">
+
+                        <button type="submit" class="btn btn-primary se-save">
+
+                            <i class="bi bi-check2-circle me-1"></i>
+
+                            Cập nhật kỹ năng
 
                         </button>
 
 
 
-                        <a href="{{ route('admin.skills.index') }}"
+                        <a href="{{ route('admin.skills.index') }}" class="se-back">
 
-                           class="sc-back">
-
-                            Hủy
+                            Hủy thay đổi
 
                         </a>
 
@@ -875,55 +1071,121 @@ html[data-bs-theme="dark"] .skill-create {
 
 
 
+        {{-- THÔNG TIN HIỆN TẠI --}}
+
         <div class="col-xl-4">
 
-            <aside class="sc-card">
+            <aside class="se-card">
 
-                <h2 class="sc-section-title">
 
-                    <i class="bi bi-lightbulb text-warning me-2"></i>
 
-                    Gợi ý nhập liệu
+                <h2 class="se-section-title">
+
+                    <i class="bi bi-info-circle text-primary me-2"></i>
+
+                    Thông tin hiện tại
 
                 </h2>
 
 
 
-                <p class="fw-semibold mb-2">Kỹ năng lập trình</p>
+                <div class="se-info-row">
 
-                <p class="sc-muted small">
+                    <div class="se-muted small mb-1">Mã kỹ năng</div>
 
-                    PHP, Laravel, Python, MySQL, JavaScript, HTML/CSS.
+                    <div class="fw-semibold se-heading">
 
-                    Có thể thêm logo và mức độ thành thạo.
+                        #{{ $skill->id }}
 
-                </p>
+                    </div>
 
-
-
-                <hr>
+                </div>
 
 
 
-                <p class="fw-semibold mb-2">Kỹ năng cá nhân</p>
+                <div class="se-info-row">
 
-                <p class="sc-muted small">
+                    <div class="se-muted small mb-1">Tên đang lưu</div>
 
-                    Làm việc nhóm, giao tiếp, quản lý thời gian,
+                    <div class="fw-semibold se-heading">
 
-                    giải quyết vấn đề, tư duy logic, tự học.
+                        {{ $skill->name }}
 
-                    Không cần phần trăm.
+                    </div>
 
-                </p>
+                </div>
 
 
 
-                <p class="sc-hint mb-0">
+                <div class="se-info-row">
 
-                    Các kỹ năng sẽ xuất hiện trên website khi trang kỹ năng
+                    <div class="se-muted small mb-1">Loại kỹ năng</div>
 
-                    công khai đọc dữ liệu từ database.
+
+
+                    @if(($skill->type ?? 'programming') === 'personal')
+
+                        <span class="badge text-bg-success">
+
+                            Kỹ năng cá nhân
+
+                        </span>
+
+                    @else
+
+                        <span class="badge text-bg-primary">
+
+                            Kỹ năng lập trình
+
+                        </span>
+
+                    @endif
+
+                </div>
+
+
+
+                <div class="se-info-row">
+
+                    <div class="se-muted small mb-1">Mức độ đang lưu</div>
+
+                    <div class="fw-semibold se-heading">
+
+                        @if(($skill->type ?? 'programming') === 'programming')
+
+                            {{ $skill->level !== null ? $skill->level . '%' : 'Chưa cập nhật' }}
+
+                        @else
+
+                            Không áp dụng
+
+                        @endif
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="se-info-row">
+
+                    <div class="se-muted small mb-1">Thứ tự</div>
+
+                    <div class="fw-semibold se-heading">
+
+                        {{ $skill->sort_order ?? 0 }}
+
+                    </div>
+
+                </div>
+
+
+
+                <p class="se-hint mb-0">
+
+                    Thông tin bên trên là dữ liệu đang lưu.
+
+                    Chỉ khi nhấn "Cập nhật kỹ năng", thay đổi mới được lưu.
 
                 </p>
 
@@ -947,7 +1209,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const type = document.getElementById('skillType');
 
-    const section = document.getElementById('programmingLevelSection');
+    const levelSection = document.getElementById('skillLevelSection');
+
+
 
     const number = document.getElementById('skillLevel');
 
@@ -959,13 +1223,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const progress = document.getElementById('skillProgress');
 
-    const file = document.getElementById('skillIcon');
-
-    const preview = document.getElementById('skillIconPreview');
 
 
+    const iconInput = document.getElementById('skillIcon');
 
-    let previewUrl = null;
+    const iconPreview = document.getElementById('skillIconPreview');
+
+    const iconPlaceholder = document.getElementById('skillIconPlaceholder');
+
+
+
+    const originalIconUrl = @json($iconUrl);
+
+    const hasOriginalIcon = @json($hasIcon);
 
 
 
@@ -995,23 +1265,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    function syncType() {
+    function updateType() {
 
-        const programming = type.value === 'programming';
-
-
-
-        section.hidden = !programming;
-
-        number.disabled = !programming;
-
-        range.disabled = !programming;
-
-        number.required = programming;
+        const isProgramming = type.value === 'programming';
 
 
 
-        if (programming) {
+        levelSection.hidden = !isProgramming;
+
+        number.disabled = !isProgramming;
+
+        range.disabled = !isProgramming;
+
+        number.required = isProgramming;
+
+
+
+        if (isProgramming) {
+
+            if (number.value === '') {
+
+                number.value = '50';
+
+            }
 
             render(number.value);
 
@@ -1021,7 +1297,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    type.addEventListener('change', syncType);
+    type.addEventListener('change', updateType);
 
 
 
@@ -1057,7 +1333,45 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-    file.addEventListener('change', function () {
+    render(number.value);
+
+    updateType();
+
+
+
+    let previewUrl = null;
+
+
+
+    function restoreOriginalIcon() {
+
+        if (hasOriginalIcon && originalIconUrl) {
+
+            iconPreview.src = originalIconUrl;
+
+            iconPreview.style.display = '';
+
+            iconPlaceholder.style.display = 'none';
+
+        } else {
+
+            iconPreview.removeAttribute('src');
+
+            iconPreview.style.display = 'none';
+
+            iconPlaceholder.style.display = '';
+
+        }
+
+    }
+
+
+
+    iconInput.addEventListener('change', function () {
+
+        const file = this.files && this.files[0];
+
+
 
         if (previewUrl) {
 
@@ -1069,19 +1383,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-        const selected = file.files && file.files[0];
+        if (!file) {
 
-
-
-        if (
-
-            !selected ||
-
-            !['image/jpeg', 'image/png', 'image/webp'].includes(selected.type)
-
-        ) {
-
-            preview.innerHTML = '<i class="bi bi-image fs-2"></i>';
+            restoreOriginalIcon();
 
             return;
 
@@ -1089,27 +1393,55 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-        previewUrl = URL.createObjectURL(selected);
+        if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+
+            alert('Vui lòng chọn ảnh JPG, PNG hoặc WebP.');
+
+            this.value = '';
+
+            restoreOriginalIcon();
+
+            return;
+
+        }
 
 
 
-        const img = document.createElement('img');
+        if (file.size > 2 * 1024 * 1024) {
 
-        img.src = previewUrl;
+            alert('Dung lượng ảnh không được vượt quá 2 MB.');
 
-        img.alt = 'Xem trước logo kỹ năng';
+            this.value = '';
+
+            restoreOriginalIcon();
+
+            return;
+
+        }
 
 
 
-        preview.replaceChildren(img);
+        previewUrl = URL.createObjectURL(file);
+
+        iconPreview.src = previewUrl;
+
+        iconPreview.style.display = '';
+
+        iconPlaceholder.style.display = 'none';
 
     });
 
 
 
-    render(number.value);
+    window.addEventListener('pagehide', function () {
 
-    syncType();
+        if (previewUrl) {
+
+            URL.revokeObjectURL(previewUrl);
+
+        }
+
+    });
 
     // Dịch hai trường tiếng Việt sang tiếng Anh; không tự lưu dữ liệu.
     const translateButton = document.getElementById('translateSkillBtn');
@@ -1121,7 +1453,7 @@ document.addEventListener('DOMContentLoaded', function () {
             translateMessage.textContent = 'Hãy nhập tên hoặc mô tả tiếng Việt trước.';
             return;
         }
-        const token = document.querySelector('#createSkillForm input[name="_token"]')?.value;
+        const token = document.querySelector('#editSkillForm input[name="_token"]')?.value;
         if (!token) {
             translateMessage.textContent = 'Không tìm thấy CSRF token. Vui lòng tải lại trang.';
             return;
