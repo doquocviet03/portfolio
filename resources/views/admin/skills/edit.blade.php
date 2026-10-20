@@ -408,7 +408,7 @@ html[data-theme="dark"] .skill-edit {
 
                 ? $skill->icon
 
-                : asset('storage/' . $skill->icon)
+                : asset('uploads/' . $skill->icon)
 
         )
 

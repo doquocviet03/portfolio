@@ -472,7 +472,7 @@ html[data-theme="light"] .portfolio-home .home-timeline-item { background:#fff; 
 
 
 
-                            <img class="home-image" src="{{ asset('storage/' . $profile->avatar) }}" alt="Ảnh của {{ $profile->full_name ?: 'chủ Portfolio' }}" fetchpriority="high">
+                            <img class="home-image" src="{{ asset('uploads/' . $profile->avatar) }}" alt="Ảnh của {{ $profile->full_name ?: 'chủ Portfolio' }}" fetchpriority="high">
 
 
 
@@ -652,7 +652,7 @@ html[data-theme="light"] .portfolio-home .home-timeline-item { background:#fff; 
         <div class="home-card home-skill-card">
             <div class="home-skill-icon">
                 @if($hasUploadedIcon)
-                    <img src="{{ asset('storage/' . $iconPath) }}"
+                    <img src="{{ asset('uploads/' . $iconPath) }}"
                          alt="{{ $skill->translated('name') }}" loading="lazy">
                 @elseif($devicon && $skill->type === 'programming')
                     <img class="home-devicon"
@@ -739,7 +739,7 @@ html[data-theme="light"] .portfolio-home .home-timeline-item { background:#fff; 
 
 
 
-<img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->translated('title') }}" loading="lazy">
+<img src="{{ asset('uploads/' . $project->image) }}" alt="{{ $project->translated('title') }}" loading="lazy">
 
 
 

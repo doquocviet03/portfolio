@@ -392,7 +392,7 @@ html[data-theme="dark"] .projects-page,html[data-bs-theme="dark"] .projects-page
 
 
 
-                                    <img class="pj-image" src="{{ asset('storage/' . $project->image) }}" alt="{{ (app()->getLocale() === 'en' ? 'Project image: ' : 'Ảnh dự án ') . $project->translated('title') }}" loading="lazy" decoding="async">
+                                    <img class="pj-image" src="{{ asset('uploads/' . $project->image) }}" alt="{{ (app()->getLocale() === 'en' ? 'Project image: ' : 'Ảnh dự án ') . $project->translated('title') }}" loading="lazy" decoding="async">
 
 
 

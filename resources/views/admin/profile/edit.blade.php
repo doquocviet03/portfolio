@@ -225,7 +225,7 @@ html[data-theme="dark"] .profile-panel {
 
                         <img id="avatarPreview"
 
-                             src="{{ asset('storage/' . $profile->avatar) }}"
+                             src="{{ asset('uploads/' . $profile->avatar) }}"
 
                              class="profile-avatar"
 

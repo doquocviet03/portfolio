@@ -78,7 +78,7 @@ html[data-theme="dark"] .about-v2,html[data-bs-theme="dark"] .about-v2{--a-bg:#0
                 <div class="col-lg-5">
                     <div class="a-photo-wrap">
                         @if($profile?->avatar)
-                            <img class="a-photo" src="{{ asset('storage/' . $profile->avatar) }}" alt="{{ $isEn ? 'Portrait of ' : 'Ảnh chân dung của ' }}{{ $profile->full_name ?: ($isEn ? 'portfolio owner' : 'chủ Portfolio') }}" decoding="async">
+                            <img class="a-photo" src="{{ asset('uploads/' . $profile->avatar) }}" alt="{{ $isEn ? 'Portrait of ' : 'Ảnh chân dung của ' }}{{ $profile->full_name ?: ($isEn ? 'portfolio owner' : 'chủ Portfolio') }}" decoding="async">
                         @else
                             <div class="a-photo-empty"><i class="bi bi-person"></i></div>
                         @endif

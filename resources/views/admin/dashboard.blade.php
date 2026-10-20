@@ -436,7 +436,7 @@ body.dark-mode .admin-dashboard {
 
                                         @if($project->image)
 
-                                            <img src="{{ asset('storage/' . $project->image) }}" alt="" class="dash-thumb" loading="lazy">
+                                            <img src="{{ asset('uploads/' . $project->image) }}" alt="" class="dash-thumb" loading="lazy">
 
                                         @else
 

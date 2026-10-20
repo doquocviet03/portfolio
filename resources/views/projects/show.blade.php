@@ -416,7 +416,7 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
                 @if($project->image)
 
-                    <img src="{{ asset('storage/' . $project->image) }}"
+                    <img src="{{ asset('uploads/' . $project->image) }}"
 
                          alt="{{ $en ? 'Project image:' : 'Hình ảnh dự án' }} {{ $project->translated('title') }}"
 
@@ -598,7 +598,7 @@ html[data-bs-theme="dark"] .project-detail-page .pd-related-body a.btn-outline-p
 
                             @if($related->image)
 
-                                <img src="{{ asset('storage/' . $related->image) }}"
+                                <img src="{{ asset('uploads/' . $related->image) }}"
 
                                      alt="{{ $en ? 'Project:' : 'Dự án' }} {{ $related->translated('title') }}"
 

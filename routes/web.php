@@ -2,6 +2,37 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Chuyển đổi ngôn ngữ Tiếng Việt / English
+Route::get('/language/{locale}', function (string $locale) {
+
+    abort_unless(in_array($locale, ['vi', 'en'], true), 404);
+
+    session(['locale' => $locale]);
+
+    return redirect()->back(fallback: route('home'));
+
+})->name('language.switch');
+
+// Hiển thị ảnh từ ổ lưu trữ public
+Route::get('/uploads/{path}', function (string $path) {
+    abort_unless(
+        preg_match(
+            '#\A(?:skills|projects|profiles)/[A-Za-z0-9_-]+\.(?:png|jpg|jpeg|webp)\z#i',
+            $path
+        ) === 1,
+        404
+    );
+
+    $disk = \Illuminate\Support\Facades\Storage::disk('public');
+
+    abort_unless($disk->exists($path), 404);
+
+    return response()->file($disk->path($path), [
+        'Cache-Control' => 'public, max-age=3600',
+        'X-Content-Type-Options' => 'nosniff',
+    ]);
+})->where('path', '.*')->name('public.uploads');
+
 // PUBLIC CONTROLLERS
 
 use App\Http\Controllers\PortfolioController;
@@ -45,15 +76,6 @@ use App\Http\Controllers\Admin\ContactReplyController;
 \|--------------------------------------------------------------------------
 
 */
-
-// Chuyển đổi ngôn ngữ Tiếng Việt / English
-Route::get('/language/{locale}', function (string $locale) {
-    abort_unless(in_array($locale, ['vi', 'en'], true), 404);
-
-    session(['locale' => $locale]);
-
-    return redirect()->back(fallback: route('home'));
-})->name('language.switch');
 
 // Trang chủ
 
@@ -238,8 +260,11 @@ Route::middleware('guest')->group(function () {
 */
 
 Route::prefix('admin')
+
     ->name('admin.')
-    ->middleware(['auth', 'admin'])
+
+    ->middleware('auth')
+
     ->group(function () {
 
         /*
@@ -303,12 +328,6 @@ Route::prefix('admin')
             'update'
 
         ])->name('profile.update');
-
-        // Tự động dịch hồ sơ cá nhân sang tiếng Anh (Admin)
-        Route::post('/profile/translate', [
-            ProfileController::class,
-            'translate'
-        ])->middleware('throttle:10,1')->name('profile.translate');
 
         /*
 
@@ -394,13 +413,6 @@ Route::prefix('admin')
 
         */
 
-        // Dịch nội dung dự án sang tiếng Anh (chỉ Admin đăng nhập)
-        // Đặt trước resource để tránh xung đột với route /projects/{project}.
-        Route::post('/projects/translate', [
-            ProjectController::class,
-            'translate'
-        ])->middleware('throttle:10,1')->name('projects.translate');
-
         Route::resource(
 
             'projects',
@@ -409,28 +421,23 @@ Route::prefix('admin')
 
         )->except(['show']);
 
-        
-/*
-|--------------------------------------------------------------------------
-| QUẢN LÝ KỸ NĂNG
-|--------------------------------------------------------------------------
-*/
+        /*
 
-// Tự động dịch kỹ năng sang tiếng Anh
-// Đặt trước resource để tránh xung đột route.
-Route::post('/skills/translate', [
-    SkillController::class,
-    'translate'
-])
-    ->middleware('throttle:10,1')
-    ->name('skills.translate');
+        |--------------------------------------------------------------------------
 
-// Thêm, sửa, xóa, xem danh sách kỹ năng
-Route::resource(
-    'skills',
-    SkillController::class
-)->except(['show']);
+        | QUẢN LÝ KỸ NĂNG
 
+        |--------------------------------------------------------------------------
+
+        */
+
+        Route::resource(
+
+            'skills',
+
+            SkillController::class
+
+        )->except(['show']);
 
         /*
 
@@ -441,13 +448,6 @@ Route::resource(
         |--------------------------------------------------------------------------
 
         */
-
-        // Tự động dịch kinh nghiệm sang tiếng Anh (Admin)
-        // Đặt trước resource để tránh xung đột với /experiences/{experience}.
-        Route::post('/experiences/translate', [
-            ExperienceController::class,
-            'translate'
-        ])->middleware('throttle:10,1')->name('experiences.translate');
 
         Route::resource(
 

@@ -768,7 +768,7 @@ html[data-bs-theme="dark"] .skills-admin {
 
                                                 <img
 
-                                                    src="{{ asset('storage/' . $iconPath) }}"
+                                                    src="{{ asset('uploads/' . $iconPath) }}"
 
                                                     alt="Logo {{ $skill->name }}"
 

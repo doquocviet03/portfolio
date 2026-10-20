@@ -138,7 +138,7 @@ body.dark-mode .admin-projects-page .ap-btn-delete:hover { color: #fff; }
                             <td class="ap-muted small">#{{ $project->id }}</td>
                             <td>
                                 @if($project->image)
-                                    <img src="{{ asset('storage/' . $project->image) }}" alt="Ảnh minh họa dự án {{ $project->title }}" class="ap-thumb" loading="lazy">
+                                    <img src="{{ asset('uploads/' . $project->image) }}" alt="Ảnh minh họa dự án {{ $project->title }}" class="ap-thumb" loading="lazy">
                                 @else
                                     <div class="ap-thumb ap-thumb-empty" aria-label="Chưa có ảnh"><i class="bi bi-image"></i></div>
                                 @endif

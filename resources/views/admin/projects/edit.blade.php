@@ -239,7 +239,7 @@ body.dark-mode .project-edit-page {
             @if($project->image)
                 <div class="mb-3">
                     <span class="pe-image-label">Ảnh hiện tại</span>
-                    <img src="{{ asset('storage/' . $project->image) }}"
+                    <img src="{{ asset('uploads/' . $project->image) }}"
                          alt="Ảnh hiện tại của dự án {{ $project->title }}"
                          class="pe-preview" loading="lazy">
                 </div>

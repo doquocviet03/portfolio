@@ -273,7 +273,7 @@
                             ? (
                                 filter_var($skill->icon, FILTER_VALIDATE_URL)
                                     ? $skill->icon
-                                    : asset('storage/' . ltrim($skill->icon, '/'))
+                                    : asset('uploads/' . ltrim($skill->icon, '/'))
                             )
                             : null;
 
@@ -388,7 +388,7 @@
                             ? (
                                 filter_var($skill->icon, FILTER_VALIDATE_URL)
                                     ? $skill->icon
-                                    : asset('storage/' . ltrim($skill->icon, '/'))
+                                    : asset('uploads/' . ltrim($skill->icon, '/'))
                             )
                             : null;
                     @endphp
