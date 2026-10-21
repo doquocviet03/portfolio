@@ -330,12 +330,10 @@ Route::prefix('admin')
         ])->name('profile.update');
 
         // Dịch tự động hồ sơ từ tiếng Việt sang tiếng Anh
-Route::post('/profile/translate', [
-    ProfileController::class,
-    'translate'
-])
-    ->middleware('throttle:10,1')
-    ->name('profile.translate');
+        Route::post('/profile/translate', [
+            ProfileController::class,
+            'translate'
+        ])->middleware('throttle:10,1')->name('profile.translate');
 
         /*
 
@@ -421,6 +419,12 @@ Route::post('/profile/translate', [
 
         */
 
+        // Dịch tự động projects
+        Route::post('/projects/translate', [
+            ProjectController::class,
+            'translate'
+        ])->middleware('throttle:10,1')->name('projects.translate');
+
         Route::resource(
 
             'projects',
@@ -439,6 +443,12 @@ Route::post('/profile/translate', [
 
         */
 
+        // Dịch tự động skills
+        Route::post('/skills/translate', [
+            SkillController::class,
+            'translate'
+        ])->middleware('throttle:10,1')->name('skills.translate');
+
         Route::resource(
 
             'skills',
@@ -456,6 +466,12 @@ Route::post('/profile/translate', [
         |--------------------------------------------------------------------------
 
         */
+
+        // Dịch tự động experiences
+        Route::post('/experiences/translate', [
+            ExperienceController::class,
+            'translate'
+        ])->middleware('throttle:10,1')->name('experiences.translate');
 
         Route::resource(
 
