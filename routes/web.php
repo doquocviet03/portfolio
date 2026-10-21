@@ -329,6 +329,14 @@ Route::prefix('admin')
 
         ])->name('profile.update');
 
+        // Dịch tự động hồ sơ từ tiếng Việt sang tiếng Anh
+Route::post('/profile/translate', [
+    ProfileController::class,
+    'translate'
+])
+    ->middleware('throttle:10,1')
+    ->name('profile.translate');
+
         /*
 
         |--------------------------------------------------------------------------
