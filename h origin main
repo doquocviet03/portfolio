@@ -1,0 +1,14 @@
+ config/filesystems.php                         | 36 [32m+++++++[m[31m---[m
+ resources/views/about.blade.php                |  2 [32m+[m[31m-[m
+ resources/views/admin/dashboard.blade.php      |  2 [32m+[m[31m-[m
+ resources/views/admin/profile/edit.blade.php   |  2 [32m+[m[31m-[m
+ resources/views/admin/projects/edit.blade.php  |  2 [32m+[m[31m-[m
+ resources/views/admin/projects/index.blade.php |  2 [32m+[m[31m-[m
+ resources/views/admin/skills/edit.blade.php    |  2 [32m+[m[31m-[m
+ resources/views/admin/skills/index.blade.php   |  2 [32m+[m[31m-[m
+ resources/views/home.blade.php                 |  6 [32m+[m[31m-[m
+ resources/views/projects.blade.php             |  2 [32m+[m[31m-[m
+ resources/views/projects/show.blade.php        |  4 [32m+[m[31m-[m
+ resources/views/skills.blade.php               |  4 [32m+[m[31m-[m
+ routes/web.php                                 | 98 [32m+++++++++++++[m[31m-------------[m
+ 13 files changed, 90 insertions(+), 74 deletions(-)

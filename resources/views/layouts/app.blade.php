@@ -416,6 +416,8 @@
 
                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('skills') ? 'active' : '' }}" href="{{ route('skills') }}" @if(request()->routeIs('skills')) aria-current="page" @endif>{{ __('messages.skills') }}</a></li>
 
+                    <li class="nav-item"><a class="nav-link {{ request()->routeIs('experience') ? 'active' : '' }}"href="{{ route('experience') }}"@if(request()->routeIs('experience')) aria-current="page" @endif>{{ __('messages.experience') }}</a></li>
+
                     <li class="nav-item"><a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}" href="{{ route('contact') }}" @if(request()->routeIs('contact')) aria-current="page" @endif>{{ __('messages.contact') }}</a></li>
 
                 </ul>

@@ -191,12 +191,8 @@ html[data-bs-theme="dark"] .experience-modern .ex-date { color: #93c5fd; }
 @endpush
 
 @section('content')
-<div class="alert alert-info">
-    Ngôn ngữ hiện tại: {{ app()->getLocale() }}
-</div>
 <div class="container experience-modern pb-4">
     <header class="ex-hero">
-        <span class="ex-label">MY JOURNEY & EXPERIENCE</span>
         <h1>{{ app()->getLocale() === 'en' ? 'Journey & Experience' : 'Hành trình & Kinh nghiệm' }}</h1>
         <p>{{ app()->getLocale() === 'en' ? 'Milestones in my learning journey, hands-on projects and technology skills development.' : 'Những cột mốc trong quá trình học tập, thực hành dự án và phát triển kỹ năng công nghệ của tôi.' }}</p>
     </header>

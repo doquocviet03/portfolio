@@ -359,8 +359,6 @@ html[data-bs-theme="dark"] .contact-modern .ct-social a { color: #93c5fd; }
 
     <header class="ct-hero">
 
-        <span class="ct-eyebrow">{{ $isEn ? "LET'S CONNECT" : "KẾT NỐI VỚI TÔI" }}</span>
-
         <h1>{{ $isEn ? 'Contact Me' : 'Liên hệ với tôi' }}</h1>
 
         <p>{{ $isEn ? 'Have a question, a project idea, or want to talk about technology?' : 'Bạn có câu hỏi, ý tưởng dự án hoặc muốn trao đổi về công nghệ?' }}
