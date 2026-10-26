@@ -2,13 +2,9 @@
 
 @extends('layouts.admin')
 
-
-
 @section('title', 'Sửa kỹ năng')
 
 @section('page_title', 'Chỉnh sửa kỹ năng')
-
-
 
 @push('styles')
 
@@ -30,8 +26,6 @@
 
 }
 
-
-
 html[data-bs-theme="dark"] .skill-edit,
 
 html[data-theme="dark"] .skill-edit {
@@ -48,8 +42,6 @@ html[data-theme="dark"] .skill-edit {
 
 }
 
-
-
 .skill-edit .se-heading {
 
     color: var(--se-text);
@@ -58,8 +50,6 @@ html[data-theme="dark"] .skill-edit {
 
 }
 
-
-
 .skill-edit .se-muted,
 
 .skill-edit .form-text {
@@ -67,8 +57,6 @@ html[data-theme="dark"] .skill-edit {
     color: var(--se-muted) !important;
 
 }
-
-
 
 .skill-edit .se-card {
 
@@ -83,8 +71,6 @@ html[data-theme="dark"] .skill-edit {
     box-shadow: 0 8px 30px rgba(15,23,42,.05);
 
 }
-
-
 
 .skill-edit .se-section-title {
 
@@ -102,8 +88,6 @@ html[data-theme="dark"] .skill-edit {
 
 }
 
-
-
 .skill-edit .form-label {
 
     color: var(--se-text);
@@ -111,8 +95,6 @@ html[data-theme="dark"] .skill-edit {
     font-weight: 650;
 
 }
-
-
 
 .skill-edit .form-control,
 
@@ -130,8 +112,6 @@ html[data-theme="dark"] .skill-edit {
 
 }
 
-
-
 .skill-edit .form-control:focus,
 
 .skill-edit .form-select:focus {
@@ -146,8 +126,6 @@ html[data-theme="dark"] .skill-edit {
 
 }
 
-
-
 .skill-edit .form-control::placeholder {
 
     color: var(--se-muted);
@@ -155,8 +133,6 @@ html[data-theme="dark"] .skill-edit {
     opacity: .9;
 
 }
-
-
 
 .skill-edit .form-select option {
 
@@ -168,69 +144,11 @@ html[data-theme="dark"] .skill-edit {
 
 
 
-.skill-edit .se-level-panel {
-
-    background: var(--se-soft);
-
-    border: 1px solid var(--se-border);
-
-    border-radius: 16px;
-
-    padding: 20px;
-
-}
 
 
 
-.skill-edit .se-range {
-
-    accent-color: #2563eb;
-
-    cursor: pointer;
-
-    width: 100%;
-
-}
 
 
-
-.skill-edit .se-percent {
-
-    font-size: 29px;
-
-    font-weight: 800;
-
-    color: #3b82f6;
-
-}
-
-
-
-.skill-edit .se-progress {
-
-    height: 11px;
-
-    background: var(--se-border);
-
-    border-radius: 999px;
-
-    overflow: hidden;
-
-}
-
-
-
-.skill-edit .se-progress-bar {
-
-    height: 100%;
-
-    background: linear-gradient(90deg,#2563eb,#38bdf8);
-
-    border-radius: inherit;
-
-    transition: width .12s ease;
-
-}
 
 
 
@@ -245,8 +163,6 @@ html[data-theme="dark"] .skill-edit {
     align-items: center;
 
 }
-
-
 
 .skill-edit .se-back {
 
@@ -264,8 +180,6 @@ html[data-theme="dark"] .skill-edit {
 
 }
 
-
-
 .skill-edit .se-back:hover {
 
     color: var(--se-text);
@@ -273,8 +187,6 @@ html[data-theme="dark"] .skill-edit {
     border-color: #60a5fa;
 
 }
-
-
 
 .skill-edit .se-save {
 
@@ -286,8 +198,6 @@ html[data-theme="dark"] .skill-edit {
 
 }
 
-
-
 .skill-edit .se-hint {
 
     color: var(--se-muted);
@@ -295,8 +205,6 @@ html[data-theme="dark"] .skill-edit {
     font-size: 13px;
 
 }
-
-
 
 .skill-edit .se-icon-preview {
 
@@ -315,8 +223,6 @@ html[data-theme="dark"] .skill-edit {
     padding: 10px;
 
 }
-
-
 
 .skill-edit .se-preview-placeholder {
 
@@ -340,8 +246,6 @@ html[data-theme="dark"] .skill-edit {
 
 }
 
-
-
 .skill-edit .se-info-row {
 
     border-bottom: 1px solid var(--se-border);
@@ -354,21 +258,9 @@ html[data-theme="dark"] .skill-edit {
 
 
 
-.skill-edit #skillLevelSection[hidden] {
-
-    display: none !important;
-
-}
-
-
-
 @media (prefers-reduced-motion: reduce) {
 
-    .skill-edit .se-progress-bar {
-
-        transition: none;
-
-    }
+    
 
 }
 
@@ -376,19 +268,13 @@ html[data-theme="dark"] .skill-edit {
 
 @endpush
 
-
-
 @section('content')
 
 @php
 
     $selectedType = old('type', $skill->type ?? 'programming');
 
-    $selectedLevel = old('level', $skill->level ?? 50);
-
-
-
-    $hasIcon = filled($skill->icon)
+$hasIcon = filled($skill->icon)
 
         && (
 
@@ -397,8 +283,6 @@ html[data-theme="dark"] .skill-edit {
             || filter_var($skill->icon, FILTER_VALIDATE_URL)
 
         );
-
-
 
     $iconUrl = $hasIcon
 
@@ -416,11 +300,7 @@ html[data-theme="dark"] .skill-edit {
 
 @endphp
 
-
-
 <div class="skill-edit container-fluid px-0">
-
-
 
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
 
@@ -432,8 +312,6 @@ html[data-theme="dark"] .skill-edit {
 
             </h1>
 
-
-
             <p class="se-muted mb-0">
 
                 Cập nhật thông tin cho kỹ năng:
@@ -443,8 +321,6 @@ html[data-theme="dark"] .skill-edit {
             </p>
 
         </div>
-
-
 
         <a href="{{ route('admin.skills.index') }}" class="se-back">
 
@@ -456,8 +332,6 @@ html[data-theme="dark"] .skill-edit {
 
     </div>
 
-
-
     @if($errors->any())
 
         <div class="alert alert-danger rounded-3" role="alert">
@@ -465,8 +339,6 @@ html[data-theme="dark"] .skill-edit {
             <i class="bi bi-exclamation-triangle-fill me-2"></i>
 
             Vui lòng kiểm tra lại thông tin.
-
-
 
             <ul class="mb-0 mt-2">
 
@@ -482,15 +354,11 @@ html[data-theme="dark"] .skill-edit {
 
     @endif
 
-
-
     <div class="row g-4">
 
         <div class="col-xl-8">
 
             <section class="se-card">
-
-
 
                 <h2 class="se-section-title">
 
@@ -499,8 +367,6 @@ html[data-theme="dark"] .skill-edit {
                     Thông tin kỹ năng
 
                 </h2>
-
-
 
                 <form
 
@@ -518,8 +384,6 @@ html[data-theme="dark"] .skill-edit {
 
                     @method('PUT')
 
-
-
                     {{-- LOẠI KỸ NĂNG --}}
 
                     <div class="mb-4">
@@ -531,8 +395,6 @@ html[data-theme="dark"] .skill-edit {
                             <span class="text-danger">*</span>
 
                         </label>
-
-
 
                         <select
 
@@ -554,8 +416,6 @@ html[data-theme="dark"] .skill-edit {
 
                             </option>
 
-
-
                             <option value="personal"
 
                                 @selected($selectedType === 'personal')>
@@ -565,8 +425,6 @@ html[data-theme="dark"] .skill-edit {
                             </option>
 
                         </select>
-
-
 
                         @error('type')
 
@@ -578,19 +436,15 @@ html[data-theme="dark"] .skill-edit {
 
                         @enderror
 
-
-
                         <p class="se-hint mt-2 mb-0">
 
-                            Kỹ năng lập trình có phần trăm thành thạo.
+                            Kỹ năng lập trình hiển thị tên, biểu tượng và mô tả.
 
                             Kỹ năng cá nhân chỉ hiển thị tên, biểu tượng và mô tả.
 
                         </p>
 
                     </div>
-
-
 
                     {{-- TÊN KỸ NĂNG --}}
 
@@ -603,8 +457,6 @@ html[data-theme="dark"] .skill-edit {
                             <span class="text-danger">*</span>
 
                         </label>
-
-
 
                         <input
 
@@ -626,8 +478,6 @@ html[data-theme="dark"] .skill-edit {
 
                         >
 
-
-
                         @error('name')
 
                             <div class="invalid-feedback">
@@ -640,8 +490,6 @@ html[data-theme="dark"] .skill-edit {
 
                     </div>
 
-
-
                     {{-- MÔ TẢ --}}
 
                     <div class="mb-4">
@@ -651,8 +499,6 @@ html[data-theme="dark"] .skill-edit {
                             Mô tả kỹ năng
 
                         </label>
-
-
 
                         <textarea
 
@@ -670,8 +516,6 @@ html[data-theme="dark"] .skill-edit {
 
                         >{{ old('description', $skill->description) }}</textarea>
 
-
-
                         @error('description')
 
                             <div class="invalid-feedback">
@@ -684,33 +528,54 @@ html[data-theme="dark"] .skill-edit {
 
                     </div>
 
-
-
-                    
                     {{-- ENGLISH TRANSLATION --}}
+
                     <div class="mb-4 p-3 rounded-3" style="border:1px solid var(--se-border); background:var(--se-soft);">
+
                         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+
                             <h3 class="h6 fw-bold mb-0">English translation</h3>
+
                             <button type="button" id="translateSkillBtn" class="btn btn-outline-primary btn-sm">
+
                                 <i class="bi bi-translate me-1"></i> Tự động dịch sang English
+
                             </button>
+
                         </div>
+
                         <div id="skillTranslateMessage" class="small mb-3" role="status" aria-live="polite"></div>
+
                         <div class="mb-3">
+
                             <label for="skillNameEn" class="form-label">Tên kỹ năng (English)</label>
+
                             <input id="skillNameEn" name="name_en" type="text" maxlength="255"
+
                                 value="{{ old('name_en', $skill->name_en) }}"
+
                                 class="form-control @error('name_en') is-invalid @enderror"
+
                                 placeholder="e.g. Teamwork, Communication, Laravel">
+
                             @error('name_en') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
                         </div>
+
                         <div>
+
                             <label for="skillDescriptionEn" class="form-label">Mô tả kỹ năng (English)</label>
+
                             <textarea id="skillDescriptionEn" name="description_en" rows="4" maxlength="5000"
+
                                 class="form-control @error('description_en') is-invalid @enderror"
+
                                 placeholder="Describe this skill in English...">{{ old('description_en', $skill->description_en) }}</textarea>
+
                             @error('description_en') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
                         </div>
+
                     </div>
 
                     {{-- LOGO / ICON --}}
@@ -722,8 +587,6 @@ html[data-theme="dark"] .skill-edit {
                             Logo / Biểu tượng kỹ năng
 
                         </label>
-
-
 
                         <div class="d-flex align-items-center flex-wrap gap-3 mb-3">
 
@@ -741,8 +604,6 @@ html[data-theme="dark"] .skill-edit {
 
                             >
 
-
-
                             <div
 
                                 id="skillIconPlaceholder"
@@ -757,8 +618,6 @@ html[data-theme="dark"] .skill-edit {
 
                             </div>
 
-
-
                             <div>
 
                                 <div class="fw-semibold se-heading">
@@ -766,8 +625,6 @@ html[data-theme="dark"] .skill-edit {
                                     Xem trước logo
 
                                 </div>
-
-
 
                                 <div class="se-hint">
 
@@ -778,8 +635,6 @@ html[data-theme="dark"] .skill-edit {
                             </div>
 
                         </div>
-
-
 
                         <input
 
@@ -795,8 +650,6 @@ html[data-theme="dark"] .skill-edit {
 
                         >
 
-
-
                         @error('icon')
 
                             <div class="invalid-feedback">
@@ -807,8 +660,6 @@ html[data-theme="dark"] .skill-edit {
 
                         @enderror
 
-
-
                         <p class="se-hint mt-2 mb-0">
 
                             Không chọn ảnh mới nếu muốn giữ nguyên logo hiện tại.
@@ -816,172 +667,6 @@ html[data-theme="dark"] .skill-edit {
                         </p>
 
                     </div>
-
-
-
-                    {{-- MỨC ĐỘ LẬP TRÌNH --}}
-
-                    <div
-
-                        class="mb-4"
-
-                        id="skillLevelSection"
-
-                        @if($selectedType === 'personal') hidden @endif
-
-                    >
-
-                        <label for="skillLevel" class="form-label">
-
-                            Mức độ kỹ năng (0–100%)
-
-                            <span class="text-danger">*</span>
-
-                        </label>
-
-
-
-                        <div class="se-level-panel">
-
-                            <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
-
-                                <span class="se-muted small">
-
-                                    Điều chỉnh mức độ
-
-                                </span>
-
-
-
-                                <span class="se-percent" id="skillPercent">
-
-                                    {{ $selectedLevel }}%
-
-                                </span>
-
-                            </div>
-
-
-
-                            <input
-
-                                id="skillLevelRange"
-
-                                type="range"
-
-                                class="se-range mb-3"
-
-                                min="0"
-
-                                max="100"
-
-                                step="1"
-
-                                value="{{ $selectedLevel }}"
-
-                                aria-label="Điều chỉnh mức độ kỹ năng"
-
-                            >
-
-
-
-                            <div
-
-                                class="se-progress mb-3"
-
-                                id="skillProgress"
-
-                                role="progressbar"
-
-                                aria-label="Mức độ kỹ năng"
-
-                                aria-valuemin="0"
-
-                                aria-valuemax="100"
-
-                                aria-valuenow="{{ max(0, min(100, (int) $selectedLevel)) }}"
-
-                            >
-
-                                <div
-
-                                    class="se-progress-bar"
-
-                                    id="skillProgressBar"
-
-                                    style="width: {{ max(0, min(100, (int) $selectedLevel)) }}%"
-
-                                ></div>
-
-                            </div>
-
-
-
-                            <div class="d-flex flex-wrap align-items-center gap-3">
-
-                                <label for="skillLevel" class="form-label mb-0">
-
-                                    Giá trị chính xác
-
-                                </label>
-
-
-
-                                <input
-
-                                    id="skillLevel"
-
-                                    type="number"
-
-                                    name="level"
-
-                                    min="0"
-
-                                    max="100"
-
-                                    step="1"
-
-                                    value="{{ $selectedLevel }}"
-
-                                    class="form-control @error('level') is-invalid @enderror"
-
-                                    style="max-width:130px"
-
-                                    @if($selectedType === 'programming') required @else disabled @endif
-
-                                >
-
-
-
-                                <span class="se-muted small">%</span>
-
-                            </div>
-
-
-
-                            @error('level')
-
-                                <div class="text-danger small mt-2">
-
-                                    {{ $message }}
-
-                                </div>
-
-                            @enderror
-
-                        </div>
-
-
-
-                        <p class="se-hint mt-2 mb-0">
-
-                            Chỉ áp dụng cho kỹ năng lập trình.
-
-                        </p>
-
-                    </div>
-
-
 
                     {{-- THỨ TỰ HIỂN THỊ --}}
 
@@ -992,8 +677,6 @@ html[data-theme="dark"] .skill-edit {
                             Thứ tự hiển thị
 
                         </label>
-
-
 
                         <input
 
@@ -1017,8 +700,6 @@ html[data-theme="dark"] .skill-edit {
 
                         >
 
-
-
                         @error('sort_order')
 
                             <div class="invalid-feedback">
@@ -1029,8 +710,6 @@ html[data-theme="dark"] .skill-edit {
 
                         @enderror
 
-
-
                         <p class="se-hint mt-2 mb-0">
 
                             Số nhỏ hơn sẽ được hiển thị trước.
@@ -1038,8 +717,6 @@ html[data-theme="dark"] .skill-edit {
                         </p>
 
                     </div>
-
-
 
                     {{-- NÚT LƯU --}}
 
@@ -1052,8 +729,6 @@ html[data-theme="dark"] .skill-edit {
                             Cập nhật kỹ năng
 
                         </button>
-
-
 
                         <a href="{{ route('admin.skills.index') }}" class="se-back">
 
@@ -1069,15 +744,11 @@ html[data-theme="dark"] .skill-edit {
 
         </div>
 
-
-
         {{-- THÔNG TIN HIỆN TẠI --}}
 
         <div class="col-xl-4">
 
             <aside class="se-card">
-
-
 
                 <h2 class="se-section-title">
 
@@ -1086,8 +757,6 @@ html[data-theme="dark"] .skill-edit {
                     Thông tin hiện tại
 
                 </h2>
-
-
 
                 <div class="se-info-row">
 
@@ -1101,8 +770,6 @@ html[data-theme="dark"] .skill-edit {
 
                 </div>
 
-
-
                 <div class="se-info-row">
 
                     <div class="se-muted small mb-1">Tên đang lưu</div>
@@ -1115,13 +782,9 @@ html[data-theme="dark"] .skill-edit {
 
                 </div>
 
-
-
                 <div class="se-info-row">
 
                     <div class="se-muted small mb-1">Loại kỹ năng</div>
-
-
 
                     @if(($skill->type ?? 'programming') === 'personal')
 
@@ -1143,29 +806,7 @@ html[data-theme="dark"] .skill-edit {
 
                 </div>
 
-
-
-                <div class="se-info-row">
-
-                    <div class="se-muted small mb-1">Mức độ đang lưu</div>
-
-                    <div class="fw-semibold se-heading">
-
-                        @if(($skill->type ?? 'programming') === 'programming')
-
-                            {{ $skill->level !== null ? $skill->level . '%' : 'Chưa cập nhật' }}
-
-                        @else
-
-                            Không áp dụng
-
-                        @endif
-
-                    </div>
-
-                </div>
-
-
+                
 
                 <div class="se-info-row">
 
@@ -1178,8 +819,6 @@ html[data-theme="dark"] .skill-edit {
                     </div>
 
                 </div>
-
-
 
                 <p class="se-hint mb-0">
 
@@ -1199,31 +838,11 @@ html[data-theme="dark"] .skill-edit {
 
 @endsection
 
-
-
 @push('scripts')
 
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
-
-    const type = document.getElementById('skillType');
-
-    const levelSection = document.getElementById('skillLevelSection');
-
-
-
-    const number = document.getElementById('skillLevel');
-
-    const range = document.getElementById('skillLevelRange');
-
-    const percent = document.getElementById('skillPercent');
-
-    const bar = document.getElementById('skillProgressBar');
-
-    const progress = document.getElementById('skillProgress');
-
-
 
     const iconInput = document.getElementById('skillIcon');
 
@@ -1231,117 +850,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const iconPlaceholder = document.getElementById('skillIconPlaceholder');
 
-
-
     const originalIconUrl = @json($iconUrl);
 
     const hasOriginalIcon = @json($hasIcon);
 
-
-
-    function clamp(value) {
-
-        return Math.max(0, Math.min(100, Math.round(Number(value) || 0)));
-
-    }
-
-
-
-    function render(value) {
-
-        const level = clamp(value);
-
-
-
-        range.value = String(level);
-
-        percent.textContent = level + '%';
-
-        bar.style.width = level + '%';
-
-        progress.setAttribute('aria-valuenow', String(level));
-
-    }
-
-
-
-    function updateType() {
-
-        const isProgramming = type.value === 'programming';
-
-
-
-        levelSection.hidden = !isProgramming;
-
-        number.disabled = !isProgramming;
-
-        range.disabled = !isProgramming;
-
-        number.required = isProgramming;
-
-
-
-        if (isProgramming) {
-
-            if (number.value === '') {
-
-                number.value = '50';
-
-            }
-
-            render(number.value);
-
-        }
-
-    }
-
-
-
-    type.addEventListener('change', updateType);
-
-
-
-    range.addEventListener('input', function () {
-
-        number.value = range.value;
-
-        render(range.value);
-
-    });
-
-
-
-    number.addEventListener('input', function () {
-
-        render(number.value);
-
-    });
-
-
-
-    number.addEventListener('change', function () {
-
-        if (number.value !== '') {
-
-            number.value = String(clamp(number.value));
-
-        }
-
-        render(number.value);
-
-    });
-
-
-
-    render(number.value);
-
-    updateType();
-
-
-
     let previewUrl = null;
-
-
 
     function restoreOriginalIcon() {
 
@@ -1365,13 +878,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
 
-
-
     iconInput.addEventListener('change', function () {
 
         const file = this.files && this.files[0];
-
-
 
         if (previewUrl) {
 
@@ -1381,8 +890,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
 
-
-
         if (!file) {
 
             restoreOriginalIcon();
@@ -1390,8 +897,6 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
 
         }
-
-
 
         if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
 
@@ -1405,8 +910,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
 
-
-
         if (file.size > 2 * 1024 * 1024) {
 
             alert('Dung lượng ảnh không được vượt quá 2 MB.');
@@ -1419,8 +922,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
 
-
-
         previewUrl = URL.createObjectURL(file);
 
         iconPreview.src = previewUrl;
@@ -1430,8 +931,6 @@ document.addEventListener('DOMContentLoaded', function () {
         iconPlaceholder.style.display = 'none';
 
     });
-
-
 
     window.addEventListener('pagehide', function () {
 
@@ -1444,56 +943,107 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Dịch hai trường tiếng Việt sang tiếng Anh; không tự lưu dữ liệu.
+
     const translateButton = document.getElementById('translateSkillBtn');
+
     const translateMessage = document.getElementById('skillTranslateMessage');
+
     translateButton.addEventListener('click', async function () {
+
         const name = document.getElementById('skillName').value.trim();
+
         const description = document.getElementById('skillDescription').value.trim();
+
         if (!name && !description) {
+
             translateMessage.textContent = 'Hãy nhập tên hoặc mô tả tiếng Việt trước.';
+
             return;
+
         }
+
         const token = document.querySelector('#editSkillForm input[name="_token"]')?.value;
+
         if (!token) {
+
             translateMessage.textContent = 'Không tìm thấy CSRF token. Vui lòng tải lại trang.';
+
             return;
+
         }
+
         translateButton.disabled = true;
+
         translateMessage.textContent = 'Đang dịch...';
+
         try {
+
             const response = await fetch(@json(route('admin.skills.translate')), {
+
                 method: 'POST',
+
                 headers: {
+
                     'Content-Type': 'application/json',
+
                     'Accept': 'application/json',
+
                     'X-CSRF-TOKEN': token
+
                 },
+
                 credentials: 'same-origin',
+
                 body: JSON.stringify({ name, description })
+
             });
+
             const result = await response.json();
+
             if (!response.ok) {
+
                 const details = result.errors
+
                     ? Object.values(result.errors).flat().join(' ')
+
                     : (result.message || 'Không thể dịch.');
+
                 throw new Error(details);
+
             }
+
             const translated = result.translations || {};
+
             if (typeof translated.name_en === 'string') {
+
                 document.getElementById('skillNameEn').value = translated.name_en;
+
             }
+
             if (typeof translated.description_en === 'string') {
+
                 document.getElementById('skillDescriptionEn').value = translated.description_en;
+
             }
+
             const failed = Object.keys(result.errors || {});
+
             translateMessage.textContent = failed.length
+
                 ? 'Một số trường chưa dịch được: ' + failed.join(', ') + '. Bạn có thể sửa thủ công.'
+
                 : 'Đã dịch xong. Hãy kiểm tra bản dịch và nhấn Lưu để ghi vào database.';
+
         } catch (error) {
+
             translateMessage.textContent = error.message || 'Lỗi kết nối dịch tự động.';
+
         } finally {
+
             translateButton.disabled = false;
+
         }
+
     });
 
 });

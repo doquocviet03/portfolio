@@ -142,69 +142,15 @@ html[data-bs-theme="dark"] .skill-create {
 
 }
 
-.skill-create .sc-level-panel {
 
-    background: var(--sc-soft);
 
-    border: 1px solid var(--sc-border);
 
-    border-radius: 16px;
 
-    padding: 20px;
 
-}
 
-.skill-create .sc-range {
 
-    accent-color: #2563eb;
 
-    cursor: pointer;
 
-    width: 100%;
-
-}
-
-.skill-create .sc-percent {
-
-    font-size: 29px;
-
-    font-weight: 800;
-
-    color: #3b82f6;
-
-    min-width: 76px;
-
-    text-align: right;
-
-}
-
-.skill-create .sc-progress {
-
-    width: 100%;
-
-    height: 11px;
-
-    background: var(--sc-border);
-
-    border-radius: 999px;
-
-    overflow: hidden;
-
-}
-
-.skill-create .sc-progress-bar {
-
-    height: 100%;
-
-    width: 50%;
-
-    background: linear-gradient(90deg, #2563eb, #38bdf8);
-
-    border-radius: inherit;
-
-    transition: width .12s ease;
-
-}
 
 .skill-create .sc-back {
 
@@ -284,21 +230,11 @@ html[data-bs-theme="dark"] .skill-create {
 
 }
 
-/* Ẩn phần trăm khi chọn kỹ năng cá nhân */
 
-.skill-create #programmingLevelSection[hidden] {
-
-    display: none !important;
-
-}
 
 @media (prefers-reduced-motion: reduce) {
 
-    .skill-create .sc-progress-bar {
-
-        transition: none;
-
-    }
+    
 
 }
 
@@ -523,29 +459,53 @@ html[data-bs-theme="dark"] .skill-create {
                     </div>
 
                     {{-- BẢN DỊCH TIẾNG ANH --}}
+
                     <div class="mb-4 p-3 rounded-3" style="border:1px solid var(--sc-border);background:var(--sc-soft);">
+
                         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+
                             <h3 class="h6 fw-bold mb-0">English translation</h3>
+
                             <button type="button" id="translateSkillBtn" class="btn btn-outline-primary btn-sm">
+
                                 <i class="bi bi-translate me-1"></i> Tự động dịch sang English
+
                             </button>
+
                         </div>
+
                         <div id="skillTranslateMessage" class="small mb-3" role="status" aria-live="polite"></div>
+
                         <div class="mb-3">
+
                             <label for="skillNameEn" class="form-label">Tên kỹ năng (English)</label>
+
                             <input id="skillNameEn" name="name_en" type="text" maxlength="255"
+
                                 value="{{ old('name_en') }}"
+
                                 class="form-control @error('name_en') is-invalid @enderror"
+
                                 placeholder="e.g. Teamwork, Communication, Laravel">
+
                             @error('name_en') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
                         </div>
+
                         <div>
+
                             <label for="skillDescriptionEn" class="form-label">Mô tả kỹ năng (English)</label>
+
                             <textarea id="skillDescriptionEn" name="description_en" rows="4" maxlength="5000"
+
                                 class="form-control @error('description_en') is-invalid @enderror"
+
                                 placeholder="Describe this skill in English...">{{ old('description_en') }}</textarea>
+
                             @error('description_en') <div class="invalid-feedback">{{ $message }}</div> @enderror
+
                         </div>
+
                     </div>
 
                     <div class="mb-4">
@@ -600,122 +560,6 @@ html[data-bs-theme="dark"] .skill-create {
 
                     </div>
 
-                    <div class="mb-4" id="programmingLevelSection">
-
-                        <label for="skillLevel" class="form-label">
-
-                            Mức độ thành thạo (0–100%)
-
-                            <span class="text-danger">*</span>
-
-                        </label>
-
-                        <div class="sc-level-panel">
-
-                            <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
-
-                                <span class="sc-muted small">
-
-                                    Điều chỉnh mức độ
-
-                                </span>
-
-                                <span class="sc-percent" id="skillPercent">
-
-                                    50%
-
-                                </span>
-
-                            </div>
-
-                            <input id="skillLevelRange"
-
-                                   type="range"
-
-                                   class="sc-range mb-3"
-
-                                   min="0"
-
-                                   max="100"
-
-                                   step="1"
-
-                                   value="{{ old('level', 50) }}"
-
-                                   aria-label="Điều chỉnh mức độ kỹ năng">
-
-                            <div class="sc-progress mb-3"
-
-                                 role="progressbar"
-
-                                 id="skillProgress"
-
-                                 aria-label="Mức độ kỹ năng"
-
-                                 aria-valuemin="0"
-
-                                 aria-valuemax="100"
-
-                                 aria-valuenow="50">
-
-                                <div class="sc-progress-bar"
-
-                                     id="skillProgressBar"></div>
-
-                            </div>
-
-                            <div class="d-flex flex-wrap align-items-center gap-3">
-
-                                <label for="skillLevel" class="form-label mb-0">
-
-                                    Giá trị chính xác
-
-                                </label>
-
-                                <input id="skillLevel"
-
-                                       type="number"
-
-                                       name="level"
-
-                                       class="form-control @error('level') is-invalid @enderror"
-
-                                       style="max-width:130px"
-
-                                       min="0"
-
-                                       max="100"
-
-                                       step="1"
-
-                                       value="{{ old('level', 50) }}">
-
-                                <span class="sc-muted small">%</span>
-
-                            </div>
-
-                            @error('level')
-
-                                <div class="text-danger small mt-2">
-
-                                    {{ $message }}
-
-                                </div>
-
-                            @enderror
-
-                        </div>
-
-                        <p class="sc-hint mt-2 mb-0">
-
-                            Chỉ áp dụng cho kỹ năng lập trình.
-
-                            Kỹ năng cá nhân không sử dụng phần trăm.
-
-                        </p>
-
-                    </div>
-
                     <div class="d-flex flex-wrap align-items-center gap-3">
 
                         <button type="submit"
@@ -762,7 +606,7 @@ html[data-bs-theme="dark"] .skill-create {
 
                     PHP, Laravel, Python, MySQL, JavaScript, HTML/CSS.
 
-                    Có thể thêm logo và mức độ thành thạo.
+                    Có thể thêm logo và mô tả kỹ năng.
 
                 </p>
 
@@ -776,7 +620,7 @@ html[data-bs-theme="dark"] .skill-create {
 
                     giải quyết vấn đề, tư duy logic, tự học.
 
-                    Không cần phần trăm.
+                    Có thể thêm biểu tượng và mô tả.
 
                 </p>
 
@@ -804,93 +648,11 @@ html[data-bs-theme="dark"] .skill-create {
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const type = document.getElementById('skillType');
-
-    const section = document.getElementById('programmingLevelSection');
-
-    const number = document.getElementById('skillLevel');
-
-    const range = document.getElementById('skillLevelRange');
-
-    const percent = document.getElementById('skillPercent');
-
-    const bar = document.getElementById('skillProgressBar');
-
-    const progress = document.getElementById('skillProgress');
-
     const file = document.getElementById('skillIcon');
 
     const preview = document.getElementById('skillIconPreview');
 
     let previewUrl = null;
-
-    function clamp(value) {
-
-        return Math.max(0, Math.min(100, Math.round(Number(value) || 0)));
-
-    }
-
-    function render(value) {
-
-        const level = clamp(value);
-
-        range.value = String(level);
-
-        percent.textContent = level + '%';
-
-        bar.style.width = level + '%';
-
-        progress.setAttribute('aria-valuenow', String(level));
-
-    }
-
-    function syncType() {
-
-        const programming = type.value === 'programming';
-
-        section.hidden = !programming;
-
-        number.disabled = !programming;
-
-        range.disabled = !programming;
-
-        number.required = programming;
-
-        if (programming) {
-
-            render(number.value);
-
-        }
-
-    }
-
-    type.addEventListener('change', syncType);
-
-    range.addEventListener('input', function () {
-
-        number.value = range.value;
-
-        render(range.value);
-
-    });
-
-    number.addEventListener('input', function () {
-
-        render(number.value);
-
-    });
-
-    number.addEventListener('change', function () {
-
-        if (number.value !== '') {
-
-            number.value = String(clamp(number.value));
-
-        }
-
-        render(number.value);
-
-    });
 
     file.addEventListener('change', function () {
 
@@ -931,56 +693,107 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Dịch tự động, chỉ lưu khi người dùng nhấn Lưu kỹ năng.
+
     const translateButton = document.getElementById('translateSkillBtn');
+
     const translateMessage = document.getElementById('skillTranslateMessage');
+
     translateButton.addEventListener('click', async function () {
+
         const name = document.getElementById('skillName').value.trim();
+
         const description = document.getElementById('skillDescription').value.trim();
+
         if (!name && !description) {
+
             translateMessage.textContent = 'Hãy nhập tên hoặc mô tả tiếng Việt trước.';
+
             return;
+
         }
+
         const token = document.querySelector('#createSkillForm input[name="_token"]')?.value;
+
         if (!token) {
+
             translateMessage.textContent = 'Không tìm thấy CSRF token. Vui lòng tải lại trang.';
+
             return;
+
         }
+
         translateButton.disabled = true;
+
         translateMessage.textContent = 'Đang dịch...';
+
         try {
+
             const response = await fetch(@json(route('admin.skills.translate')), {
+
                 method: 'POST',
+
                 headers: {
+
                     'Content-Type': 'application/json',
+
                     'Accept': 'application/json',
+
                     'X-CSRF-TOKEN': token
+
                 },
+
                 credentials: 'same-origin',
+
                 body: JSON.stringify({ name, description })
+
             });
+
             const result = await response.json();
+
             if (!response.ok) {
+
                 const details = result.errors
+
                     ? Object.values(result.errors).flat().join(' ')
+
                     : (result.message || 'Không thể dịch.');
+
                 throw new Error(details);
+
             }
+
             const translated = result.translations || {};
+
             if (typeof translated.name_en === 'string') {
+
                 document.getElementById('skillNameEn').value = translated.name_en;
+
             }
+
             if (typeof translated.description_en === 'string') {
+
                 document.getElementById('skillDescriptionEn').value = translated.description_en;
+
             }
+
             const failed = Object.keys(result.errors || {});
+
             translateMessage.textContent = failed.length
+
                 ? 'Một số trường chưa dịch được: ' + failed.join(', ') + '. Bạn có thể sửa thủ công.'
+
                 : 'Đã dịch xong. Kiểm tra bản dịch và nhấn Lưu kỹ năng để ghi vào database.';
+
         } catch (error) {
+
             translateMessage.textContent = error.message || 'Lỗi kết nối dịch tự động.';
+
         } finally {
+
             translateButton.disabled = false;
+
         }
+
     });
 
     render(number.value);

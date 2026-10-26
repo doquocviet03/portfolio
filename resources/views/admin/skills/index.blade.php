@@ -2,13 +2,9 @@
 
 @extends('layouts.admin')
 
-
-
 @section('title', 'Quản lý kỹ năng')
 
 @section('page_title', 'Quản lý kỹ năng')
-
-
 
 @push('styles')
 
@@ -32,8 +28,6 @@
 
 }
 
-
-
 html[data-theme="dark"] .skills-admin,
 
 html[data-bs-theme="dark"] .skills-admin {
@@ -52,8 +46,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-heading {
 
     font-weight: 800;
@@ -62,15 +54,11 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-muted {
 
     color: var(--sk-muted) !important;
 
 }
-
-
 
 .skills-admin .sk-panel {
 
@@ -86,8 +74,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-stat {
 
     padding: 19px 22px;
@@ -99,8 +85,6 @@ html[data-bs-theme="dark"] .skills-admin {
     gap: 14px;
 
 }
-
-
 
 .skills-admin .sk-stat-icon {
 
@@ -122,8 +106,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-stat-number {
 
     font-size: 25px;
@@ -134,8 +116,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-filters {
 
     display: flex;
@@ -145,8 +125,6 @@ html[data-bs-theme="dark"] .skills-admin {
     gap: 9px;
 
 }
-
-
 
 .skills-admin .sk-filter {
 
@@ -172,8 +150,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-filter:hover {
 
     border-color: #60a5fa;
@@ -181,8 +157,6 @@ html[data-bs-theme="dark"] .skills-admin {
     color: var(--sk-accent);
 
 }
-
-
 
 .skills-admin .sk-filter.active {
 
@@ -194,8 +168,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-table {
 
     --bs-table-bg: transparent;
@@ -205,8 +177,6 @@ html[data-bs-theme="dark"] .skills-admin {
     margin: 0;
 
 }
-
-
 
 .skills-admin .sk-table th {
 
@@ -228,8 +198,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-table td {
 
     color: var(--sk-text);
@@ -242,15 +210,11 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-table tbody tr:last-child td {
 
     border-bottom: 0;
 
 }
-
-
 
 .skills-admin .sk-icon {
 
@@ -276,8 +240,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-icon img {
 
     width: 100%;
@@ -290,8 +252,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-name {
 
     font-weight: 750;
@@ -299,8 +259,6 @@ html[data-bs-theme="dark"] .skills-admin {
     color: var(--sk-text);
 
 }
-
-
 
 .skills-admin .sk-desc {
 
@@ -313,8 +271,6 @@ html[data-bs-theme="dark"] .skills-admin {
     max-width: 370px;
 
 }
-
-
 
 .skills-admin .sk-type {
 
@@ -334,8 +290,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-type.personal {
 
     background: rgba(16, 185, 129, .12);
@@ -345,32 +299,6 @@ html[data-bs-theme="dark"] .skills-admin {
 }
 
 
-
-.skills-admin .sk-progress {
-
-    height: 8px;
-
-    min-width: 90px;
-
-    border-radius: 99px;
-
-    background: var(--sk-soft);
-
-    overflow: hidden;
-
-    border: 1px solid var(--sk-border);
-
-}
-
-
-
-.skills-admin .sk-progress-fill {
-
-    height: 100%;
-
-    background: linear-gradient(90deg, #2563eb, #38bdf8);
-
-}
 
 
 
@@ -382,8 +310,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-empty {
 
     padding: 55px 20px;
@@ -394,8 +320,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-pagination {
 
     padding: 18px;
@@ -404,50 +328,80 @@ html[data-bs-theme="dark"] .skills-admin {
 
 }
 
-
-
 .skills-admin .sk-pagination nav {
 
     overflow-x: auto;
 
 }
 
-
-
 /* Bootstrap 5 pagination scoped to this page */
+
 .skills-admin .sk-pagination .pagination {
+
     display: flex;
+
     flex-wrap: wrap;
+
     justify-content: center;
+
     gap: 6px;
+
     margin: 0;
+
     padding: 0;
+
     list-style: none;
+
 }
+
 .skills-admin .sk-pagination .page-link {
+
     background: var(--sk-surface);
+
     border: 1px solid var(--sk-border);
+
     color: var(--sk-text);
+
     border-radius: 9px;
+
     padding: 8px 12px;
+
     box-shadow: none;
+
 }
+
 .skills-admin .sk-pagination .page-link:hover {
+
     color: var(--sk-accent);
+
     border-color: var(--sk-accent);
+
 }
+
 .skills-admin .sk-pagination .page-item.active .page-link {
+
     background: #2563eb;
+
     border-color: #2563eb;
+
     color: #fff;
+
 }
+
 .skills-admin .sk-pagination .page-item.disabled .page-link {
+
     opacity: .45;
+
     pointer-events: none;
+
 }
+
 .skills-admin .sk-pagination svg {
+
     width: 16px;
+
     height: 16px;
+
 }
 
 @media (max-width: 575.98px) {
@@ -466,15 +420,11 @@ html[data-bs-theme="dark"] .skills-admin {
 
 @endpush
 
-
-
 @section('content')
 
 @php
 
     $activeType = $type ?? request('type');
-
-
 
     $activeType = in_array(
 
@@ -488,11 +438,7 @@ html[data-bs-theme="dark"] .skills-admin {
 
 @endphp
 
-
-
 <div class="skills-admin container-fluid px-0">
-
-
 
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
 
@@ -512,8 +458,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
         </div>
 
-
-
         <a href="{{ route('admin.skills.create') }}"
 
            class="btn btn-primary rounded-3 px-3 py-2 fw-semibold">
@@ -525,8 +469,6 @@ html[data-bs-theme="dark"] .skills-admin {
         </a>
 
     </div>
-
-
 
     @if(session('success'))
 
@@ -547,8 +489,6 @@ html[data-bs-theme="dark"] .skills-admin {
         </div>
 
     @endif
-
-
 
     <div class="row g-3 mb-4">
 
@@ -582,8 +522,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
         </div>
 
-
-
         <div class="col-md-6">
 
             <div class="sk-panel sk-stat">
@@ -616,13 +554,9 @@ html[data-bs-theme="dark"] .skills-admin {
 
     </div>
 
-
-
     <nav class="sk-filters mb-4"
 
          aria-label="Lọc loại kỹ năng">
-
-
 
         <a href="{{ route('admin.skills.index') }}"
 
@@ -636,8 +570,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
         </a>
 
-
-
         <a href="{{ route('admin.skills.index', ['type' => 'programming']) }}"
 
            class="sk-filter {{ $activeType === 'programming' ? 'active' : '' }}"
@@ -649,8 +581,6 @@ html[data-bs-theme="dark"] .skills-admin {
             Kỹ năng lập trình
 
         </a>
-
-
 
         <a href="{{ route('admin.skills.index', ['type' => 'personal']) }}"
 
@@ -665,8 +595,6 @@ html[data-bs-theme="dark"] .skills-admin {
         </a>
 
     </nav>
-
-
 
     <section class="sk-panel">
 
@@ -690,8 +618,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
         </div>
 
-
-
         @if($skills->count())
 
             <div class="table-responsive">
@@ -706,7 +632,7 @@ html[data-bs-theme="dark"] .skills-admin {
 
                             <th scope="col">Loại</th>
 
-                            <th scope="col">Mức độ</th>
+                            
 
                             <th scope="col">Thứ tự</th>
 
@@ -716,8 +642,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
                     </thead>
 
-
-
                     <tbody>
 
                         @foreach($skills as $skill)
@@ -726,35 +650,15 @@ html[data-bs-theme="dark"] .skills-admin {
 
                                 $isPersonal = $skill->type === 'personal';
 
-
-
-                                $hasLevel = !$isPersonal
-
-                                    && $skill->level !== null
-
-                                    && is_numeric($skill->level);
-
-
-
-                                $level = $hasLevel
-
-                                    ? max(0, min(100, (int) $skill->level))
-
-                                    : null;
-
-
+                                
 
                                 $iconPath = $skill->icon;
-
-
 
                                 $hasUploadedIcon = filled($iconPath)
 
                                     && str_starts_with($iconPath, 'skills/');
 
                             @endphp
-
-
 
                             <tr>
 
@@ -784,8 +688,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
                                         </span>
 
-
-
                                         <div>
 
                                             <div class="sk-name">
@@ -793,8 +695,6 @@ html[data-bs-theme="dark"] .skills-admin {
                                                 {{ $skill->name }}
 
                                             </div>
-
-
 
                                             @if(filled($skill->description))
 
@@ -805,8 +705,6 @@ html[data-bs-theme="dark"] .skills-admin {
                                                 </div>
 
                                             @endif
-
-
 
                                             <div class="sk-muted small mt-1">
 
@@ -820,8 +718,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
                                 </td>
 
-
-
                                 <td>
 
                                     <span class="sk-type {{ $isPersonal ? 'personal' : '' }}">
@@ -832,55 +728,7 @@ html[data-bs-theme="dark"] .skills-admin {
 
                                 </td>
 
-
-
-                                <td>
-
-                                    @if($hasLevel)
-
-                                        <div class="d-flex align-items-center gap-2">
-
-                                            <div class="sk-progress flex-grow-1"
-
-                                                 role="progressbar"
-
-                                                 aria-label="Mức độ {{ $skill->name }}"
-
-                                                 aria-valuenow="{{ $level }}"
-
-                                                 aria-valuemin="0"
-
-                                                 aria-valuemax="100">
-
-                                                <div class="sk-progress-fill"
-
-                                                     style="width: {{ $level }}%"></div>
-
-                                            </div>
-
-
-
-                                            <span class="small fw-semibold">
-
-                                                {{ $level }}%
-
-                                            </span>
-
-                                        </div>
-
-                                    @else
-
-                                        <span class="sk-muted small">
-
-                                            Không áp dụng
-
-                                        </span>
-
-                                    @endif
-
-                                </td>
-
-
+                                
 
                                 <td>
 
@@ -891,8 +739,6 @@ html[data-bs-theme="dark"] .skills-admin {
                                     </span>
 
                                 </td>
-
-
 
                                 <td>
 
@@ -908,8 +754,6 @@ html[data-bs-theme="dark"] .skills-admin {
 
                                         </a>
 
-
-
                                         <form
 
                                             action="{{ route('admin.skills.destroy', $skill) }}"
@@ -920,13 +764,9 @@ html[data-bs-theme="dark"] .skills-admin {
 
                                             onsubmit="return confirm('Bạn có chắc muốn xóa kỹ năng này?')">
 
-
-
                                             @csrf
 
                                             @method('DELETE')
-
-
 
                                             <button type="submit"
 
@@ -960,23 +800,17 @@ html[data-bs-theme="dark"] .skills-admin {
 
                 <i class="bi bi-folder-x display-5 d-block mb-3"></i>
 
-
-
                 <h3 class="sk-heading h5">
 
                     Chưa có kỹ năng phù hợp
 
                 </h3>
 
-
-
                 <p class="sk-muted">
 
                     Hãy thêm kỹ năng mới hoặc chọn bộ lọc khác.
 
                 </p>
-
-
 
                 <a href="{{ route('admin.skills.create') }}"
 
@@ -989,8 +823,6 @@ html[data-bs-theme="dark"] .skills-admin {
             </div>
 
         @endif
-
-
 
         @if($skills->hasPages())
 

@@ -119,30 +119,6 @@
         margin-bottom: 20px;
     }
 
-    .skills-v5 .sk-level {
-        padding: 6px 12px;
-        border-radius: 10px;
-        background: rgba(99, 102, 241, 0.1);
-        color: #6366f1;
-        font-weight: 700;
-        font-size: 14px;
-    }
-
-    .skills-v5 .sk-track {
-        width: 100%;
-        height: 8px;
-        background: rgba(99, 102, 241, 0.12);
-        border-radius: 50px;
-        overflow: hidden;
-        margin-top: 20px;
-    }
-
-    .skills-v5 .sk-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #6366f1, #8b5cf6);
-        border-radius: inherit;
-    }
-
     .skills-v5 .sk-empty {
         padding: 35px;
         border: 1px dashed var(--bs-border-color);
@@ -276,10 +252,6 @@
                                     : asset('uploads/' . ltrim($skill->icon, '/'))
                             )
                             : null;
-
-                        $numericLevel = is_numeric($skill->level)
-                            ? max(0, min(100, (int) $skill->level))
-                            : null;
                     @endphp
 
                     <div class="col-md-6 col-lg-4">
@@ -313,12 +285,6 @@
 
                                 </span>
 
-                                @if($numericLevel !== null)
-                                    <span class="sk-level">
-                                        {{ $numericLevel }}%
-                                    </span>
-                                @endif
-
                             </div>
 
                             <h3>{{ $skill->translated('name') }}</h3>
@@ -327,22 +293,6 @@
                                 <p class="sk-description">
                                     {{ $skill->translated('description') }}
                                 </p>
-                            @endif
-
-                            @if($numericLevel !== null)
-                                <div
-                                    class="sk-track"
-                                    role="progressbar"
-                                    aria-label="{{ $isEnglish ? 'Skill level: ' : 'Mức độ kỹ năng ' }}{{ $skill->translated('name') }}"
-                                    aria-valuenow="{{ $numericLevel }}"
-                                    aria-valuemin="0"
-                                    aria-valuemax="100"
-                                >
-                                    <div
-                                        class="sk-fill"
-                                        style="width: {{ $numericLevel }}%"
-                                    ></div>
-                                </div>
                             @endif
 
                         </article>
