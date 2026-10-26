@@ -664,9 +664,6 @@ html[data-theme="light"] .portfolio-home .home-timeline-item { background:#fff; 
                 @endif
             </div>
             <h3 class="home-skill-name">{{ $skill->translated('name') }}</h3>
-            @if($skill->type === 'programming' && $skill->level !== null)
-                <span class="home-pill">{{ $skill->level }}%</span>
-            @endif
         </div>
     </div>
 @empty
